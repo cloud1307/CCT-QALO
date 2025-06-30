@@ -48,7 +48,7 @@
 							</a>
 							<ul class="nav-group-sub collapse">
 								<li class="nav-item"><a href="#" class="nav-link active">Edit Profile</a></li>
-								<li class="nav-item"><a href="#" class="nav-link disabled">Layout 7 <span class="badge align-self-center ms-auto">Coming soon</span></a></li>
+								<!-- <li class="nav-item"><a href="#" class="nav-link disabled">Layout 7 <span class="badge align-self-center ms-auto">Coming soon</span></a></li> -->
 							</ul>
 						</li>
 						<li class="nav-item nav-item-submenu">
@@ -76,7 +76,14 @@
 							</a>
 							<ul class="nav-group-sub collapse">
 								<li class="nav-item"><a href="blank.php" class="nav-link">Blank</a></li>
-								<li class="nav-item"><a href="#" class="nav-link">Accreditation</a></li>
+								<li class="nav-item nav-item-submenu">
+									<a href="#" class="nav-link">Accreditation</a>
+									<ul class="nav-group-sub collapse">
+										<li class="nav-item"><a href="#" class="nav-link">Accreditation</a></li>
+										<li class="nav-item"><a href="#" class="nav-link">Areas</a></li>
+										<li class="nav-item"><a href="#" class="nav-link">Summary Requiments</a></li>										
+									</ul>
+								</li>
 								<li class="nav-item"><a href="#" class="nav-link">Archive</a></li>								
 						</li>
 						<!-- /forms -->
