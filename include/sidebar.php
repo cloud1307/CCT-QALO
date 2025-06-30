@@ -43,23 +43,24 @@
 						</li>
 						<li class="nav-item nav-item-submenu">
 							<a href="#" class="nav-link">
-								<i class="ph-layout"></i>
-								<span>Layouts</span>
+								<i class="ph-user"></i>
+								<span>Profile</span>
 							</a>
 							<ul class="nav-group-sub collapse">
-								<li class="nav-item"><a href="#" class="nav-link active">Default layout</a></li>
+								<li class="nav-item"><a href="#" class="nav-link active">Edit Profile</a></li>
 								<li class="nav-item"><a href="#" class="nav-link disabled">Layout 7 <span class="badge align-self-center ms-auto">Coming soon</span></a></li>
 							</ul>
 						</li>
 						<li class="nav-item nav-item-submenu">
 							<a href="#" class="nav-link">
-								<i class="ph-note-blank"></i>
-								<span>Starter kit</span>
+								<i class="ph-buildings"></i>
+								<span>Schools</span>
 							</a>
 							<ul class="nav-group-sub collapse">
-								<li class="nav-item"><a href="../seed/layout_static.html" class="nav-link">Static layout</a></li>
-								<li class="nav-item"><a href="../seed/layout_no_header.html" class="nav-link">No header</a></li>
-								<li class="nav-item"><a href="../seed/layout_no_footer.html" class="nav-link">No footer</a></li>
+								<li class="nav-item"><a href="#" class="nav-link">Schools</a></li>
+                                <li class="nav-item"><a href="#" class="nav-link">Program</a></li>
+                                <li class="nav-item"><a href="#" class="nav-link">Major</a></li>
+
 							</ul>
 						</li>
 
@@ -79,48 +80,6 @@
 								<li class="nav-item"><a href="#" class="nav-link">Archive</a></li>								
 						</li>
 						<!-- /forms -->
-
-						<!-- Components -->
-						<li class="nav-item-header">
-							<div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Components</div>
-							<i class="ph-dots-three sidebar-resize-show"></i>
-						</li>
-						<li class="nav-item nav-item-submenu">
-							<a href="#" class="nav-link">
-								<i class="ph-squares-four"></i>
-								<span>Basic components</span>
-							</a>
-							<ul class="nav-group-sub collapse">
-								<li class="nav-item"><a href="components_accordion.html" class="nav-link">Accordion</a></li>
-								<li class="nav-item"><a href="components_alerts.html" class="nav-link">Alerts</a></li>
-							</ul>
-						</li>
-						<li class="nav-item nav-item-submenu">
-							<a href="#" class="nav-link">
-								<i class="ph-smiley-wink"></i>
-								<span>Icons</span>
-							</a>
-							<ul class="nav-group-sub collapse">
-								<li class="nav-item"><a href="blank.php" class="nav-link">Blank</a></li>
-								<li class="nav-item"><a href="#" class="nav-link">Accreditation</a></li>
-								<li class="nav-item"><a href="#" class="nav-link">Archive</a></li>			
-							</ul>
-						</li>
-						<!-- /components -->
-
-						<!-- Extensions -->
-						<li class="nav-item nav-item-submenu">
-							<a href="#" class="nav-link">
-								<i class="ph-cloud-arrow-up"></i>
-								<span>File uploaders</span>
-							</a>
-							<ul class="nav-group-sub collapse">
-								<li class="nav-item"><a href="uploader_plupload.html" class="nav-link">Plupload</a></li>
-								<li class="nav-item"><a href="uploader_bootstrap.html" class="nav-link">Bootstrap file uploader</a></li>
-								<li class="nav-item"><a href="uploader_dropzone.html" class="nav-link">Dropzone</a></li>
-							</ul>
-						</li>
-						<!-- /extensions -->
 					</ul>
 				</div>
 				<!-- /main navigation -->

@@ -53,12 +53,18 @@
 										<div class="card-body">
 											<div class="d-flex">
 												<h3 class="mb-0">3,450</h3>
-												<span class="badge bg-black bg-opacity-50 rounded-pill align-self-center ms-auto">+53,6%</span>
-						                	</div>
+												<!-- <span class="badge bg-black bg-opacity-50 rounded-pill align-self-center ms-auto">+53,6%</span> -->
+						                		<div class="dropdown d-inline-flex ms-auto">
+													<a href="#" class="text-white d-inline-flex align-items-center" >
+														<i class="ph-users"></i>
+													</a>
+													
+						                		</div>
+											</div>
 						                	
 						                	<div>
 												Members online
-												<div class="fs-sm opacity-75">489 avg</div>
+												<!-- <div class="fs-sm opacity-75">489 avg</div> -->
 											</div>
 										</div>
 
@@ -71,16 +77,22 @@
 								<div class="col-lg-3">
 
 									<!-- Members online -->
-									<div class="card bg-teal text-white">
+									<div class="card bg-dark text-white">
 										<div class="card-body">
 											<div class="d-flex">
 												<h3 class="mb-0">3,450</h3>
-												<span class="badge bg-black bg-opacity-50 rounded-pill align-self-center ms-auto">+53,6%</span>
-						                	</div>
+												<!-- <span class="badge bg-black bg-opacity-50 rounded-pill align-self-center ms-auto">+53,6%</span> -->
+						                		<div class="dropdown d-inline-flex ms-auto">
+													<a href="#" class="text-white d-inline-flex align-items-center" >
+														<i class="ph-files"></i>
+													</a>
+													
+						                		</div>
+											</div>
 						                	
 						                	<div>
-												Members online
-												<div class="fs-sm opacity-75">489 avg</div>
+												File Upload
+												<!-- <div class="fs-sm opacity-75">489 avg</div> -->
 											</div>
 										</div>
 
@@ -105,7 +117,7 @@
 						                	
 						                	<div>
 												Current server load
-												<div class="fs-sm opacity-75">34.6% avg</div>
+												<!-- <div class="fs-sm opacity-75">34.6% avg</div> -->
 											</div>
 										</div>
 
@@ -129,7 +141,7 @@
 						                	
 						                	<div>
 												Today's revenue
-												<div class="fs-sm opacity-75">$37,578 avg</div>
+												<!-- <div class="fs-sm opacity-75">$37,578 avg</div> -->
 											</div>
 										</div>
 
