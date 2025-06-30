@@ -1,11 +1,3 @@
-<?php 
-  session_start();
-  if(isset($_SESSION['cct-qalo-id'])){
-    header('location:index.php');
-  }
-
-?>
-
 
 
 <!DOCTYPE html>
@@ -17,18 +9,18 @@
 	<title>Limitless - Responsive Web Application Kit by Eugene Kopyov</title>
 
 	<!-- Global stylesheets -->
-	<link href="assets/fonts/inter/inter.css" rel="stylesheet" type="text/css">
-	<link href="assets/icons/phosphor/styles.min.css" rel="stylesheet" type="text/css">
-	<link href="assets/css/ltr/all.min.css" id="stylesheet" rel="stylesheet" type="text/css">
+	<link href="../assets/fonts/inter/inter.css" rel="stylesheet" type="text/css">
+	<link href="../assets/icons/phosphor/styles.min.css" rel="stylesheet" type="text/css">
+	<link href="../assets/css/ltr/all.min.css" id="stylesheet" rel="stylesheet" type="text/css">
 	<!-- /global stylesheets -->
 
 	<!-- Core JS files -->
-	<script src="assets/demo/demo_configurator.js"></script>
-	<script src="assets/js/bootstrap/bootstrap.bundle.min.js"></script>
+	<script src="../assets/demo/demo_configurator.js"></script>
+	<script src="../assets/js/bootstrap/bootstrap.bundle.min.js"></script>
 	<!-- /core JS files -->
 
 	<!-- Theme JS files -->
-	<script src="assets/js/app.js"></script>
+	<script src="../assets/js/app.js"></script>
 	<!-- /theme JS files -->
 
 </head>
@@ -47,10 +39,17 @@
 				<!-- Content area -->
 				<div class="content d-flex justify-content-center align-items-center">
 
+  					
+					
 					<!-- Login card -->
-					<form class="login-form" action="index.php">
+					<form class="login-form" action="../controller/loginController.php" method="POST">
 						<div class="card mb-0">
 							<div class="card-body">
+								<?php if (!empty($error)): ?>
+									<div class="alert alert-danger">
+										<span class="fw-semibold" style="color:red;"><?php echo $error; ?></span>
+									</div>
+								<?php endif; ?>
 								<div class="text-center mb-3">
 									<!-- <div class="d-inline-flex align-items-center justify-content-center mb-4 mt-2">
 										<img src="assets/images/logo_icon.svg" class="h-48px" alt="">
@@ -63,7 +62,7 @@
 									<label class="form-label">Email Address</label>
 									<div class="form-control-feedback form-control-feedback-start">										
 										<div class="input-group">											
-											<input type="text" class="form-control" name="email">
+											<input type="text" class="form-control" name="email" require>
 											<span class="input-group-text bg-primary bg-opacity-20 text-primary">@citycollegeoftagaytay.edu.ph</span>
 											<div class="form-control-feedback-icon">
 											<i class="ph-user-circle text-muted"></i>
@@ -77,7 +76,7 @@
 								<div class="mb-3">
 									<label class="form-label">Password</label>
 									<div class="form-control-feedback form-control-feedback-start">
-										<input type="password" class="form-control" placeholder="•••••••••••" name="password">
+										<input type="password" class="form-control" placeholder="•••••••••••" name="password" require>
 										<div class="form-control-feedback-icon">
 											<i class="ph-lock text-muted"></i>
 										</div>

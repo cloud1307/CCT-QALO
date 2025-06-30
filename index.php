@@ -1,4 +1,7 @@
-<?php include 'include/session.php'; ?>
+<?php
+header("Location: controller/LoginController.php");
+
+?>
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">

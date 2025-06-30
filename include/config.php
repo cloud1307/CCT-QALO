@@ -1,14 +1,6 @@
 <?php
-    // session_start();
-    // date_default_timezone_set('Asia/Manila');
-    // $host = "localhost";
-    // $db_user = "root";
-    // $db_pass = "";
-    // $db_name = "db_cct_qalo";
-    // $conn = new mysqli($host, $db_user, $db_pass, $db_name);
-    // if ($conn->connect_error) {
-    //     die("Connection failed: " . $conn->connect_error);
-    // }
+    date_default_timezone_set('Asia/Manila');
+
 class Database {
     private $host = "localhost";
     private $user = "root";
