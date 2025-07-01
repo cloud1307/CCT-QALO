@@ -1,10 +1,11 @@
 <?php include '../include/header.php'; ?>
 <?php include '../include/scripts.php'; ?>
+
 <body class="bg-dark">
+<!-- <body class="bg-image" style="background-image: url('../assets/images/backgrounds/bg-cct.jpg');"> -->
 
 	<!-- Page content -->
 	<div class="page-content">
-
 		<!-- Main content -->
 		<div class="content-wrapper">
 
