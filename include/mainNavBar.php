@@ -2,6 +2,13 @@
 if (session_status() === PHP_SESSION_NONE) {
 	session_start();
 }
+
+// if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
+//     // Redirect to login page if not authenticated
+//     header("Location: ../view/login.php");
+//     exit();
+// }
+
 ?>
 	<!-- Main navbar -->
 	<div class="navbar navbar-dark navbar-expand-lg navbar-static border-bottom border-bottom-white border-opacity-10">
