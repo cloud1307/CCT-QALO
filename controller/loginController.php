@@ -1,5 +1,6 @@
 <?php
 session_start();
+session_regenerate_id(true);
 require_once '../model/user.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
