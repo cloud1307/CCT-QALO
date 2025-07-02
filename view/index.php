@@ -1,7 +1,12 @@
-<?php include '../include/header.php'; ?>
-<?php include '../include/scripts.php'; ?>
-<body>
-
+<?php 
+session_start();
+if (!isset($_SESSION['user_id'])) {
+	header("Location: login.php");
+	exit();
+}
+	include '../include/header.php';
+	include '../include/scripts.php';
+?>
 	<!-- Main navbar -->
 		<?php include '../include/mainNavBar.php'; ?>
 	<!-- /main navbar -->

@@ -1,5 +1,5 @@
 <?php 
-session_start();
+// session_start();
 	include '../include/header.php';
 	include '../include/scripts.php';
 ?>
@@ -10,16 +10,16 @@ session_start();
 		<div class="col-md-5">
 			<div class="card shadow">
 				<div class="card-header text-center">
-					<h1 class="mb-0">CCT - QALO</h1>
+					<h1 class="mb-0">CCT - QALO FMS</h1>
 				</div>
 				<div class="card-body">
 					<?php if (!empty($_GET['error'])): ?>
 						<div class="alert alert-danger"><?= htmlspecialchars($_GET['error']) ?></div>
-						<?php unset($_SESSION['error']); ?>
+						<?php //unset($_SESSION['error']); ?>
 					<?php endif; ?>
 					<?php if (!empty($_GET['success'])): ?>
 						<div class="alert alert-success"><?= htmlspecialchars($_GET['success']) ?></div>
-						<?php unset($_SESSION['success']); ?>
+						<?php //unset($_SESSION['success']); ?>
 					<?php endif; ?>
 					<form action="../controller/loginController.php" method="POST">
                         <div class="mb-3">

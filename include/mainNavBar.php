@@ -1,3 +1,4 @@
+	<?php if (session_status() === PHP_SESSION_NONE) session_start(); ?>
 	<!-- Main navbar -->
 	<div class="navbar navbar-dark navbar-expand-lg navbar-static border-bottom border-bottom-white border-opacity-10">
 		<div class="container-fluid">
@@ -23,7 +24,7 @@
 							<img src="../assets/images/demo/users/face11.jpg" class="w-32px h-32px rounded-pill" alt="">
 							<span class="status-indicator bg-success"></span>
 						</div>
-						<span class="d-none d-lg-inline-block mx-lg-2">QALO-ADMIN</span>
+						<span class="d-none d-lg-inline-block mx-lg-2"><?php echo strtoupper($_SESSION['user_level'] ?? ''); ?></span>
 					</a>
 
 					<div class="dropdown-menu dropdown-menu-end">
@@ -41,7 +42,7 @@
 							<i class="ph-gear me-2"></i>
 							Account settings
 						</a>
-						<a href="#" class="dropdown-item">
+						<a href="../controller/logout.php" class="dropdown-item">
 							<i class="ph-sign-out me-2"></i>
 							Logout
 						</a>

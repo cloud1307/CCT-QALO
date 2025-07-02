@@ -4,7 +4,7 @@ require_once '../model/user.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	try {
-		$email = trim($_POST['email']);
+		$email = trim($_POST['email']) . '@citycollegeoftagaytay.edu.ph';
 		$password = $_POST['password'];
 
 		$user = new User();
@@ -12,9 +12,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 		if ($result) {
 			$_SESSION['user_id'] = $result['intAccount_ID'];
-			$_SESSION['user_email'] = $result['varEmail'] . '@citycollegeoftagaytay.edu.ph';
-			header("Location: ../index.php");
+			$_SESSION['user_email'] = $result['varEmail'];
+			$_SESSION['user_level'] = $result['enumUserLevel'];
+		
+			header("Location: ../view/index.php");
 			exit();
+
 		} else {
 			header("Location: ../view/login.php?error=" . urlencode("Invalid email or password."));
 			exit();
@@ -29,3 +32,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	header("Location: ../view/login.php");
 	exit();
 }
+
+?>
