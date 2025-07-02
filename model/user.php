@@ -1,46 +1,72 @@
 <?php
-
-require_once '../include/config.php'; // Make sure config.php correctly defines and includes the Database class
+require_once '../include/config.php';
 
 class User {
-    private $conn;
+	private $conn;
 
-    // Change 'user()' to '__construct()'
-    public function __construct() {
-        $db = new Database(); // Assuming Database class is defined in config.php and handles the connection
-        $this->conn = $db->connect();
-        // It's good practice to add error checking for the connection here
-        if ($this->conn === null) {
-            // Handle connection error, e.g., throw an exception or log it
-            throw new Exception("Database connection failed.");
-        }
-    }
+	public function __construct() {
+		$db = new Database();
+		$this->conn = $db->connect();
 
-    public function login($email, $password) {
-        // Ensure $this->conn is not null before proceeding
-        if ($this->conn === null) {
-            throw new Exception("Database connection not established for login.");
-        }
+		if (!$this->conn) {
+			throw new Exception("Database connection failed.");
+		}
+	}
 
-        $stmt = $this->conn->prepare("SELECT * FROM tbl_account WHERE varEmail = ?");
-        
-        // Always check if prepare() was successful
-        if ($stmt === false) {
-            // Handle SQL prepare error
-            throw new Exception("Failed to prepare statement: " . $this->conn->error);
-        }
+	public function login($email, $password) {
+		$query = "SELECT * FROM tbl_account WHERE varEmail = ?";
+		$stmt = $this->conn->prepare($query);
 
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $user = $result->fetch_assoc();
+		if (!$stmt) {
+			throw new Exception("Login query preparation failed: " . $this->conn->error);
+		}
 
-        if ($user && password_verify($password, $user['varPassword'])) {
-            return $user;
-        }
+		$stmt->bind_param("s", $email);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$user = $result->fetch_assoc();
 
-        return false;
-    }
+		$stmt->close();
+
+		if ($user && password_verify($password, $user['varPassword'])) {
+			return $user;
+		}
+
+		return false;
+	}
+
+	public function emailExists($email) {
+		$query = "SELECT intAccount_ID FROM tbl_account WHERE varEmail = ?";
+		$stmt = $this->conn->prepare($query);
+
+		if (!$stmt) {
+			throw new Exception("Email check query preparation failed: " . $this->conn->error);
+		}
+
+		$stmt->bind_param("s", $email);
+		$stmt->execute();
+		$stmt->store_result();
+		$exists = $stmt->num_rows > 0;
+		$stmt->close();
+
+		return $exists;
+	}
+
+	public function register($email, $password, $recoveryEmail, $contactNumber) {
+		$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+
+		$query = "INSERT INTO tbl_account (varEmail, varPassword, varRecoveryEmail, varContactNumber, dateCreated)
+		          VALUES (?, ?, ?, ?, NOW())";
+		$stmt = $this->conn->prepare($query);
+
+		if (!$stmt) {
+			throw new Exception("Registration query preparation failed: " . $this->conn->error);
+		}
+
+		$stmt->bind_param("ssss", $email, $hashedPassword, $recoveryEmail, $contactNumber);
+		$success = $stmt->execute();
+		$stmt->close();
+
+		return $success;
+	}
 }
-
-?>
