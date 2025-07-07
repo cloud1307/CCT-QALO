@@ -2,13 +2,6 @@
 if (session_status() === PHP_SESSION_NONE) {
 	session_start();
 }
-
-// if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
-//     // Redirect to login page if not authenticated
-//     header("Location: ../view/login.php");
-//     exit();
-// }
-
 ?>
 	<!-- Main navbar -->
 	<div class="navbar navbar-dark navbar-expand-lg navbar-static border-bottom border-bottom-white border-opacity-10">
@@ -36,12 +29,13 @@ if (session_status() === PHP_SESSION_NONE) {
 							<span class="status-indicator bg-success"></span>
 						</div>
 						<span class="d-none d-lg-inline-block mx-lg-2">
-							<?= htmlspecialchars(strtoupper($_SESSION['user_level'] ?? '')) ?>					
+							<?= htmlspecialchars(strtoupper($_SESSION['user_level'] ?? '')) ?>						
 						</span>
 					</a>
 
 					<div class="dropdown-menu dropdown-menu-end">
-						<a href="#" class="dropdown-item">
+						    <?php	include '../modal/modal.php'; ?>
+						<a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-account">
 							<i class="ph-user-circle me-2"></i>
 							My profile
 						</a>
@@ -55,7 +49,7 @@ if (session_status() === PHP_SESSION_NONE) {
 							<i class="ph-gear me-2"></i>
 							Account settings
 						</a>
-						<a href="../controller/logout.php" class="dropdown-item">
+						<a href="../controller/userController.php?action=logout" class="dropdown-item">
 							<i class="ph-sign-out me-2"></i>
 							Logout
 						</a>
@@ -65,3 +59,72 @@ if (session_status() === PHP_SESSION_NONE) {
 		</div>
 	</div>
 	<!-- /main navbar -->
+
+
+
+				<!-- Password recovery form -->
+					<div id="modal-account" class="modal fade" tabindex="-1">
+						<div class="modal-dialog modal-sm">
+							<div class="modal-content">
+
+								<!-- Form -->
+								<form class="modal-body" action="index.html">
+									<div class="text-center mb-3">
+										<div class="d-inline-flex bg-primary bg-opacity-10 text-primary lh-1 rounded-pill p-3 mb-3 mt-1">
+											<img src="../assets/images/logo_qalo.png" class="h-80px" alt="">
+										</div>
+										<h5 class="mb-0">User Account</h5>
+										<span class="d-block text-muted">Hello!,<?= htmlspecialchars(strtoupper($_SESSION['user_level'] ?? '')) ?>	</span>
+									</div>
+
+									<div class="mb-3">
+										<label class="form-label">Your Email Address</label>
+										<div class="form-control-feedback form-control-feedback-start">
+											<input type="email" class="form-control" placeholder="john@doe.com" name="recovery_email" value="<?= htmlspecialchars($_SESSION['user_email'] ?? '') ?>	">
+											<div class="form-control-feedback-icon">
+												<i class="ph-envelope text-muted"></i>
+											</div>
+										</div>
+									</div>
+
+									<div class="mb-3">
+										<label class="form-label">Password</label>
+										<div class="form-control-feedback form-control-feedback-start">
+											<input type="password" class="form-control" name="password">
+											<div class="form-control-feedback-icon">
+												<i class="ph-lock text-muted"></i>
+											</div>
+										</div>
+									</div>
+
+									<div class="mb-3">
+										<label class="form-label">Recovery Email Address</label>
+										<div class="form-control-feedback form-control-feedback-start">
+											<input type="text" class="form-control" name="recovery_email"  value="<?= htmlspecialchars($_SESSION['varEmail'] ?? '') ?>">
+											<div class="form-control-feedback-icon">
+												<i class="ph-envelope text-muted"></i>
+											</div>
+										</div>
+									</div>
+
+									<div class="mb-3">
+										<label class="form-label">Contact Number</label>
+										<div class="form-control-feedback form-control-feedback-start">
+											<input type="password" class="form-control" name="password">
+											<div class="form-control-feedback-icon">
+												<i class="ph-phone text-muted"></i>
+											</div>
+										</div>
+									</div>
+
+									<button type="submit" class="btn btn-primary w-100">
+										<i class="ph-arrow-counter-clockwise me-2"></i>
+										Reset password
+									</button>
+								</form>
+								<!-- /form -->
+
+							</div>
+						</div>
+					</div>
+					<!-- /password recovery form -->

@@ -1,5 +1,4 @@
 <?php include '../include/header.php'; ?>
-<?php include '../include/scripts.php'; ?>
 <body>
 
 	<!-- Main navbar -->
@@ -48,21 +47,23 @@
 							<!-- Quick stats boxes -->
 								<!-- hover rows -->
 								<div class="card">
-									<div class="card-header">
-										<!-- <h5 class="mb-0">Accreditation List</h5> -->
-										<div class="btn-group my-auto ms-auto">
-											<button type="button" class="btn btn-outline-success">
-												<i class="ph-plus me-2"></i>
+									<div class="card-header">										
+										<div class="modal-footer justify-content-between">
+											
+												<h5 class="mb-0">Accreditation List</h5>
+											
+											<button class="btn btn-outline-success" data-bs-dismiss="modal">
+												<i class="ph-plus me-1"></i>
 												Add Accreditation
 											</button>
-										</div>
+										</div>									
 									</div>
 
 									<table class="table datatable-basic table-hover">
 										<thead>
 											<tr>
 												<th>Accreditation Name</th>
-												<th>Abbreviation</th>
+												<th>Accreditation Code</th>
 												<th>Status</th>
 												<th class="text-center">Actions</th>
 											</tr>

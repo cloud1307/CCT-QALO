@@ -1,5 +1,4 @@
 <?php include '../include/header.php'; ?>
-<?php include '../include/scripts.php'; ?>
 <body>
 
 	<!-- Main navbar -->

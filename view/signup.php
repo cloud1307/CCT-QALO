@@ -1,7 +1,6 @@
 <?php 
 session_start();
 	include '../include/header.php';
-	include '../include/scripts.php';
 ?>
 <body class="bg-dark">
 
@@ -21,7 +20,8 @@ session_start();
 						<div class="alert alert-success"><?= htmlspecialchars($_GET['success']) ?></div>
                         <?php unset($_SESSION['success']); ?>
 					<?php endif; ?>
-					<form action="../controller/signupController.php" method="POST">
+					<form action="../controller/userController.php" method="POST">
+						<input type="hidden" name="action" value="signup">
                         <div class="mb-3">
                             <label class="form-label">Email Address</label>
                                 <div class="input-group">                            

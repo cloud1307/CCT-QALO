@@ -1,59 +1,106 @@
 <?php 
-	include '../include/header.php';
-	include '../include/scripts.php';
-?>
+session_start();
+include '../include/header.php'; ?>
 
 <body class="bg-dark">
-<div class="container mt-4">
-	<div class="row justify-content-center">
-		<div class="col-md-5">
-			<div class="card shadow">
-				<div class="card-header text-center">
-					<h1 class="mb-0">CCT - QALO FMS</h1>
-				</div>
-				<div class="card-body">
-					<?php if (!empty($_GET['error'])): ?>
-						<div class="alert alert-danger"><?= htmlspecialchars($_GET['error']) ?></div>
-						<?php //unset($_SESSION['error']); ?>
-					<?php endif; ?>
-					<?php if (!empty($_GET['success'])): ?>
-						<div class="alert alert-success"><?= htmlspecialchars($_GET['success']) ?></div>
-						<?php //unset($_SESSION['success']); ?>
-					<?php endif; ?>
-					<form action="../controller/loginController.php" method="POST">
-                        <div class="mb-3">
-                            <label class="form-label">Email Address</label>
-                                <div class="input-group">                            
-                                    <input type="text" class="form-control" name="email" placeholder="CCT Email" required>
-                                    <span class="input-group-text">@citycollegeoftagaytay.edu.ph</span>
-                                </div>
-                        </div>
-						<div class="mb-3">
-                            <label>Password</label>
-                                <div class="input-group">                                    
-                                    <input type="password" name="password" class="form-control" placeholder="•••••••••••" required>
-                                </div>
-						</div>
-						<div class="d-flex align-items-center mb-3">
-								<label class="form-check">
-									<input type="checkbox" name="remember" class="form-check-input" checked>
-									<span class="form-check-label">Remember</span>
-								</label>
-								<a href="#" class="ms-auto">Forgot password?</a>
-						</div>
-						<div class="mb-3">
-							<button type="submit" class="btn btn-primary w-100">Sign in</button>
+	<!-- Page content -->
+	<div class="page-content">
+
+		<!-- Main content -->
+		<div class="content-wrapper">
+
+			<!-- Inner content -->
+			<div class="content-inner">
+
+				<!-- Content area -->
+				<div class="content d-flex justify-content-center align-items-center">
+					<div class="card mb-0">
+						<div class="card-body">	
+								<?php if (!empty($_GET['error'])): ?>
+									<div class="alert alert-danger"><?= htmlspecialchars($_GET['error']) ?></div>
+									<?php //unset($_SESSION['error']); ?>
+								<?php endif; ?>
+								<?php if (!empty($_GET['success'])): ?>
+									<div class="alert alert-success"><?= htmlspecialchars($_GET['success']) ?></div>
+									<?php //unset($_SESSION['success']); ?>
+								<?php endif; ?>
+					<!-- Login card -->
+							<form class="login-form needs-validation" action="../controller/userController.php" novalidate method="POST">							
+								<div class="text-center mb-3">
+									<div class="d-inline-flex align-items-center justify-content-center mb-2">
+										<img src="../assets/images/logo_qalo.png" class="h-80px" alt="">
+									</div>
+									<h5 class="mb-0">Login to your account</h5>
+									<span class="d-block text-muted">CCT-QALO FMS</span>
+								</div>
+									<input type="hidden" name="action" value="login">
+								<div class="mb-3">
+									<label class="form-label">Email Address</label>
+									<div class="form-control-feedback form-control-feedback-start input-group">
+										<input type="text" name="email" class="form-control" placeholder="••••••••" required>
+										<span class="input-group-text">@citycollegeoftagaytay.edu.ph</span>
+										<div class="invalid-feedback">Enter your Email</div>
+										<div class="form-control-feedback-icon">
+											<i class="ph-envelope text-muted"></i>
+										</div>
+									</div>
+								</div>
+
+								<div class="mb-3">
+									<label class="form-label">Password</label>
+									<div class="form-control-feedback form-control-feedback-start">
+										<input type="password" name="password" class="form-control" placeholder="•••••••••••" required>
+										<div class="invalid-feedback">Enter your Password</div>
+										<div class="form-control-feedback-icon">
+											<i class="ph-lock text-muted"></i>
+										</div>
+									</div>
+									<div class="invalid-feedback">Enter your password</div>
+								</div>
+
+								<div class="d-flex align-items-center mb-3">
+									<!-- <label class="form-check">
+										<input type="checkbox" name="remember" class="form-check-input">
+										<span class="form-check-label">Remember</span>
+									</label> -->
+									<?php //include '../modal/modal.php'; ?>
+									<a href="recovery_password.php" class="ms-auto" >Forgot password?</a>
+								</div>
+								
+
+								<div class="mb-3">
+									<button type="submit" class="btn btn-primary w-100">Sign in</button>
+								</div>
+								
+								<!-- <div class="text-center text-muted content-divider mb-3">
+									<span class="px-2">Don't have an account?</span>
+								</div>
+
+								<div class="mb-3">
+									<a href="#" class="btn btn-light w-100">Sign up</a>
+								</div> -->
+
+								<span class="form-text text-center text-muted">By continuing, you're confirming that you've read our <a href="#">Terms &amp; Conditions</a> and <a href="#">Cookie Policy</a></span>
+							</div>
 						</div>
 					</form>
-						<span class="form-text text-center text-muted">
-								By continuing, you're confirming that you've read our 
-								<a href="#">Terms &amp; Conditions</a> and 
-								<a href="#">Cookie Policy</a>
-						</span>
+					<!-- /login card -->
 				</div>
-			</div>
-		</div>
-	</div>
-</div>
+				<!-- /content area -->			 
 
+
+				<!-- Footer -->
+				
+				<!-- /footer -->
+
+			</div>
+			<!-- /inner content -->
+		</div>
+		<!-- /main content -->
+	</div>
+	<!-- /page content -->
 </body>
+</html>
+
+
+ 				

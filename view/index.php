@@ -1,13 +1,11 @@
 <?php 
-session_start();
-if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
+	session_start();
+	if (!isset($_SESSION['user_id'])|| empty($_SESSION['user_id'])) {
     header("Location: ../view/login.php");
-    exit();
+    exit;
 }
-
-	include '../include/auth.php';
 	include '../include/header.php';
-	include '../include/scripts.php';
+
 ?>
 	<!-- Main navbar -->
 		<?php include '../include/mainNavBar.php'; ?>

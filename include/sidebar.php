@@ -1,14 +1,11 @@
 <!-- Main sidebar -->
 		<div class="sidebar sidebar-dark sidebar-main sidebar-expand-lg">
-
 			<!-- Sidebar content -->
 			<div class="sidebar-content">
-
 				<!-- Sidebar header -->
 				<div class="sidebar-section">
 					<div class="sidebar-section-body d-flex justify-content-center">
 						<h5 class="sidebar-resize-hide flex-grow-1 my-auto">Navigation</h5>
-
 						<div>
 							<button type="button" class="btn btn-flat-white btn-icon btn-sm rounded-pill border-transparent sidebar-control sidebar-main-resize d-none d-lg-inline-flex">
 								<i class="ph-arrows-left-right"></i>
@@ -61,6 +58,17 @@
                                 <li class="nav-item"><a href="#" class="nav-link">Program</a></li>
                                 <li class="nav-item"><a href="#" class="nav-link">Major</a></li>
 
+							</ul>
+						</li>
+
+						<li class="nav-item nav-item-submenu">
+							<a href="#" class="nav-link">
+								<i class="ph-files"></i>
+								<span>Resolution</span>
+							</a>
+							<ul class="nav-group-sub collapse">
+								<li class="nav-item"><a href="#" class="nav-link">Board Resolution</a></li>
+                                <li class="nav-item"><a href="#" class="nav-link">Academic Resolution</a></li>                                
 							</ul>
 						</li>
 
