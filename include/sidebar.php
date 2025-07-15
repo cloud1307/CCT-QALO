@@ -54,9 +54,9 @@
 								<span>Schools</span>
 							</a>
 							<ul class="nav-group-sub collapse">
-								<li class="nav-item"><a href="#" class="nav-link">Schools</a></li>
-                                <li class="nav-item"><a href="#" class="nav-link">Program</a></li>
-                                <li class="nav-item"><a href="#" class="nav-link">Major</a></li>
+								<li class="nav-item"><a href="view_school.php" class="nav-link">Schools</a></li>
+                                <li class="nav-item"><a href="view_school_program.php" class="nav-link">Program</a></li>
+                                <li class="nav-item"><a href="view_major_course.php" class="nav-link">Major</a></li>
 
 							</ul>
 						</li>
@@ -88,7 +88,7 @@
 									<a href="#" class="nav-link">Accreditation</a>
 									<ul class="nav-group-sub collapse">
 										<li class="nav-item"><a href="view_accreditation.php" class="nav-link">Accreditation</a></li>
-										<li class="nav-item"><a href="../view/view_area.php" class="nav-link">Areas</a></li>
+										<li class="nav-item"><a href="view_area.php" class="nav-link">Areas</a></li>
 										<li class="nav-item"><a href="view_requirements.php" class="nav-link">Summary Requiments</a></li>										
 									</ul>
 								</li>

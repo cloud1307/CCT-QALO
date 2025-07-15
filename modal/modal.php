@@ -1,91 +1,65 @@
-				<!-- Vertical form modal -->
-						<div id="modal_form_vertical" class="modal fade" tabindex="-1">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title">Vertical form</h5>
-										<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+<!-- Update Account Modal -->
+	<div id="modal-account" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header text-white border-0">					
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+						<div class="text-center mb-3">
+								<div class="d-inline-flex bg-primary bg-opacity-10 text-primary lh-1 rounded-pill p-1 mb-3 mt-1">
+									<img src="../assets/images/logo_qalo.png" class="h-80px" alt="">
+								</div>
+									<h5 class="mb-0">User Account</h5>
+									<span class="d-block text-muted">Hello!, <?= htmlspecialchars(isset($userData['enumUserLevel']) ? $userData['enumUserLevel'] : 'Not available') ?>	</span>
+								</div>						
+						<form class="needs-validation" action="#" novalidate method="POST">
+							<div class="modal-body">	
+									<div class="mb-3">
+										<label class="form-label">Your Email Address</label>
+										<div class="form-control-feedback form-control-feedback-start">
+											<input type="email" class="form-control" placeholder="john@doe.com" disabled name="recovery_email" value="<?= htmlspecialchars(isset($userData['varEmail']) ? $userData['varEmail'] : 'Not available') ?>">
+											<div class="form-control-feedback-icon">
+												<i class="ph-envelope text-muted"></i>
+											</div>
+										</div>
 									</div>
 
-									<form action="#">
-										<div class="modal-body">
-											<div class="mb-3">
-												<div class="row">
-													<div class="col-sm-6">
-														<label class="form-label">First name</label>
-														<input type="text" placeholder="Eugene" class="form-control">
-													</div>
-
-													<div class="col-sm-6">
-														<label class="form-label">Last name</label>
-														<input type="text" placeholder="Kopyov" class="form-control">
-													</div>
-												</div>
+									<div class="mb-3">
+										<label class="form-label">Recovery Email Address</label>
+										<div class="form-control-feedback form-control-feedback-start input-group">
+											<input type="text"  class="form-control" placeholder="john@doe.com" name="recovery_email" value="<?= htmlspecialchars($userData['varRecoveryEmail'] ?? 'Not available') ?>" required>										
+										<div class="invalid-feedback">Enter Recovery Email</div>
+											<div class="form-control-feedback-icon">
+												<i class="ph-envelope text-muted"></i>
 											</div>
+										</div>										
+									</div>								
 
-											<div class="mb-3">
-												<div class="row">
-													<div class="col-sm-6">
-														<label class="form-label">Address line 1</label>
-														<input type="text" placeholder="Ring street 12" class="form-control">
-													</div>
-
-													<div class="col-sm-6">
-														<label class="form-label">Address line 2</label>
-														<input type="text" placeholder="building D, flat #67" class="form-control">
-													</div>
-												</div>
+									<div class="mb-3">
+										<label class="form-label">Contact Number</label>
+										<div class="form-control-feedback form-control-feedback-start input-group">
+											<input type="text"  class="form-control" placeholder="999-9999-999" maxlength="10" data-mask="+99-99-9999-9999" name="contactNumber" value="<?= htmlspecialchars($userData['varContactNumber'] ?? 'Not available') ?>" required>										
+										<div class="invalid-feedback">Enter Contact Number</div>
+											<div class="form-control-feedback-icon">
+												<i class="ph-phone text-muted"></i>	
 											</div>
-
-											<div class="mb-3">
-												<div class="row">
-													<div class="col-sm-4">
-														<label class="form-label">City</label>
-														<input type="text" placeholder="Munich" class="form-control">
-													</div>
-
-													<div class="col-sm-4">
-														<label class="form-label">State/Province</label>
-														<input type="text" placeholder="Bayern" class="form-control">
-													</div>
-
-													<div class="col-sm-4">
-														<label class="form-label">ZIP code</label>
-														<input type="text" placeholder="1031" class="form-control">
-													</div>
-												</div>
-											</div>
-
-											<div>
-												<div class="row">
-													<div class="col-sm-6">
-														<label class="form-label">Email</label>
-														<input type="text" placeholder="eugene@kopyov.com" class="form-control">
-														<div class="form-text text-muted">name@domain.com</div>
-													</div>
-
-													<div class="col-sm-6">
-														<label class="form-label">Phone #</label>
-														<input type="text" placeholder="+99-99-9999-9999" data-mask="+99-99-9999-9999" class="form-control">
-														<div class="form-text text-muted">+99-99-9999-9999</div>
-													</div>
-												</div>
-											</div>
-										</div>
-
-										<div class="modal-footer">
-											<button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
-											<button type="submit" class="btn btn-primary">Submit form</button>
-										</div>
-									</form>
-								</div>
+										</div>										
+									</div>																
 							</div>
-						</div>
-	<!-- /vertical form modal -->
-
-
-	<!-- Accreditation Modal -->
-	<div id="modal_accreditation" class="modal fade" data-bs-backdrop="false" tabindex="-1">
+							<div class="modal-footer">
+									<button type="submit" class="btn btn-primary w-100">
+										<i class="ph-pencil me-2"></i>
+										Update Account
+									</button>
+							</div>
+						</form>
+			</div>
+		</div>
+	</div>
+<!-- /Update Account Modal -->
+	
+<!-- Accreditation Modal -->
+	<div id="modal_accreditation" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header bg-success text-white border-0">
@@ -129,7 +103,7 @@
 
 
 <!-- Area Modal -->
-	<div id="modal_area" class="modal fade" data-bs-backdrop="false" tabindex="-1">
+	<div id="modal_area" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header bg-success text-white border-0">
@@ -160,7 +134,7 @@
 <!-- /Area Modal -->
 
 <!-- Summary Requirements Modal -->
-	<div id="modal_summaryreq" class="modal fade" data-bs-backdrop="false" tabindex="-1">
+	<div id="modal_summaryreq" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header bg-success text-white border-0">
@@ -174,21 +148,20 @@
 										<div class="form-control-feedback form-control-feedback-start input-group">
 											<input type="text" name="accreditation" class="form-control text-uppercase"  required>										
 										<div class="invalid-feedback">Enter Area</div>
-											<div class="form-control-feedback-icon">
+											<!-- <div class="form-control-feedback-icon">
 												<i class="ph-briefcase text-muted"></i>
-											</div>
+											</div> -->
 										</div>
 									</div>
-
 									
 									<div class="mb-3">
 										<label class="form-label">Requirements</label>
 										<div class="form-control-feedback form-control-feedback-start input-group">
 											<input type="text"  class="form-control text-uppercase" name="codeName" required>										
 										<div class="invalid-feedback">Enter Requirements</div>
-											<div class="form-control-feedback-icon">
+											<!-- <div class="form-control-feedback-icon">
 												<i class="ph-handshake text-muted"></i>
-											</div>
+											</div> -->
 										</div>
 									</div>							
 								</div>
@@ -201,3 +174,130 @@
 		</div>
 	</div>
 <!-- /Summary Requirements Modal -->
+
+<!-- School Modal -->
+	<div id="modal_school" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-success text-white border-0">
+					<h5 class="modal-title"><i class="ph-plus me-2"></i>Add Schools</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+						<form class="needs-validation" action="#" novalidate method="POST">
+							<div class="modal-body">				
+									<div class="mb-3">
+										<label class="form-label">School Name</label>
+										<div class="form-control-feedback form-control-feedback-start input-group">
+											<input type="text" name="accreditation" class="form-control text-uppercase"  required>										
+										<div class="invalid-feedback">Enter School</div>
+											<!-- <div class="form-control-feedback-icon">
+												<i class="ph-house-line text-muted"></i>
+											</div> -->
+										</div>
+									</div>
+									
+									<div class="mb-3">
+										<label class="form-label">School Code</label>
+										<div class="form-control-feedback form-control-feedback-start input-group">
+											<input type="text"  class="form-control text-uppercase" name="codeName" required>										
+										<div class="invalid-feedback">Enter School Code</div>
+											<!-- <div class="form-control-feedback-icon">
+												<i class="ph-bookmark text-muted"></i>
+											</div> -->
+										</div>
+									</div>							
+								</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
+								<button type="submit" class="btn btn-primary">Add School</button>
+							</div>
+						</form>
+			</div>
+		</div>
+	</div>
+<!-- /School Modal -->
+
+<!-- School Program Modal -->
+	<div id="modal_school_program" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-success text-white border-0">
+					<h5 class="modal-title"><i class="ph-plus me-2"></i>Add School Program</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+						<form class="needs-validation" action="#" novalidate method="POST">
+							<div class="modal-body">				
+									<div class="mb-3">
+										<label class="form-label">Program Description</label>
+										<div class="form-control-feedback form-control-feedback-start input-group">
+											<input type="text" name="accreditation" class="form-control text-uppercase"  required>										
+										<div class="invalid-feedback">Enter Program Description</div>
+											<!-- <div class="form-control-feedback-icon">
+												<i class="ph-house-line text-muted"></i>
+											</div> -->
+										</div>
+									</div>
+									
+									<div class="mb-3">
+										<label class="form-label">Program Code</label>
+										<div class="form-control-feedback form-control-feedback-start input-group">
+											<input type="text"  class="form-control text-uppercase" name="codeName" required>										
+										<div class="invalid-feedback">Enter Program Code</div>
+											<!-- <div class="form-control-feedback-icon">
+												<i class="ph-bookmark text-muted"></i>
+											</div> -->
+										</div>
+									</div>							
+								</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
+								<button type="submit" class="btn btn-primary">Add School</button>
+							</div>
+						</form>
+			</div>
+		</div>
+	</div>
+<!-- /School Program Modal -->
+
+
+<!-- Major Course Modal -->
+	<div id="modal_major_course" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-success text-white border-0">
+					<h5 class="modal-title"><i class="ph-plus me-2"></i>Add Major Course</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+						<form class="needs-validation" action="#" novalidate method="POST">
+							<div class="modal-body">				
+									<div class="mb-3">
+										<label class="form-label">School Program</label>
+										<div class="form-control-feedback form-control-feedback-start input-group">
+											<input type="text" name="accreditation" class="form-control text-uppercase"  required>										
+										<div class="invalid-feedback">Enter School Program</div>
+											<!-- <div class="form-control-feedback-icon">
+												<i class="ph-house-line text-muted"></i>
+											</div> -->
+										</div>
+									</div>
+									
+									<div class="mb-3">
+										<label class="form-label">Major Course</label>
+										<div class="form-control-feedback form-control-feedback-start input-group">
+											<input type="text"  class="form-control text-uppercase" name="codeName" required>										
+										<div class="invalid-feedback">Enter Major Course</div>
+											<!-- <div class="form-control-feedback-icon">
+												<i class="ph-bookmark text-muted"></i>
+											</div> -->
+										</div>
+									</div>							
+								</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
+								<button type="submit" class="btn btn-primary">Add School</button>
+							</div>
+						</form>
+			</div>
+		</div>
+	</div>
+<!-- /Major Course Modal -->

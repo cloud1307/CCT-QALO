@@ -37,13 +37,12 @@ include '../include/header.php';
 							<div class="breadcrumb py-2">
 								<a href="index.html" class="breadcrumb-item"><i class="ph-house"></i></a>
 								<a href="dashboard.php" class="breadcrumb-item">Home</a>
-								<span class="breadcrumb-item active">Accreditation List</span>
+								<span class="breadcrumb-item active">List of School</span>
 							</div>
 						</div>						
 					</div>
 				</div>
 				<!-- /page header -->
-
 
 				<!-- Content area -->
 				<div class="content">
@@ -55,24 +54,26 @@ include '../include/header.php';
 								<div class="card">									
 									<div class="card-header">
 										<div class="card-title modal-footer justify-content-between">
-												<h5 class="mb-0">Area List</h5>												
+												<h5 class="mb-0">School List</h5>												
 												<?php	include '../modal/modal.php'; ?>
-												<a href="#modal_area" class="btn btn-outline-success" data-bs-toggle="modal"><i class="ph-plus me-2"></i> Add Area</a> 
+												<a href="#modal_school" class="btn btn-outline-success" data-bs-toggle="modal"><i class="ph-buildings me-2"></i> Add School</a> 
 										</div>								
 									</div>
 
 									<table class="table datatable-basic table-hover">
 										<thead>
 											<tr>
-												<th>Area Name</th>												
-												<!-- <th>Status</th> -->
+												<th>School Name</th>
+												<th>School Code</th>												
+												<th>Status</th>
 												<th class="text-center">Actions</th>
 											</tr>
 										</thead>
 										<tbody>
 											<tr>
-												<td>COMMISSION ON HIGHER EDUCATION</td>												
-												<!-- <td><span class="badge bg-success bg-opacity-10 text-success">Active</span></td> -->
+												<td>SCHOOL OF EDUCATION</td>
+												<td>SED</td>												
+												<td><span class="badge bg-success bg-opacity-10 text-success">Active</span></td>
 												<td class="text-center">
 													<div class="d-inline-flex">
 														<div class="dropdown">
