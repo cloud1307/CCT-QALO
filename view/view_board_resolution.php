@@ -63,17 +63,19 @@ include '../include/header.php';
 									<table class="table datatable-basic table-hover">
 										<thead>
 											<tr>
-												<th>Major Course</th>
-												<!-- <th>Major Code</th>												 -->
+												<th>Board Resolution Title</th>
+												<th>Board Resolution Code</th>
+												<th>Year</th>												
 												<th>Status</th>
-												<th class="text-center">Actions</th>
+												<!-- <th class="text-center">Actions</th> -->
 											</tr>
 										</thead>
 										<tbody>
 											<tr>
 												<td>BACHELOR OF SCIENCE IN SECONDARY EDUCATION</td>
-												<!-- <td>BSE</td>												 -->
-												<td><span class="badge bg-success bg-opacity-10 text-success">Active</span></td>
+												<td>CCT01</td>
+												<td>2008</td>												
+												<!-- <td><span class="badge bg-success bg-opacity-10 text-success">Active</span></td> -->
 												<td class="text-center">
 													<div class="d-inline-flex">
 														<div class="dropdown">
