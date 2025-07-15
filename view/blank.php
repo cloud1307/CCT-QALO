@@ -1,5 +1,8 @@
-<?php include '../include/header.php'; ?>
-<?php include '../include/scripts.php'; ?>
+<?php 
+if (session_status() === PHP_SESSION_NONE) {
+	session_start();
+}
+include '../include/header.php'; ?>
 <body>
 
 	<!-- Main navbar -->

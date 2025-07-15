@@ -18,8 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($result) {
                 $_SESSION['user_id'] = $result['intAccountID'];
-                $_SESSION['user_email'] = $result['varEmail'];
-                $_SESSION['user_level'] = $result['enumUserLevel'];
+                // $_SESSION['user_email'] = $result['varEmail'];
+                // $_SESSION['user_level'] = $result['enumUserLevel'];
              
 
                 header("Location: ../view/index.php");
@@ -80,4 +80,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header("Location: ../view/login.php");
     exit();
 }
+
+
 ?>

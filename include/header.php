@@ -20,9 +20,6 @@
 	<!-- Theme JS files -->
 	<script src="../assets/js/jquery/jquery.min.js"></script>
 	<script src="../assets/js/vendor/tables/datatables/datatables.min.js"></script>
-	<!-- <script src="../assets/js/vendor/tables/datatables/extensions/pdfmake/pdfmake.min.js"></script>
-	<script src="../assets/js/vendor/tables/datatables/extensions/pdfmake/vfs_fonts.min.js"></script>
-	<script src="../assets/js/vendor/tables/datatables/extensions/buttons.min.js"></script> -->
 	<script src="../assets/js/vendor/tables/datatables/extensions/key_table.min.js"></script>
 
 	<script src="../assets/js/vendor/forms/selects/select2.min.js"></script>
@@ -44,6 +41,7 @@
 	<!-- Key data tables -->
 	<script src="../assets/demo/pages/datatables_extension_key_table.js"></script>
 	<!-- /theme JS files -->
+	 
 	<script src="../assets/js/jquery/jquery.min.js"></script>
 	<script src="../assets/js/vendor/notifications/bootbox.min.js"></script>
 

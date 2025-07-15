@@ -1,4 +1,10 @@
-<?php include '../include/header.php'; ?>
+<?php 
+if (session_status() === PHP_SESSION_NONE) {
+	session_start();
+}
+
+include '../include/header.php'; 
+?>
 <body>
 
 	<!-- Main navbar -->
@@ -46,31 +52,27 @@
 						<div class="col-xl-12">	
 							<!-- Quick stats boxes -->
 								<!-- hover rows -->
-								<div class="card">
+								<div class="card">									
 									<div class="card-header">
-										<!-- <h5 class="mb-0">Accreditation List</h5> -->
-										<div class="btn-group my-auto ms-auto">
-											<button type="button" class="btn btn-outline-success">
-												<i class="ph-plus me-2"></i>
-												Add Accreditation
-											</button>
-										</div>
+										<div class="card-title modal-footer justify-content-between">
+												<h5 class="mb-0">Area List</h5>												
+												<?php	include '../modal/modal.php'; ?>
+												<a href="#modal_area" class="btn btn-outline-success" data-bs-toggle="modal"><i class="ph-plus me-2"></i> Add Area</a> 
+											</div>								
 									</div>
 
 									<table class="table datatable-basic table-hover">
 										<thead>
 											<tr>
-												<th>Accreditation Name</th>
-												<th>Abbreviation</th>
-												<th>Status</th>
+												<th>Area Name</th>												
+												<!-- <th>Status</th> -->
 												<th class="text-center">Actions</th>
 											</tr>
 										</thead>
 										<tbody>
 											<tr>
-												<td>COMMISSION ON HIGHER EDUCATION</td>
-												<td>CHED</td>
-												<td><span class="badge bg-success bg-opacity-10 text-success">Active</span></td>
+												<td>COMMISSION ON HIGHER EDUCATION</td>												
+												<!-- <td><span class="badge bg-success bg-opacity-10 text-success">Active</span></td> -->
 												<td class="text-center">
 													<div class="d-inline-flex">
 														<div class="dropdown">

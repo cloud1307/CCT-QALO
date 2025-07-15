@@ -88,7 +88,7 @@
 									<a href="#" class="nav-link">Accreditation</a>
 									<ul class="nav-group-sub collapse">
 										<li class="nav-item"><a href="view_accreditation.php" class="nav-link">Accreditation</a></li>
-										<li class="nav-item"><a href="view_area.php" class="nav-link">Areas</a></li>
+										<li class="nav-item"><a href="../view/view_area.php" class="nav-link">Areas</a></li>
 										<li class="nav-item"><a href="view_requirements.php" class="nav-link">Summary Requiments</a></li>										
 									</ul>
 								</li>

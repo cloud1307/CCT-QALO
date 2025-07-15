@@ -3,6 +3,7 @@ require_once '../config/config.php';
 
 class User {
 	private $conn;
+	private $table_name = "tbl_account";
 
 	public function __construct() {
 		$db = new Database();
@@ -97,33 +98,33 @@ class User {
 //         return $result->fetch_assoc();
 //     }
 
-    // public function create($username, $email, $password) {
-    //     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-    //     $query = "INSERT INTO " . $this->table_name . " (username, email, password) VALUES (?, ?, ?)";
-    //     $stmt = $this->db->prepare($query);
-    //     $stmt->bind_param("sss", $username, $email, $hashed_password);
-    //     return $stmt->execute();
-    // }
+//     public function create($username, $email, $password) {
+//         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+//         $query = "INSERT INTO " . $this->table_name . " (username, email, password) VALUES (?, ?, ?)";
+//         $stmt = $this->db->prepare($query);
+//         $stmt->bind_param("sss", $username, $email, $hashed_password);
+//         return $stmt->execute();
+//     }
 
-    // public function update($id, $username, $email) {
-    //     $query = "UPDATE " . $this->table_name . " SET username = ?, email = ? WHERE id = ?";
-    //     $stmt = $this->db->prepare($query);
-    //     $stmt->bind_param("ssi", $username, $email, $id);
-    //     return $stmt->execute();
-    // }
+//     public function update($id, $username, $email) {
+//         $query = "UPDATE " . $this->table_name . " SET username = ?, email = ? WHERE id = ?";
+//         $stmt = $this->db->prepare($query);
+//         $stmt->bind_param("ssi", $username, $email, $id);
+//         return $stmt->execute();
+//     }
 
-    // public function delete($id) {
-    //     $query = "DELETE FROM " . $this->table_name . " WHERE id = ?";
-    //     $stmt = $this->db->prepare($query);
-    //     $stmt->bind_param("i", $id);
-    //     return $stmt->execute();
-    // }
+//     public function delete($id) {
+//         $query = "DELETE FROM " . $this->table_name . " WHERE id = ?";
+//         $stmt = $this->db->prepare($query);
+//         $stmt->bind_param("i", $id);
+//         return $stmt->execute();
+//     }
 
-    // public function getAllUsers() {
-    //     $query = "SELECT id, username, email, created_at FROM " . $this->table_name;
-    //     $result = $this->db->query($query);
-    //     return $result->fetch_all(MYSQLI_ASSOC);
-    // }
+//     public function getAllUsers() {
+//         $query = "SELECT id, username, email, created_at FROM " . $this->table_name;
+//         $result = $this->db->query($query);
+//         return $result->fetch_all(MYSQLI_ASSOC);
+//     }
 // }
 
 ?>

@@ -1,53 +1,3 @@
-               
-               <!-- Password recovery form -->
-					<!-- <div id="modal-recover" class="modal fade" tabindex="-1">
-						<div class="modal-dialog modal-sm">
-							<div class="modal-content">
-
-							
-								<form class="modal-body" action="index.html">
-									<div class="text-center mb-3">
-										<div class="d-inline-flex bg-primary bg-opacity-10 text-primary lh-1 rounded-pill p-3 mb-3 mt-1">
-											<i class="ph-arrows-counter-clockwise ph-2x"></i>
-										</div>
-										<h5 class="mb-0">Password recovery</h5>
-										<span class="d-block text-muted">We'll send you instructions in email</span>
-									</div>
-
-									<div class="mb-3">
-										<label class="form-label">Recovery email</label>
-										<div class="form-control-feedback form-control-feedback-start">
-											<input type="email" class="form-control" placeholder="john@doe.com">
-											<div class="form-control-feedback-icon">
-												<i class="ph-at text-muted"></i>
-											</div>
-										</div>
-									</div>
-									<div class="mb-3">
-										<label class="form-label">Password</label>
-										<div class="form-control-feedback form-control-feedback-start">
-											<input type="email" class="form-control" placeholder="john@doe.com">
-											<div class="invalid-feedback">Enter your Password</div>
-											<div class="form-control-feedback-icon">
-												<i class="ph-lock text-muted"></i>
-											</div>
-										</div>
-										<div class="invalid-feedback">Enter your password</div>
-									</div>
-
-									<button type="submit" class="btn btn-primary w-100">
-										<i class="ph-arrow-counter-clockwise me-2"></i>
-										Reset password
-									</button>
-								</form>
-							
-							</div>
-						</div>
-					</div> -->
-				<!-- /password recovery form -->
-
-
-
 				<!-- Vertical form modal -->
 						<div id="modal_form_vertical" class="modal fade" tabindex="-1">
 							<div class="modal-dialog">
@@ -132,3 +82,122 @@
 							</div>
 						</div>
 	<!-- /vertical form modal -->
+
+
+	<!-- Accreditation Modal -->
+	<div id="modal_accreditation" class="modal fade" data-bs-backdrop="false" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-success text-white border-0">
+					<h5 class="modal-title"><i class="ph-plus me-2"></i>Add Accreditation</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+						<form class="needs-validation" action="#" novalidate method="POST">
+							<div class="modal-body">				
+									<div class="mb-3">
+										<label class="form-label">Accreditation Name</label>
+										<div class="form-control-feedback form-control-feedback-start input-group">
+											<input type="text" name="accreditation" class="form-control text-uppercase"  required>										
+										<div class="invalid-feedback">Enter Accreditation Name</div>
+											<div class="form-control-feedback-icon">
+												<i class="ph-buildings text-muted"></i>
+											</div>
+										</div>
+									</div>
+
+									
+									<div class="mb-3">
+										<label class="form-label">Accreditation Code Name</label>
+										<div class="form-control-feedback form-control-feedback-start input-group">
+											<input type="text"  class="form-control text-uppercase" name="codeName" required>										
+										<div class="invalid-feedback">Enter Code Name</div>
+											<div class="form-control-feedback-icon">
+												<i class="ph-bookmarks-simple text-muted"></i>
+											</div>
+										</div>
+									</div>							
+								</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
+								<button type="submit" class="btn btn-primary">Save changes</button>
+							</div>
+						</form>
+			</div>
+		</div>
+	</div>
+<!-- /Accreditation Modal -->
+
+
+<!-- Area Modal -->
+	<div id="modal_area" class="modal fade" data-bs-backdrop="false" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-success text-white border-0">
+					<h5 class="modal-title"><i class="ph-plus me-2"></i>Add Area</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+						<form class="needs-validation" action="#" novalidate method="POST">
+							<div class="modal-body">				
+									<div class="mb-3">
+										<label class="form-label">Area Name</label>
+										<div class="form-control-feedback form-control-feedback-start input-group">
+											<input type="text" name="area" class="form-control text-uppercase"  required>										
+										<div class="invalid-feedback">Enter Area Name</div>
+											<div class="form-control-feedback-icon">
+												<i class="ph-buildings text-muted"></i>
+											</div>
+										</div>
+									</div>				
+								</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
+								<button type="submit" class="btn btn-primary">Save changes</button>
+							</div>
+						</form>
+			</div>
+		</div>
+	</div>
+<!-- /Area Modal -->
+
+<!-- Summary Requirements Modal -->
+	<div id="modal_summaryreq" class="modal fade" data-bs-backdrop="false" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-success text-white border-0">
+					<h5 class="modal-title"><i class="ph-plus me-2"></i>Add Summary Requirements</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+						<form class="needs-validation" action="#" novalidate method="POST">
+							<div class="modal-body">				
+									<div class="mb-3">
+										<label class="form-label">Area Name</label>
+										<div class="form-control-feedback form-control-feedback-start input-group">
+											<input type="text" name="accreditation" class="form-control text-uppercase"  required>										
+										<div class="invalid-feedback">Enter Area</div>
+											<div class="form-control-feedback-icon">
+												<i class="ph-briefcase text-muted"></i>
+											</div>
+										</div>
+									</div>
+
+									
+									<div class="mb-3">
+										<label class="form-label">Requirements</label>
+										<div class="form-control-feedback form-control-feedback-start input-group">
+											<input type="text"  class="form-control text-uppercase" name="codeName" required>										
+										<div class="invalid-feedback">Enter Requirements</div>
+											<div class="form-control-feedback-icon">
+												<i class="ph-handshake text-muted"></i>
+											</div>
+										</div>
+									</div>							
+								</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
+								<button type="submit" class="btn btn-primary">Save changes</button>
+							</div>
+						</form>
+			</div>
+		</div>
+	</div>
+<!-- /Summary Requirements Modal -->

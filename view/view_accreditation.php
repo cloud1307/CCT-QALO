@@ -1,4 +1,9 @@
-<?php include '../include/header.php'; ?>
+<?php 
+if (session_status() === PHP_SESSION_NONE) {
+	session_start();
+}
+
+include '../include/header.php'; ?>
 <body>
 
 	<!-- Main navbar -->
@@ -46,18 +51,14 @@
 						<div class="col-xl-12">	
 							<!-- Quick stats boxes -->
 								<!-- hover rows -->
-								<div class="card">
-									<div class="card-header">										
-										<div class="modal-footer justify-content-between">
-											
-												<h5 class="mb-0">Accreditation List</h5>
-											
-											<button class="btn btn-outline-success" data-bs-dismiss="modal">
-												<i class="ph-plus me-1"></i>
-												Add Accreditation
-											</button>
-										</div>									
-									</div>
+								<div class="card">																		
+										<div class="card-header">
+											<div class="card-title modal-footer justify-content-between">
+												<h5 class="mb-0">Accreditation List</h5>												
+												<?php	include '../modal/modal.php'; ?>
+												<a href="#modal_accreditation" class="btn btn-outline-success" data-bs-toggle="modal"><i class="ph-plus me-2"></i> Add Accreditation</a> 
+											</div>					
+										</div>
 
 									<table class="table datatable-basic table-hover">
 										<thead>
@@ -121,3 +122,5 @@
 	<!-- /page content -->
 </body>
 </html>
+
+
