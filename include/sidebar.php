@@ -68,7 +68,7 @@
 							</a>
 							<ul class="nav-group-sub collapse">
 								<li class="nav-item"><a href="view_board_resolution.php" class="nav-link">Board Resolution</a></li>
-                                <li class="nav-item"><a href="#" class="nav-link">Academic Resolution</a></li>                                
+                                <li class="nav-item"><a href="view_academic_resolution.php" class="nav-link">Academic Resolution</a></li>                                
 							</ul>
 						</li>
 
@@ -76,6 +76,15 @@
 						<li class="nav-item-header">
 							<div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Forms</div>
 							<i class="ph-dots-three sidebar-resize-show"></i>
+						</li>
+						<li class="nav-item nav-item-submenu">
+							<a href="#" class="nav-link">
+								<i class="ph-users"></i>
+								<span>Account</span>
+							</a>
+							<ul class="nav-group-sub collapse">
+								<li class="nav-item"><a href="view_account.php" class="nav-link active">User Account</a></li>								
+							</ul>
 						</li>
 						<li class="nav-item nav-item-submenu">
 							<a href="#" class="nav-link">

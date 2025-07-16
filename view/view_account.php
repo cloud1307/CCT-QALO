@@ -37,7 +37,7 @@ include '../include/header.php';
 							<div class="breadcrumb py-2">
 								<a href="index.html" class="breadcrumb-item"><i class="ph-house"></i></a>
 								<a href="dashboard.php" class="breadcrumb-item">Home</a>
-								<span class="breadcrumb-item active">List of Board Resolution</span>
+								<span class="breadcrumb-item active">List of User Account</span>
 							</div>
 						</div>						
 					</div>
@@ -54,28 +54,26 @@ include '../include/header.php';
 								<div class="card">									
 									<div class="card-header">
 										<div class="card-title modal-footer justify-content-between">
-												<h5 class="mb-0">List of Board Resolution</h5>												
+												<h5 class="mb-0">List of User Account</h5>												
 												<?php	include '../modal/modal.php'; ?>
-												<a href="#modal_board_resolution" class="btn btn-outline-success" data-bs-toggle="modal"><i class="ph-buildings me-2"></i> Add Board Resolution</a> 
+												<a href="employee.php" class="btn btn-outline-success" ><i class="ph-buildings me-2"></i> Add Account</a> 
 										</div>								
 									</div>
 
 									<table class="table datatable-basic table-hover">
 										<thead>
 											<tr>
-												<th>Board Resolution Title</th>
-												<th>Board Resolution Code</th>
-												<th>Year</th>												
+												<th>Major Course</th>
+												<!-- <th>Major Code</th>												 -->
 												<th>Status</th>
-												<!-- <th class="text-center">Actions</th> -->
+												<th class="text-center">Actions</th>
 											</tr>
 										</thead>
 										<tbody>
 											<tr>
 												<td>BACHELOR OF SCIENCE IN SECONDARY EDUCATION</td>
-												<td>CCT01</td>
-												<td>2008</td>												
-												<!-- <td><span class="badge bg-success bg-opacity-10 text-success">Active</span></td> -->
+												<!-- <td>BSE</td>												 -->
+												<td><span class="badge bg-success bg-opacity-10 text-success">Active</span></td>
 												<td class="text-center">
 													<div class="d-inline-flex">
 														<div class="dropdown">
@@ -100,7 +98,8 @@ include '../include/header.php';
 														</div>
 													</div>
 												</td>
-											</tr>
+											</tr>							
+									
 										</tbody>
 									</table>
 								</div>

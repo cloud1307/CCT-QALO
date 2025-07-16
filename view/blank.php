@@ -49,7 +49,13 @@ include '../include/header.php'; ?>
 					<div class="row">
 						<div class="col-xl-12">	
 							<!-- Quick stats boxes -->
-							<!-- Content Here!!!! -->
+							<div class="card">	
+								<div class="card-header">
+										<div class="card-title modal-footer justify-content-between">
+												<h5 class="mb-0">Employee Information</h5>
+										</div>
+								</div>
+							</div>
 							<!-- /quick stats boxes -->
 						</div>						
 					</div>

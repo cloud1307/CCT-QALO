@@ -56,7 +56,7 @@ include '../include/header.php';
 										<div class="card-title modal-footer justify-content-between">
 												<h5 class="mb-0">List of Board Resolution</h5>												
 												<?php	include '../modal/modal.php'; ?>
-												<a href="#modal_board_resolution" class="btn btn-outline-success" data-bs-toggle="modal"><i class="ph-buildings me-2"></i> Add Board Resolution</a> 
+												<a href="#modal_academic_resolution" class="btn btn-outline-success" data-bs-toggle="modal"><i class="ph-buildings me-2"></i> Add Academic Resolution</a> 
 										</div>								
 									</div>
 
