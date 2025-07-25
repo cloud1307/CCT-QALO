@@ -17,9 +17,7 @@ $model = new EmployeeModel($conn);
 $positions = $model->getAllPosition();
 $schools = $model->getAllSchool();
 $provinces = $model->getAllProvince();
-$citymun = $model->getAllCityMun();
-$barangay = $model->getAllBarangay();
-//print_r($provinces); 
+
 ?>
 <body>
 
@@ -165,8 +163,8 @@ $barangay = $model->getAllBarangay();
 
 											<div class="form-label col-lg-4">												
 												<label class="form-label">Province</label>
-													<div class="form-control-feedback form-control-feedback-start">
-														<select class="form-control select" name="Province" required>
+													<div class="form-control-feedback ">
+														<select class="form-control" name="province" id="province" required>
 															<option value="">Select Province</option>
 															<?php if (!empty($provinces)): ?>
 																<?php foreach ($provinces as $prov): ?>
@@ -181,39 +179,24 @@ $barangay = $model->getAllBarangay();
 											</div>
 											
 											<div class="form-label col-lg-4">												
-												<label class="form-label">City/Municapality</label>
-													<div class="form-control-feedback">
-														<select class="form-control select" name="citymun" required>
-															<option value="">Select City/Municapality</option>
-															<?php if (!empty($citymun)): ?>
-																<?php foreach ($citymun as $ctm): ?>
-																	<option value="<?= htmlspecialchars($ctm['cmid']) ?>"><?= htmlspecialchars($ctm['citymun']) ?></option>
-																<?php endforeach; ?>
-															<?php else: ?>
-																<option value="">No City/Municipality Available</option>
-															<?php endif; ?>
+												<label class="form-label">City/Municipality</label>
+													<div class="form-control-feedback ">
+														<select class="form-control" name="citymun" id="cityMun" required>
+															<option value="">Select City/Municipality</option>
 														</select>
 														<div class="invalid-feedback">Select City/Municipality</div>
 													</div>															                                
-											</div>									
+											</div>
 
 											<div class="form-label col-lg-4">												
 												<label class="form-label">Barangay</label>
-													<div class="form-control-feedback">
-														<select class="form-control" name="barangay" required>
+													<div class="form-control-feedback ">
+														<select class="form-control" name="barangay" id="barangay" required>
 															<option value="">Select Barangay</option>
-															<?php if (!empty($barangay)): ?>
-																<?php foreach ($barangay as $brgy): ?>
-																	<option value="<?= htmlspecialchars($brgy['brgyid']) ?>"><?= htmlspecialchars($brgy['brgy']) ?></option>
-																<?php endforeach; ?>
-															<?php else: ?>
-																<option value="">No Barangay Available</option>
-															<?php endif; ?>
 														</select>
 														<div class="invalid-feedback">Select Barangay</div>
 													</div>															                                
-											</div>			
-											
+											</div>
 
 											<div class="form-label col-lg-4">												
 												<label class="form-label">School</label>

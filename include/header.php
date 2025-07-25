@@ -33,7 +33,7 @@
 	<script src="../assets/js/vendor/forms/selects/bootstrap_multiselect.js"></script>
 
 	<script src="../assets/js/app.js"></script>
-	<!-- <script src="../assets/js/custom.js"></script> -->
+	<script src="../assets/js/custom.js"></script>
 
 	<script src="../assets/demo/pages/datatables_extension_buttons_html5.js"></script>
 	<script src="../assets/demo/pages/datatables_advanced.js"></script>
@@ -54,7 +54,7 @@
 	<script src="../assets/demo/pages/components_modals.js"></script>
 
 
-	
+
 	<script src="../assets/js/vendor/pickers/datepicker.min.js"></script>
 	<script src="../assets/js/vendor/forms/selects/select2.min.js"></script>
 
