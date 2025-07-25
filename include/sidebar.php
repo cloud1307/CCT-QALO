@@ -80,7 +80,7 @@
 						<li class="nav-item nav-item-submenu">
 							<a href="#" class="nav-link">
 								<i class="ph-users"></i>
-								<span>Account</span>
+								<span>Employee</span>
 							</a>
 							<ul class="nav-group-sub collapse">
 								<li class="nav-item"><a href="view_account.php" class="nav-link active">User Account</a></li>								

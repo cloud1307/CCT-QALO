@@ -33,6 +33,8 @@
 	<script src="../assets/js/vendor/forms/selects/bootstrap_multiselect.js"></script>
 
 	<script src="../assets/js/app.js"></script>
+	<!-- <script src="../assets/js/custom.js"></script> -->
+
 	<script src="../assets/demo/pages/datatables_extension_buttons_html5.js"></script>
 	<script src="../assets/demo/pages/datatables_advanced.js"></script>
 	<!-- Data Tables Basic Styling -->
@@ -42,6 +44,7 @@
 	<script src="../assets/demo/pages/datatables_extension_key_table.js"></script>
 	<!-- /theme JS files -->
 	 
+	
 	<script src="../assets/js/jquery/jquery.min.js"></script>
 	<script src="../assets/js/vendor/notifications/bootbox.min.js"></script>
 
@@ -50,9 +53,12 @@
 	<script src="../assets/demo/pages/table_elements.js"></script>
 	<script src="../assets/demo/pages/components_modals.js"></script>
 
-	<!-- <script src="../assets/js/vendor/pickers/daterangepicker.js"></script> -->
+
+	
 	<script src="../assets/js/vendor/pickers/datepicker.min.js"></script>
+	<script src="../assets/js/vendor/forms/selects/select2.min.js"></script>
 
 	<script src="../assets/demo/pages/picker_date.js"></script>
+	<script src="../assets/demo/pages/form_select2.js"></script>
 
 </head>

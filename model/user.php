@@ -15,7 +15,7 @@ class User {
 	}
 
 	public function login($email, $password) {
-		$query = "SELECT * FROM tbl_account WHERE varEmail = ?";
+		$query = "SELECT * FROM " . $this->table_name . " WHERE varEmail = ?";
 		$stmt = $this->conn->prepare($query);
 
 		if (!$stmt) {
@@ -37,7 +37,7 @@ class User {
 	}
 
 	public function emailExists($email) {
-		$query = "SELECT intAccountID FROM tbl_account WHERE varEmail = ?";
+		$query = "SELECT intAccountID FROM " . $this->table_name . " WHERE varEmail = ?";
 		$stmt = $this->conn->prepare($query);
 
 		if (!$stmt) {
@@ -56,7 +56,7 @@ class User {
 	public function register($email, $password, $recoveryEmail, $contactNumber) {
 		$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-		$query = "INSERT INTO tbl_account (varEmail, varPassword, varRecoveryEmail, varContactNumber, dateCreated)
+		$query = "INSERT INTO " . $this->table_name . " (varEmail, varPassword, varRecoveryEmail, varContactNumber, dateCreated)
 		          VALUES (?, ?, ?, ?, NOW())";
 		$stmt = $this->conn->prepare($query);
 

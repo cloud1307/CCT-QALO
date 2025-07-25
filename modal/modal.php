@@ -137,7 +137,7 @@
 									<div class="mb-3">
 										<label class="form-label">Accreditation Name</label>
 										<div class="form-control-feedback form-control-feedback-start input-group">
-											<input type="text" name="accreditation" class="form-control text-uppercase"  required>										
+											<input type="text" name="accreditation" class="form-control text-uppercase "  required>										
 										<div class="invalid-feedback">Enter Accreditation Name</div>
 											<div class="form-control-feedback-icon">
 												<i class="ph-buildings text-muted"></i>
@@ -253,8 +253,8 @@
 							<div class="modal-body">				
 									<div class="mb-3">
 										<label class="form-label">School Name</label>
-										<div class="form-control-feedback form-control-feedback-start input-group">
-											<input type="text" name="accreditation" class="form-control text-uppercase"  required>										
+										<div class="form-control-feedback  input-group">
+											<input type="text" name="schoolName" class="form-control text-uppercase"  required>										
 										<div class="invalid-feedback">Enter School</div>
 											<!-- <div class="form-control-feedback-icon">
 												<i class="ph-house-line text-muted"></i>
@@ -264,8 +264,8 @@
 									
 									<div class="mb-3">
 										<label class="form-label">School Code</label>
-										<div class="form-control-feedback form-control-feedback-start input-group">
-											<input type="text"  class="form-control text-uppercase" name="codeName" required>										
+										<div class="form-control-feedback  input-group">
+											<input type="text"  class="form-control text-uppercase" name="schoolCodeName" required>										
 										<div class="invalid-feedback">Enter School Code</div>
 											<!-- <div class="form-control-feedback-icon">
 												<i class="ph-bookmark text-muted"></i>

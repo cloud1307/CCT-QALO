@@ -45,7 +45,7 @@ if (session_status() === PHP_SESSION_NONE) {
 							<span class="status-indicator bg-success"></span>
 						</div>
 						<span class="d-none d-lg-inline-block mx-lg-2">
-							<?= htmlspecialchars(strtoupper($_SESSION['user_level'] ?? '')) ?>						
+							<?= htmlspecialchars(isset($userData['enumUserLevel']) ? $userData['enumUserLevel'] : 'Not available') ?>						
 						</span>
 					</a>
  					

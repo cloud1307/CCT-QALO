@@ -177,7 +177,8 @@ var DateTimePickers = function() {
                 container: '.content-inner',
                 buttonClass: 'btn',
                 prevArrow: document.dir == 'rtl' ? '&rarr;' : '&larr;',
-                nextArrow: document.dir == 'rtl' ? '&larr;' : '&rarr;'
+                nextArrow: document.dir == 'rtl' ? '&larr;' : '&rarr;',
+                format: 'yyyy-mm-dd'
             });
         }
 
@@ -264,6 +265,20 @@ var DateTimePickers = function() {
                 format: 'yyyy-mm-dd'
             });
         }
+
+
+        // Date format
+        const dpDateFormatElement1 = document.querySelector('.datepicker-date-format1');
+        if(dpDateFormatElement1) {
+            const dpDateFormats = new Datepicker(dpDateFormatElement1, {
+                container: '.content-inner',
+                buttonClass: 'btn',
+                prevArrow: document.dir == 'rtl' ? '&rarr;' : '&larr;',
+                nextArrow: document.dir == 'rtl' ? '&larr;' : '&rarr;',
+                format: 'yyyy-mm-dd'
+            });
+        }
+
 
         // Multiple dates
         const dpDatesMultipleElement = document.querySelector('.datepicker-multiple-dates');
