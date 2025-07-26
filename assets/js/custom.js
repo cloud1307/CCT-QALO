@@ -172,11 +172,11 @@ function openAddSchoolModal() {
     new bootstrap.Modal(document.getElementById('modal_school')).show();
 }
 
-function openUpdateSchoolModal(schid, schoolName, schoolCode) {
+function openUpdateSchoolModal(schid, schName, schCode) {
     document.getElementById("schoolForm").reset();
     document.getElementById("school_id").value = schid;
-    document.querySelector("input[name='schoolName']").value = schoolName;
-    document.querySelector("input[name='schoolCodeName']").value = schoolCode;
+    document.querySelector("input[name='schoolName']").value = schName;
+    document.querySelector("input[name='schoolCodeName']").value = schCode;
     document.querySelector("#modal-title-school").innerHTML = "<i class='ph-pencil me-2'></i>Update School";
     
     const btn = document.getElementById("btn-save-school");

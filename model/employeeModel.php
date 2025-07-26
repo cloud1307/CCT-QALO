@@ -68,9 +68,8 @@ class EmployeeModel
     }
 
     //Update School
-    public function updateSchool($schid, $schName, $schCode){
-        //$query = "UPDATE ". $this->table_school . "SET varSchoolName = ?, varSchoolCode = ? WHERE intSchoolID = ?";
-        $stmt = $this->conn->prepare("UPDATE ". $this->table_school . "SET varSchoolName = ?, varSchoolCode = ? WHERE intSchoolID = ?");
+    public function updateSchool($schid, $schName, $schCode){        
+        $stmt = $this->conn->prepare("UPDATE ". $this->table_school . " SET varSchoolName = ?, varSchoolCode = ? WHERE intSchoolID = ?");
         $stmt->bind_param("ssi", $schName, $schCode, $schid);
         return $stmt->execute();
     }
