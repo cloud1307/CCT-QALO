@@ -83,7 +83,8 @@
 								<span>Employee</span>
 							</a>
 							<ul class="nav-group-sub collapse">
-								<li class="nav-item"><a href="view_account.php" class="nav-link active">User Account</a></li>								
+								<li class="nav-item"><a href="view_account.php" class="nav-link active">Employee</a></li>
+								<li class="nav-item"><a href="view_position.php" class="nav-link active">Designation</a></li>								
 							</ul>
 						</li>
 						<li class="nav-item nav-item-submenu">

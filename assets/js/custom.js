@@ -42,3 +42,126 @@ $(document).ready(function () {
     });
 });
 
+
+// $(document).ready(function () {
+// 	$('#positionForm').on('submit', function (e) {
+// 		e.preventDefault();
+
+// 		let formData = $(this).serialize();
+
+// 		$.ajax({
+// 			url: '../controller/employeeController.php?action=add',
+// 			type: 'POST',
+// 			data: formData,
+// 			success: function (response) {
+// 				alert('Position added successfully!');
+// 				$('#modal_position').modal('hide');
+// 				$('#positionForm')[0].reset();
+// 				location.reload(); // Reload table data (optional: use AJAX for dynamic)
+// 			},
+// 			error: function () {
+// 				alert('Error adding position.');
+// 			}
+// 		});
+// 	});
+// });
+
+$(document).ready(function () {
+    $('#positionForm').on('submit', function (e) {
+        e.preventDefault();
+
+        // 1. Check empty field
+        let position = $('input[name="position"]').val().trim();
+
+        if (position === '') {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Validation Error',
+                text: 'Please enter a position name before submitting.',
+                confirmButtonText: 'OK'
+            });
+            return;
+        }
+
+        // 2. Proceed with AJAX
+        let formData = $(this).serialize();
+
+        $.ajax({
+            url: '../controller/employeeController.php?action=add',
+            type: 'POST',
+            data: formData,
+            success: function (response) {
+                const res = JSON.parse(response);
+
+                Swal.fire({
+                    icon: res.status,
+                    title: res.status.charAt(0).toUpperCase() + res.status.slice(1),
+                    text: res.message,
+                    showConfirmButton: res.status !== 'success',
+                    timer: res.status === 'success' ? 1500 : undefined
+                });
+
+                if (res.status === 'success') {
+                    $('#modal_position').modal('hide');
+                    $('#positionForm')[0].reset();
+
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1600);
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'Something went wrong while saving the position.',
+                });
+            }
+        });
+    });
+});
+
+$(document).ready(function () {
+    $('#modal_position').on('hidden.bs.modal', function () {
+        location.reload(); // or use DataTables reload if applicable
+    });
+});
+
+
+function openAddPositionModal() {
+    document.getElementById("positionForm").reset();
+    document.getElementById("position_id").value = "";
+    document.querySelector("modal-title").innerHTML = "<i class='ph-plus me-2'></i>Add Position";
+    
+    const btn = document.getElementById("btn-save");
+    btn.classList.remove("btn-warning", "btn-primary");
+    btn.classList.add("btn-success");
+    btn.innerText = "Add Position";
+
+    // Change modal header background
+    const header = document.querySelector("#modal-header");
+    header.classList.remove("bg-primary", "bg-warning", "bg-danger");
+    header.classList.add("bg-success");
+
+    new bootstrap.Modal(document.getElementById('modal_position')).show();
+}
+
+function openUpdatePositionModal(id, position) {
+    document.getElementById("positionForm").reset();
+    document.getElementById("position_id").value = id;
+    document.querySelector("input[name='position']").value = position;
+    document.querySelector("#modal-title").innerHTML = "<i class='ph-pencil me-2'></i>Update Position";
+    
+    const btn = document.getElementById("btn-save");
+    btn.classList.remove("btn-success", "btn-warning");
+    btn.classList.add("btn-primary");
+    btn.innerText = "Update Position";;
+
+     // Change modal header background
+    const header = document.querySelector("#modal-header");
+    header.classList.remove("bg-success", "bg-warning", "bg-danger");
+    header.classList.add("bg-primary");
+    new bootstrap.Modal(document.getElementById('modal_position')).show();
+}
+
+

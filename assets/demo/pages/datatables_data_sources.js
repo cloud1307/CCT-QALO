@@ -49,7 +49,7 @@ const DatatableDataSources = function() {
 
         // AJAX sourced data
         $('.datatable-ajax').dataTable({
-            ajax: '../../../assets/demo/data/tables/datatable_ajax.json'
+            ajax: '../assets/demo/data/tables/datatable_ajax.json'
         });
 
 
@@ -92,7 +92,7 @@ const DatatableDataSources = function() {
         //
 
         $('.datatable-nested').dataTable({
-            ajax: '../../../assets/demo/data/tables/datatable_nested.json',
+            ajax: '../assets/demo/data/tables/datatable_nested.json',
             columns: [
                 {data: "name[, ]"},
                 {data: "hr.0" },

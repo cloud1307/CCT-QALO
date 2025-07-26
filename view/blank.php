@@ -43,23 +43,68 @@ include '../include/header.php'; ?>
 				<!-- /page header -->
 
 
-				<!-- Content area -->
 				<div class="content">
-					<!-- Dashboard content -->
-					<div class="row">
-						<div class="col-xl-12">	
-							<!-- Quick stats boxes -->
-							<div class="card">	
-								<div class="card-header">
-										<div class="card-title modal-footer justify-content-between">
-												<h5 class="mb-0">Employee Information</h5>
+
+					<!-- Style combinations -->
+					<div class="card">
+						<div class="card-header">
+							<h5 class="mb-0">Style combinations</h5>
+						</div>
+
+						<div class="card-body">
+							The <code>DataTables</code> is a highly flexible tool, based upon the foundations of progressive enhancement, and will add advanced interaction controls to any HTML table. DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function. Searching, ordering, paging etc goodness will be immediately added to the table, as shown in this example. <strong>Datatables support all available table styling.</strong>
+						</div>
+
+						<table class="table datatable-basic  table-striped table-hover">
+							<thead>
+								<tr>
+									<th>First Name</th>
+									<th>Last Name</th>
+									<th>Job Title</th>
+									<th>DOB</th>
+									<th>Status</th>
+									<th class="text-center">Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Marth</td>
+									<td><a href="#">Enright</a></td>
+									<td>Traffic Court Referee</td>
+									<td>22 Jun 1972</td>
+									<td><span class="badge bg-success bg-opacity-10 text-success">Active</span></td>
+									<td class="text-center">
+										<div class="d-inline-flex">
+											<div class="dropdown">
+												<a href="#" class="text-body" data-bs-toggle="dropdown">
+													<i class="ph-list"></i>
+												</a>
+
+												<div class="dropdown-menu dropdown-menu-end">
+													<a href="#" class="dropdown-item">
+														<i class="ph-file-pdf me-2"></i>
+														Export to .pdf
+													</a>
+													<a href="#" class="dropdown-item">
+														<i class="ph-file-xls me-2"></i>
+														Export to .csv
+													</a>
+													<a href="#" class="dropdown-item">
+														<i class="ph-file-doc me-2"></i>
+														Export to .doc
+													</a>
+												</div>
+											</div>
 										</div>
-								</div>
-							</div>
-							<!-- /quick stats boxes -->
-						</div>						
+									</td>
+								</tr>
+								
+								
+							</tbody>
+						</table>
 					</div>
-					<!-- /dashboard content -->
+					<!-- /style combinations -->
+
 				</div>
 				<!-- /content area -->
 				<!-- Footer -->

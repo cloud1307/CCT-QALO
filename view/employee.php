@@ -17,7 +17,7 @@ $model = new EmployeeModel($conn);
 $positions = $model->getAllPosition();
 $schools = $model->getAllSchool();
 $provinces = $model->getAllProvince();
-
+//rint_r($schools);
 ?>
 <body>
 
@@ -204,8 +204,8 @@ $provinces = $model->getAllProvince();
 														<select class="form-select" name="school" required>
 															<option value="">Select School</option>
 															<?php if (!empty($schools)): ?>
-																<?php foreach ($schools as $school): ?>
-																	<option value="<?= htmlspecialchars($school['schid']) ?>"><?= htmlspecialchars($school['schoolName']) ?></option>
+																<?php foreach ($schools as $row): ?>
+																	<option value="<?= htmlspecialchars($row['intSchoolID']) ?>"><?= htmlspecialchars($row['varSchoolName']) ?></option>
 																<?php endforeach; ?>
 															<?php else: ?>
 																<option value="">No School Available</option>
@@ -222,7 +222,7 @@ $provinces = $model->getAllProvince();
 														<option value="">Select Designation</option>
 														<?php if (!empty($positions)): ?>
 															<?php foreach ($positions as $position): ?>
-																<option value="<?= htmlspecialchars($position['posid']) ?>"><?= htmlspecialchars($position['position']) ?></option>
+																<option value="<?= htmlspecialchars($position['intPositionID']) ?>"><?= htmlspecialchars($position['varPosition']) ?></option>
 															<?php endforeach; ?>
 														<?php else: ?>
 															<option value="">No Designation Available</option>

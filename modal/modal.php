@@ -124,6 +124,36 @@
 	</div>
 <!-- /User Account Modal -->
 
+<!-- Position Modal -->
+	<div id="modal_position" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-success text-white border-0" id="modal-header">
+					<h5 class="modal-title" id="modal-title"><i class="ph-plus me-2"></i>Add Position</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+						<form class="needs-validation" id="positionForm" action="../controller/employeeController.php" novalidate method="POST">
+							<div class="modal-body">
+								<input type="hidden" name="position_id" id="position_id">
+									<div class="mb-3">
+										<label class="form-label">Position</label>
+										<div class="form-control-feedback input-group">
+											<input type="text" name="position" class="form-control text-propercase " placeholder ="Enter Position" required>
+										</div>
+									</div>
+								</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
+								<!-- <button type="submit" class="btn btn-primary">Add Position</button> -->
+								<button type="submit" class="btn btn-success" id="btn-save">Add Position</button>
+
+							</div>
+						</form>
+			</div>
+		</div>
+	</div>
+<!-- /Position Modal -->
+
 <!-- Accreditation Modal -->
 	<div id="modal_accreditation" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
 		<div class="modal-dialog">
