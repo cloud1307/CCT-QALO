@@ -95,9 +95,13 @@ $schools = $model->getAllSchool();
 															</a>
 
 															<div class="dropdown-menu dropdown-menu-end">
-																<a href="#" class="dropdown-item">
-																	<i class="ph-pencil me-2"></i>
-																	Edit
+																<a href="javascript:void(0);" 
+																		class="dropdown-item"
+																		onclick="openUpdateSchoolModal(<?= $row['intSchoolID'] ?>, 
+																		'<?= htmlspecialchars($row['varSchoolName'], ENT_QUOTES) ?>',
+																		'<?= htmlspecialchars($row['varSchoolCode'], ENT_QUOTES) ?>')">
+																			<i class="ph-pencil me-2"></i>
+																			Edit
 																</a>
 																<a href="#" class="dropdown-item">
 																	<i class="ph-eye me-2"></i>

@@ -1,3 +1,18 @@
+<?php 
+// Load controller
+require_once '../config/config.php'; // where $conn is defined
+require_once '../controller/employeeController.php';
+
+
+$db = new Database();
+$conn = $db->connect();
+
+$model = new EmployeeModel($conn);
+$schools = $model->getAllSchool();
+
+?>
+
+
 <!-- Update Account Modal -->
 	<div id="modal-account" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
 		<div class="modal-dialog">
@@ -144,9 +159,7 @@
 								</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
-								<!-- <button type="submit" class="btn btn-primary">Add Position</button> -->
 								<button type="submit" class="btn btn-success" id="btn-save">Add Position</button>
-
 							</div>
 						</form>
 			</div>
@@ -162,7 +175,7 @@
 					<h5 class="modal-title"><i class="ph-plus me-2"></i>Add Accreditation</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				</div>
-						<form class="needs-validation" action="#" novalidate method="POST">
+						<form class="needs-validation" id="accreditationForm" action="#" novalidate method="POST">
 							<div class="modal-body">				
 									<div class="mb-3">
 										<label class="form-label">Accreditation Name</label>
@@ -275,20 +288,18 @@
 	<div id="modal_school" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header bg-success text-white border-0">
-					<h5 class="modal-title"><i class="ph-plus me-2"></i>Add Schools</h5>
+				<div class="modal-header bg-success text-white border-0" id="modal-header-school">
+					<h5 class="modal-title" id="modal-title-school"><i class="ph-plus me-2"></i>Add Schools</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				</div>
-						<form class="needs-validation" action="#" novalidate method="POST">
+						<form class="needs-validation" id="schoolForm" action="../controller/employeeController.php" novalidate method="POST">
 							<div class="modal-body">				
+									<input type="hidden" name="school_id" id="school_id">
 									<div class="mb-3">
 										<label class="form-label">School Name</label>
 										<div class="form-control-feedback  input-group">
 											<input type="text" name="schoolName" class="form-control text-uppercase"  required>										
-										<div class="invalid-feedback">Enter School</div>
-											<!-- <div class="form-control-feedback-icon">
-												<i class="ph-house-line text-muted"></i>
-											</div> -->
+										<div class="invalid-feedback">Enter School</div>											
 										</div>
 									</div>
 									
@@ -296,16 +307,13 @@
 										<label class="form-label">School Code</label>
 										<div class="form-control-feedback  input-group">
 											<input type="text"  class="form-control text-uppercase" name="schoolCodeName" required>										
-										<div class="invalid-feedback">Enter School Code</div>
-											<!-- <div class="form-control-feedback-icon">
-												<i class="ph-bookmark text-muted"></i>
-											</div> -->
+										<div class="invalid-feedback">Enter School Code</div>											
 										</div>
 									</div>							
 								</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
-								<button type="submit" class="btn btn-primary">Add School</button>
+								<button type="submit" class="btn btn-primary" id="btn-save-school">Add School</button>
 							</div>
 						</form>
 			</div>
@@ -322,26 +330,36 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				</div>
 						<form class="needs-validation" action="#" novalidate method="POST">
-							<div class="modal-body">				
+							<div class="modal-body">
+									<div class="mb-3">												
+											<label class="form-label">School</label>
+												<div class="form-control-feedback form-control-feedback-start">
+													<select class="form-select" name="school" required>
+														<option value="">Select School</option>
+														<?php if (!empty($schools)): ?>
+															<?php foreach ($schools as $row): ?>
+																<option value="<?= htmlspecialchars($row['intSchoolID']) ?>"><?= htmlspecialchars($row['varSchoolName']) ?></option>
+															<?php endforeach; ?>
+														<?php else: ?>
+															<option value="">No School Available</option>
+															<?php endif; ?>
+													</select>
+														<div class="invalid-feedback">Select School</div>
+												</div>															                                
+									</div>				
 									<div class="mb-3">
 										<label class="form-label">Program Description</label>
-										<div class="form-control-feedback form-control-feedback-start input-group">
+										<div class="form-control-feedback input-group">
 											<input type="text" name="accreditation" class="form-control text-uppercase"  required>										
-										<div class="invalid-feedback">Enter Program Description</div>
-											<!-- <div class="form-control-feedback-icon">
-												<i class="ph-house-line text-muted"></i>
-											</div> -->
+										<div class="invalid-feedback">Enter Program Description</div>											
 										</div>
 									</div>
 									
 									<div class="mb-3">
 										<label class="form-label">Program Code</label>
-										<div class="form-control-feedback form-control-feedback-start input-group">
+										<div class="form-control-feedback  input-group">
 											<input type="text"  class="form-control text-uppercase" name="codeName" required>										
-										<div class="invalid-feedback">Enter Program Code</div>
-											<!-- <div class="form-control-feedback-icon">
-												<i class="ph-bookmark text-muted"></i>
-											</div> -->
+										<div class="invalid-feedback">Enter Program Code</div>											
 										</div>
 									</div>							
 								</div>

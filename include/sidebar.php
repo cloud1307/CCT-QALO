@@ -30,7 +30,7 @@
 							<i class="ph-dots-three sidebar-resize-show"></i>
 						</li>
 						<li class="nav-item">
-							<a href="dashboard.php" class="nav-link active">
+							<a href="#" class="nav-link">
 								<i class="ph-house"></i>
 								<span>
 									Dashboard
@@ -48,19 +48,6 @@
 								<!-- <li class="nav-item"><a href="#" class="nav-link disabled">Layout 7 <span class="badge align-self-center ms-auto">Coming soon</span></a></li> -->
 							</ul>
 						</li>
-						<li class="nav-item nav-item-submenu">
-							<a href="#" class="nav-link">
-								<i class="ph-buildings"></i>
-								<span>Schools</span>
-							</a>
-							<ul class="nav-group-sub collapse">
-								<li class="nav-item"><a href="view_school.php" class="nav-link">Schools</a></li>
-                                <li class="nav-item"><a href="view_school_program.php" class="nav-link">Program</a></li>
-                                <li class="nav-item"><a href="view_major_course.php" class="nav-link">Major</a></li>
-
-							</ul>
-						</li>
-
 						<li class="nav-item nav-item-submenu">
 							<a href="#" class="nav-link">
 								<i class="ph-files"></i>
@@ -84,7 +71,19 @@
 							</a>
 							<ul class="nav-group-sub collapse">
 								<li class="nav-item"><a href="view_account.php" class="nav-link active">Employee</a></li>
-								<li class="nav-item"><a href="view_position.php" class="nav-link active">Designation</a></li>								
+								<li class="nav-item"><a href="view_position.php" class="nav-link active">Position</a></li>								
+							</ul>
+						</li>
+						<li class="nav-item nav-item-submenu">
+							<a href="#" class="nav-link">
+								<i class="ph-buildings"></i>
+								<span>Schools</span>
+							</a>
+							<ul class="nav-group-sub collapse">
+								<li class="nav-item"><a href="view_school.php" class="nav-link">Schools</a></li>
+                                <li class="nav-item"><a href="view_school_program.php" class="nav-link">Program</a></li>
+                                <li class="nav-item"><a href="view_major_course.php" class="nav-link">Major</a></li>
+
 							</ul>
 						</li>
 						<li class="nav-item nav-item-submenu">

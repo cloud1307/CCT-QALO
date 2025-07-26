@@ -6,7 +6,7 @@ class EmployeeModel
 	private $conn;
     private $table_position = "tbl_position";
     private $table_school = "tbl_school";
-    //private $table_province = "tbl_refprovince";
+
 
 	public function __construct() {
 		$db = new Database();
@@ -16,19 +16,19 @@ class EmployeeModel
 			throw new Exception("Database connection failed.");
 		}
 	}
-
+    //Insert Into Query For Postion Table
     public function addPosition($position) {
         $stmt = $this->conn->prepare("INSERT INTO ". $this->table_position . " (varPosition) VALUES (?)");
         $stmt->bind_param("s", $position);
         return $stmt->execute();
     }
-
+    //Update Query for Position Table
     public function updatePosition($id, $position){
         $stmt = $this->conn->prepare("UPDATE " . $this->table_position . " SET varPosition = ? WHERE intPositionID = ?");
         $stmt->bind_param("si",$position,$id);
         return $stmt->execute();
     }
-
+    //Position Already Exist
     public function positionExists($positionName, $excludeId = null) {
     $query = "SELECT COUNT(*) as count FROM tbl_position WHERE varPosition = ?";
     if ($excludeId) {
@@ -59,6 +59,23 @@ class EmployeeModel
          }
          return $positions;
     }
+
+    //Insert School
+    public function addSchool($schName, $schCode) {
+        $stmt = $this->conn->prepare("INSERT INTO ". $this->table_school . " (varSchoolName, varSchoolCode) VALUES (?, ?)");
+        $stmt->bind_param("ss", $schName, $schCode);
+        return $stmt->execute();
+    }
+
+    //Update School
+    public function updateSchool($schid, $schName, $schCode){
+        //$query = "UPDATE ". $this->table_school . "SET varSchoolName = ?, varSchoolCode = ? WHERE intSchoolID = ?";
+        $stmt = $this->conn->prepare("UPDATE ". $this->table_school . "SET varSchoolName = ?, varSchoolCode = ? WHERE intSchoolID = ?");
+        $stmt->bind_param("ssi", $schName, $schCode, $schid);
+        return $stmt->execute();
+    }
+    
+
      //Select All School
     public function getAllSchool(){
         
