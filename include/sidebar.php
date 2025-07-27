@@ -70,7 +70,7 @@
 								<span>Employee</span>
 							</a>
 							<ul class="nav-group-sub collapse">
-								<li class="nav-item"><a href="view_account.php" class="nav-link active">Employee</a></li>
+								<li class="nav-item"><a href="view_employee.php" class="nav-link active">Employee</a></li>
 								<li class="nav-item"><a href="view_position.php" class="nav-link active">Position</a></li>								
 							</ul>
 						</li>

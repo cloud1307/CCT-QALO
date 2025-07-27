@@ -3,7 +3,19 @@ if (session_status() === PHP_SESSION_NONE) {
 	session_start();
 }
 
-include '../include/header.php'; 
+include '../include/header.php';
+
+// Load controller
+require_once '../config/config.php'; // where $conn is defined
+require_once '../controller/employeeController.php';
+
+
+$db = new Database();
+$conn = $db->connect();
+
+$model = new EmployeeModel($conn);
+$schProgram = $model->getAllSchoolProgram();
+//print_r($schProgram);
 ?>
 <body>
 
@@ -63,6 +75,7 @@ include '../include/header.php';
 									<table class="table datatable-basic table-hover">
 										<thead>
 											<tr>
+												<th>School</th>
 												<th>Program Description</th>
 												<th>Program Code</th>												
 												<th>Status</th>
@@ -70,10 +83,12 @@ include '../include/header.php';
 											</tr>
 										</thead>
 										<tbody>
+											<?php foreach ($schProgram as $row): ?>											
 											<tr>
-												<td>BACHELOR OF SCIENCE IN SECONDARY EDUCATION</td>
-												<td>BSE</td>												
-												<td><span class="badge bg-success bg-opacity-10 text-success">Active</span></td>
+												<td><?= htmlspecialchars($row['varSchoolName']) ?></td>
+												<td><?= htmlspecialchars($row['varProgramName']) ?></td>
+												<td><?= htmlspecialchars($row['varProgramCode']) ?></td>												
+												<td><span class="badge bg-success bg-opacity-10 text-success"><?= htmlspecialchars($row['enumProgramStatus']) ?></span></td>
 												<td class="text-center">
 													<div class="d-inline-flex">
 														<div class="dropdown">
@@ -99,7 +114,7 @@ include '../include/header.php';
 													</div>
 												</td>
 											</tr>							
-									
+											<?php endforeach; ?>
 										</tbody>
 									</table>
 								</div>

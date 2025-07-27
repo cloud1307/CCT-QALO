@@ -1,5 +1,4 @@
 <?php 
-// Load controller
 require_once '../config/config.php'; // where $conn is defined
 require_once '../controller/employeeController.php';
 
@@ -8,11 +7,8 @@ $db = new Database();
 $conn = $db->connect();
 
 $model = new EmployeeModel($conn);
-$schools = $model->getAllSchool();
-
+$schools = $model->getAllSchool('Academic');
 ?>
-
-
 <!-- Update Account Modal -->
 	<div id="modal-account" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
 		<div class="modal-dialog">
@@ -298,18 +294,30 @@ $schools = $model->getAllSchool();
 									<div class="mb-3">
 										<label class="form-label">School Name</label>
 										<div class="form-control-feedback  input-group">
-											<input type="text" name="schoolName" class="form-control text-uppercase"  required>										
-										<div class="invalid-feedback">Enter School</div>											
+											<input type="text" name="schoolName" class="form-control text-uppercase" placeholder="Enter School Name"  required>										
+										<!-- <div class="invalid-feedback">Enter School</div>											 -->
 										</div>
 									</div>
 									
 									<div class="mb-3">
 										<label class="form-label">School Code</label>
 										<div class="form-control-feedback  input-group">
-											<input type="text"  class="form-control text-uppercase" name="schoolCodeName" required>										
-										<div class="invalid-feedback">Enter School Code</div>											
+											<input type="text"  class="form-control text-uppercase" name="schoolCodeName" placeholder="Enter School Code" required>										
+										<!-- <div class="invalid-feedback">Enter School Code</div>											 -->
 										</div>
+									</div>
+									<div class="mb-3">												
+										<label class="form-label">Department Catergory</label>
+											<div class="form-control-feedback">												
+												<select class="form-select" name="deptCategory" id="deptCategory" required>
+													<option value="">Select Department Category</option>
+													<option value="Academic">Academic</option>
+													<option value="Non-Academic">Non-Academic</option>																										
+												</select>													
+											</div>												                                
 									</div>							
+									
+									
 								</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
@@ -334,7 +342,7 @@ $schools = $model->getAllSchool();
 									<div class="mb-3">												
 											<label class="form-label">School</label>
 												<div class="form-control-feedback form-control-feedback-start">
-													<select class="form-select" name="school" required>
+													<select class="form-select" name="schoolProgram" id="schoolProgram" required>
 														<option value="">Select School</option>
 														<?php if (!empty($schools)): ?>
 															<?php foreach ($schools as $row): ?>
@@ -365,7 +373,7 @@ $schools = $model->getAllSchool();
 								</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
-								<button type="submit" class="btn btn-primary">Add School</button>
+								<button type="submit" class="btn btn-primary" id="btn-save-school-program">Add School Program</button>
 							</div>
 						</form>
 			</div>

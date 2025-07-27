@@ -6,6 +6,8 @@ class EmployeeModel
 	private $conn;
     private $table_position = "tbl_position";
     private $table_school = "tbl_school";
+    private $table_employee = "tbl_employee";
+    private $table_school_program = "tbl_school_program";
 
 
 	public function __construct() {
@@ -16,15 +18,35 @@ class EmployeeModel
 			throw new Exception("Database connection failed.");
 		}
 	}
+
+     //Select All Province
+    public function getAllProvince(){
+        $provinces = []; // ✅ Initialize
+        $query = "SELECT * FROM tbl_refprovince ORDER BY txtProvDesc  ASC";
+        $result = $this->conn->query($query);
+
+        if($result && $result->num_rows > 0){
+            while($row = $result->fetch_assoc()){
+                $provinces[] = [
+                    'provid' => $row['varProvCode'],
+                    'prov' => $row['txtProvDesc']
+                ];
+            }            
+        }
+        return $provinces;
+    }
+
     //Insert Into Query For Postion Table
     public function addPosition($position) {
-        $stmt = $this->conn->prepare("INSERT INTO ". $this->table_position . " (varPosition) VALUES (?)");
+        $query = "INSERT INTO ". $this->table_position . " (varPosition) VALUES (?)";
+        $stmt = $this->conn->prepare($query);
         $stmt->bind_param("s", $position);
         return $stmt->execute();
     }
     //Update Query for Position Table
     public function updatePosition($id, $position){
-        $stmt = $this->conn->prepare("UPDATE " . $this->table_position . " SET varPosition = ? WHERE intPositionID = ?");
+        $query = "UPDATE " . $this->table_position . " SET varPosition = ? WHERE intPositionID = ?";
+        $stmt = $this->conn->prepare($query);
         $stmt->bind_param("si",$position,$id);
         return $stmt->execute();
     }
@@ -46,12 +68,10 @@ class EmployeeModel
 }
 
     //Select All Position
-    public function getAllPosition() {
-        
+    public function getAllPosition() {       
         $positions = []; // ✅ Initialize
         $query = "SELECT * FROM " . $this->table_position . " ORDER BY varPosition ASC";
-        $result = $this->conn->query($query);
-
+        $result = $this->conn->query($query);        
          if ($result && $result->num_rows > 0) {
             while ($row = $result->fetch_assoc() ) {
                 $positions[] = $row;
@@ -61,50 +81,103 @@ class EmployeeModel
     }
 
     //Insert School
-    public function addSchool($schName, $schCode) {
-        $stmt = $this->conn->prepare("INSERT INTO ". $this->table_school . " (varSchoolName, varSchoolCode) VALUES (?, ?)");
-        $stmt->bind_param("ss", $schName, $schCode);
+    public function addSchool($schName, $schCode, $category) {
+        $query = "INSERT INTO ". $this->table_school . " (varSchoolName, varSchoolCode, enumCategory) VALUES (?, ?, ?)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("sss", $schName, $schCode, $category);
         return $stmt->execute();
     }
 
     //Update School
-    public function updateSchool($schid, $schName, $schCode){        
-        $stmt = $this->conn->prepare("UPDATE ". $this->table_school . " SET varSchoolName = ?, varSchoolCode = ? WHERE intSchoolID = ?");
-        $stmt->bind_param("ssi", $schName, $schCode, $schid);
+    public function updateSchool($schid, $schName, $schCode, $category){        
+        $query = "UPDATE ". $this->table_school . " SET varSchoolName = ?, varSchoolCode = ?, enumCategory = ? WHERE intSchoolID = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("sssi", $schName, $schCode, $category, $schid);        
         return $stmt->execute();
     }
-    
 
+    //School Already Exist
+    public function schoolExists($name, $code, $excludeID = null) {
+		$sql = "SELECT COUNT(*) FROM " . $this->table_school . " WHERE (varSchoolName = ? OR varSchoolCode = ?)";
+		if (!empty($excludeID)) {
+			$sql .= " AND intSchoolID != ?";
+		}
+
+		$stmt = $this->conn->prepare($sql);
+		if (!empty($excludeID)) {
+			$stmt->bind_param("ssi", $name, $code, $excludeID);
+		} else {
+			$stmt->bind_param("ss", $name, $code);
+		}
+		$stmt->execute();
+		$stmt->bind_result($count);
+		$stmt->fetch();
+		return $count > 0;
+	}
+   
      //Select All School
-    public function getAllSchool(){
-        
-        $query = "SELECT * FROM " . $this->table_school . " ORDER BY varSchoolName ASC";
-        $result = $this->conn->query($query);
-        $schools = []; // ✅ Initialize
-        if($result && $result->num_rows > 0){
-            while($row = $result->fetch_assoc()){
-                $schools[] = $row;
-            }            
+    public function getAllSchool($category = null) {
+        if (!empty($category)) {
+            $query = "SELECT * FROM {$this->table_school} WHERE enumCategory = ? ORDER BY varSchoolName ASC";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param("s", $category);
+        } else {
+            $query = "SELECT * FROM {$this->table_school} ORDER BY varSchoolName ASC";
+            $stmt = $this->conn->prepare($query);
+        }
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $schools = [];
+        while ($row = $result->fetch_assoc()) {
+            $schools[] = $row;
         }
         return $schools;
     }
 
-    //Select All Province
-    public function getAllProvince(){
-        $provinces = []; // ✅ Initialize
-        $query = "SELECT * FROM tbl_refprovince ORDER BY txtProvDesc  ASC";
+    //Select All School Program
+    public function getAllSchoolProgram(){
+        $query = "SELECT a.*, b.* FROM {$this->table_school} a INNER JOIN {$this->table_school_program} b ON b.intSchoolID = a.intSchoolID";
+        
         $result = $this->conn->query($query);
+        $schProgram = [];
 
         if($result && $result->num_rows > 0){
             while($row = $result->fetch_assoc()){
-                $provinces[] = [
-                    'provid' => $row['varProvCode'],
-                    'prov' => $row['txtProvDesc']
-                ];
-            }            
-        }
-        return $provinces;
+                $schProgram[] = $row;
+            }
+        }return $schProgram;
     }
+
+    //Insert School Program
+    public function addSchoolProgram($schid, $schProgram, $progCode){
+        $query = "INSERT INTO {$this->table_school_program} (intSchoolID, varProgramName, varProgramCode) VALUES (?, ?, ?)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("iss");
+        return $stmt->excute();
+    }
+
+
+    //Select All Employee
+    public function getAllEmployee(){
+        $query = "
+            SELECT a.*, b.*, c.*
+            FROM {$this->table_employee} a
+            INNER JOIN {$this->table_position} b ON b.intPositionID = a.intPositionID
+            INNER JOIN {$this->table_school} c ON c.intSchoolID = a.intSchoolID
+            ORDER BY a.varLastName ASC";
+    
+            $result = $this->conn->query($query);
+            $employee = [];
+
+            if ($result && $result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $employee[] = $row;
+                }
+            }
+            return $employee;
+    }
+   
    
 
 }// --/EmployeeModel---

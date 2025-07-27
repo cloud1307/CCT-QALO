@@ -14,7 +14,7 @@ $db = new Database();
 $conn = $db->connect();
 
 $model = new EmployeeModel($conn);
-$schools = $model->getAllSchool();
+$school = $model->getAllSchool();
 
 ?>
 <body>
@@ -49,7 +49,7 @@ $schools = $model->getAllSchool();
 							<div class="breadcrumb py-2">
 								<a href="index.html" class="breadcrumb-item"><i class="ph-house"></i></a>
 								<a href="dashboard.php" class="breadcrumb-item">Home</a>
-								<span class="breadcrumb-item active">List of School</span>
+								<span class="breadcrumb-item active">List of School and Depatment</span>
 							</div>
 						</div>						
 					</div>
@@ -66,27 +66,27 @@ $schools = $model->getAllSchool();
 								<div class="card">									
 									<div class="card-header">
 										<div class="card-title modal-footer justify-content-between">
-												<h5 class="mb-0">School List</h5>												
+												<h5 class="mb-0">School and Department List</h5>												
 												<?php	include '../modal/modal.php'; ?>
-												<a href="#modal_school" class="btn btn-outline-success" data-bs-toggle="modal"><i class="ph-buildings me-2"></i> Add School</a> 
+												<a href="#modal_school" class="btn btn-outline-success" data-bs-toggle="modal"><i class="ph-buildings me-2"></i> Add School or Department</a> 
 										</div>								
 									</div>
 
 									<table class="table datatable-basic table-hover">
 										<thead>
 											<tr>
-												<th>School Name</th>
+												<th>School Name or Department</th>
 												<th>School Code</th>												
-												<th>Status</th>
+												<th>Department Category</th>
 												<th class="text-center">Actions</th>
 											</tr>
 										</thead>
 										<tbody>
-											<?php foreach ($schools as $row): ?>
+											<?php foreach ($school as $row): ?>
 											<tr>
 												<td><?= htmlspecialchars($row['varSchoolName']) ?></td>
 												<td><?= htmlspecialchars($row['varSchoolCode']) ?></td>												
-												<td><span class="badge bg-success bg-opacity-10 text-success"><?= htmlspecialchars($row['enumStatus'] ?? 'Active') ?></span></td>
+												<td><span class="badge bg-success bg-opacity-10 text-success"><?= htmlspecialchars(!empty($row['enumCategory']) ? $row['enumCategory'] : 'Academic') ?></span></td>
 												<td class="text-center">
 													<div class="d-inline-flex">
 														<div class="dropdown">
@@ -99,7 +99,8 @@ $schools = $model->getAllSchool();
 																		class="dropdown-item"
 																		onclick="openUpdateSchoolModal(<?= $row['intSchoolID'] ?>, 
 																		'<?= htmlspecialchars($row['varSchoolName'], ENT_QUOTES) ?>',
-																		'<?= htmlspecialchars($row['varSchoolCode'], ENT_QUOTES) ?>')">
+																		'<?= htmlspecialchars($row['varSchoolCode'], ENT_QUOTES) ?>',
+																		'<?= htmlspecialchars($row['enumCategory'], ENT_QUOTES) ?>')">																	
 																			<i class="ph-pencil me-2"></i>
 																			Edit
 																</a>

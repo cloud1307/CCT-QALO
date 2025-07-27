@@ -16,18 +16,10 @@ class EmployeeController
         include '../view/employee.php'; // Load the view
     }
 
-    // public function addSchool($schName, $schCode, $schid = null){
-    //     $schName = strtoupper(trim($schName));
-    //     $schCode = strtoupper(trim($schCode));
-
-    //     $this->model->addSchool($schName, $schCode);
-
-    // }
-
     public function addPosition($positionName, $id = null) {
         $positionName = ucwords(trim($positionName)); // Convert to Proper Case
 
-        // Validate input
+        // Validate user input
         if (empty($positionName)) {
             return [
                 'status' => 'warning',
@@ -68,13 +60,13 @@ class EmployeeController
             ];
         }
     }
+
+
+    
 }
 
 // ✅ Handle AJAX or form request
-if (
-    isset($_GET['action']) && 
-    $_GET['action'] == 'add' && 
-    $_SERVER['REQUEST_METHOD'] === 'POST'
+if (isset($_GET['action']) && $_GET['action'] == 'add' && $_SERVER['REQUEST_METHOD'] === 'POST'
 ) {
     $positionName = $_POST['position'] ?? '';
     $id = $_POST['position_id'] ?? null;
@@ -92,24 +84,44 @@ if (
 
 
 
-
-if (isset($_GET['action']) && 
-    $_GET['action'] == 'addSchool' && 
-    $_SERVER['REQUEST_METHOD'] === 'POST') {
-    $schName = strtoupper(trim($_POST['schoolName']));
-    $schCode = strtoupper(trim($_POST['schoolCodeName']));
+if (isset($_GET['action']) && $_GET['action'] === 'addSchool' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+    $schName = strtoupper(trim($_POST['schoolName'])); // Convert to Uppercase
+    $schCode = strtoupper(trim($_POST['schoolCodeName'])); // Check for duplicates
+    $category = trim($_POST['deptCategory']);
     $schid = $_POST['school_id'] ?? null;
 
+    //Validate User Input
+    if (empty($schName) || empty($schCode) || empty($category)) {
+        echo json_encode(['status' => 'warning', 'message' => 'All fields are required.']);
+        exit;
+    }
 
     $model = new EmployeeModel();
 
-    if (!empty($schid)) {
-        $model->updateSchool($schid, $schName, $schCode); 
-    } else {
-        $model->addSchool($schName, $schCode);
+    // Check for duplicates
+    if ($model->schoolExists($schName, $schCode, $schid)) {
+        echo json_encode(['status' => 'warning', 'message' => 'School already exists.']);
+        exit;
     }
+
+    $success = false;
+    $message = '';
+
+    if (!empty($schid)) {
+        $success = $model->updateSchool($schid, $schName, $schCode, $category);
+        $message = 'School updated successfully.';
+    } else {
+        $success = $model->addSchool($schName, $schCode, $category);
+        $message = 'School added successfully.';
+    }
+
+    echo json_encode([
+        'status' => $success ? 'success' : 'error',
+        'message' => $success ? $message : 'Database operation failed.'
+    ]);
     exit;
 }
+
 
 ?>
 

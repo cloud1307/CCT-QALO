@@ -3,7 +3,18 @@ if (session_status() === PHP_SESSION_NONE) {
 	session_start();
 }
 
-include '../include/header.php'; 
+include '../include/header.php';
+
+// Load controller
+require_once '../config/config.php'; // where $conn is defined
+require_once '../controller/employeeController.php';
+
+
+$db = new Database();
+$conn = $db->connect();
+
+$model = new EmployeeModel($conn);
+$employee = $model->getAllEmployee();
 ?>
 <body>
 
@@ -37,7 +48,7 @@ include '../include/header.php';
 							<div class="breadcrumb py-2">
 								<a href="index.html" class="breadcrumb-item"><i class="ph-house"></i></a>
 								<a href="dashboard.php" class="breadcrumb-item">Home</a>
-								<span class="breadcrumb-item active">List of User Account</span>
+								<span class="breadcrumb-item active">List of Employee</span>
 							</div>
 						</div>						
 					</div>
@@ -54,26 +65,34 @@ include '../include/header.php';
 								<div class="card">									
 									<div class="card-header">
 										<div class="card-title modal-footer justify-content-between">
-												<h5 class="mb-0">List of User Account</h5>												
+												<h5 class="mb-0">List of Employee</h5>												
 												<?php	include '../modal/modal.php'; ?>
-												<a href="employee.php" class="btn btn-outline-success" ><i class="ph-buildings me-2"></i> Add Account</a> 
+												<a href="employee.php" class="btn btn-outline-success" ><i class="ph-buildings me-2"></i> Add Employee</a> 
 										</div>								
 									</div>
 
 									<table class="table datatable-basic table-hover">
 										<thead>
 											<tr>
-												<th>Major Course</th>
-												<!-- <th>Major Code</th>												 -->
+												<th>LastName</th>
+												<th>FirstName</th>
+												<th>Position</th>
+												<th>Department</th>
+												<th>Job Category</th>													
 												<th>Status</th>
 												<th class="text-center">Actions</th>
 											</tr>
 										</thead>
 										<tbody>
+											<?php foreach ($employee as $row): ?>
 											<tr>
-												<td>BACHELOR OF SCIENCE IN SECONDARY EDUCATION</td>
+												<td><?= htmlspecialchars($row['varLastName']) ?></td>
+												<td><?= htmlspecialchars($row['varFirstName']) ?></td>
+												<td><?= htmlspecialchars($row['varPosition']) ?></td>
+												<td><?= htmlspecialchars($row['varSchoolCode']) ?></td>
+												<td><?= htmlspecialchars($row['enumJobCategory']) ?></td>
 												<!-- <td>BSE</td>												 -->
-												<td><span class="badge bg-success bg-opacity-10 text-success">Active</span></td>
+												<td><span class="badge bg-success bg-opacity-10 text-success"><?= htmlspecialchars($row['enumEmploymentStatus']) ?></span></td>
 												<td class="text-center">
 													<div class="d-inline-flex">
 														<div class="dropdown">
@@ -98,7 +117,8 @@ include '../include/header.php';
 														</div>
 													</div>
 												</td>
-											</tr>							
+											</tr>
+											<?php endforeach; ?>						
 									
 										</tbody>
 									</table>

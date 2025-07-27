@@ -15,9 +15,10 @@ $conn = $db->connect();
 
 $model = new EmployeeModel($conn);
 $positions = $model->getAllPosition();
-$schools = $model->getAllSchool();
+
+$school = $model->getAllSchool();
 $provinces = $model->getAllProvince();
-//rint_r($schools);
+//print_r($school);
 ?>
 <body>
 
@@ -199,13 +200,13 @@ $provinces = $model->getAllProvince();
 											</div>
 
 											<div class="form-label col-lg-4">												
-												<label class="form-label">School</label>
+												<label class="form-label">School or Department</label>
 													<div class="form-control-feedback form-control-feedback-start">
 														<select class="form-select" name="school" required>
 															<option value="">Select School</option>
-															<?php if (!empty($schools)): ?>
-																<?php foreach ($schools as $row): ?>
-																	<option value="<?= htmlspecialchars($row['intSchoolID']) ?>"><?= htmlspecialchars($row['varSchoolName']) ?></option>
+															<?php if (!empty($school)): ?>
+																<?php foreach ($school as $row): ?>
+																	<option value="<?= htmlspecialchars($row['intSchoolID']) ?>"><?= htmlspecialchars($row['varSchoolCode']) ?></option>
 																<?php endforeach; ?>
 															<?php else: ?>
 																<option value="">No School Available</option>
@@ -255,7 +256,7 @@ $provinces = $model->getAllProvince();
 															<option value="Co-Terminus">Co-Terminus</option>
 														</select>
 														<div class="invalid-feedback">Select Job Status</div>
-													</div>															                                
+													</div>												                                
 											</div>
 
 											<div class="form-label col-lg-4">												
@@ -269,7 +270,7 @@ $provinces = $model->getAllProvince();
 															<option value="Part-Time Instructor">Part-Time Instructor</option>															
 														</select>
 														<div class="invalid-feedback">Select Job Category</div>
-													</div>															                                
+													</div>												                                
 											</div>
 
 											<div class="form-label col-lg-4">												

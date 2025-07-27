@@ -6,28 +6,28 @@
  *
  * ---------------------------------------------------------------------------- */
 
-$(document).ready(function () {
-	$('#schoolForm').on('submit', function (e) {
-		e.preventDefault();
+// $(document).ready(function () {
+// 	$('#schoolForm').on('submit', function (e) {
+// 		e.preventDefault();
 
-		let formData = $(this).serialize();
+// 		let formData = $(this).serialize();
 
-		$.ajax({
-			url: '../controller/employeeController.php?action=addSchool',
-			type: 'POST',
-			data: formData,
-			success: function (response) {
-				alert('School added successfully!');
-				$('#modal_school').modal('hide');
-				$('#schoolForm')[0].reset();
-				location.reload(); // Reload table data (optional: use AJAX for dynamic)
-			},
-			error: function () {
-				alert('Error adding position.');
-			}
-		});
-	});
-});
+// 		$.ajax({
+// 			url: '../controller/employeeController.php?action=addSchool',
+// 			type: 'POST',
+// 			data: formData,
+// 			success: function (response) {
+// 				alert('School added successfully!');
+// 				$('#modal_school').modal('hide');
+// 				$('#schoolForm')[0].reset();
+// 				location.reload(); // Reload table data (optional: use AJAX for dynamic)
+// 			},
+// 			error: function () {
+// 				alert('Error adding position.');
+// 			}
+// 		});
+// 	});
+// });
 
 
 
@@ -65,17 +65,71 @@ $(document).ready(function () {
         }, 'json');
     });
 });
+// $(document).ready(function () {
+//     $('#modal_school').on('hidden.bs.modal', function () {
+//         location.reload(); // or use DataTables reload if applicable
+//     });
+// });
+
+// $(document).ready(function () {
+//     $('#schoolForm').on('submit', function (e) {
+//         e.preventDefault();
+//         //  Proceed with AJAX
+//         let formData = $(this).serialize();
+//         $.ajax({
+//             url: '../controller/employeeController.php?action=addSchool',
+//             type: 'POST',
+//             data: formData,
+//             success: function (response) {
+//                 const res = JSON.parse(response);
+
+//                 Swal.fire({
+//                     icon: res.status,
+//                     title: res.status.charAt(0).toUpperCase() + res.status.slice(1),
+//                     text: res.message,
+//                     showConfirmButton: res.status !== 'success',
+//                     timer: res.status === 'success' ? 1500 : undefined
+//                 });
+
+//                 if (res.status === 'success') {
+//                     $('#modal_school').modal('hide');
+//                     $('#schoolForm')[0].reset();
+
+//                     setTimeout(function () {
+//                         location.reload();
+//                     }, 1500);
+//                 }
+//             },
+//             error: function () {
+//                 Swal.fire({
+//                     icon: res.status === "warning" ? "warning" : "error",
+// 				    title: res.message                    
+//                 });
+//             }
+//         });
+//     });
+// });
 
 
 $(document).ready(function () {
-    $('#positionForm').on('submit', function (e) {
-        e.preventDefault();
+    // Position Form
+    handleAjaxFormSubmission('#positionForm', '../controller/employeeController.php?action=add', '#modal_position');
+    // School Form
+    handleAjaxFormSubmission('#schoolForm', '../controller/employeeController.php?action=addSchool', '#modal_school');
 
-        //  Proceed with AJAX
-        let formData = $(this).serialize();
+        // Optional: Reload on modal close
+    $('#modal_position, #modal_school').on('hidden.bs.modal', function () {
+        location.reload(); // Optional if using DataTables, use DataTables reload instead
+    });
+});
+
+function handleAjaxFormSubmission(formSelector, actionUrl, modalSelector) {
+    $(formSelector).on('submit', function (e) {
+        e.preventDefault();
+        const formData = $(this).serialize();
 
         $.ajax({
-            url: '../controller/employeeController.php?action=add',
+            url: actionUrl,
             type: 'POST',
             data: formData,
             success: function (response) {
@@ -90,30 +144,22 @@ $(document).ready(function () {
                 });
 
                 if (res.status === 'success') {
-                    $('#modal_position').modal('hide');
-                    $('#positionForm')[0].reset();
+                    if (modalSelector) $(modalSelector).modal('hide');
+                    $(formSelector)[0].reset();
 
-                    setTimeout(function () {
-                        location.reload();
-                    }, 1500);
+                    setTimeout(() => location.reload(), 1500);
                 }
             },
             error: function () {
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Error!',
-                    text: 'Something went wrong while saving the position.',
+                    icon: "error",
+                    title: "Unexpected Error",
+                    text: "Something went wrong while processing your request."
                 });
             }
         });
     });
-});
-
-$(document).ready(function () {
-    $('#modal_position').on('hidden.bs.modal', function () {
-        location.reload(); // or use DataTables reload if applicable
-    });
-});
+}
 
 
 
@@ -172,11 +218,12 @@ function openAddSchoolModal() {
     new bootstrap.Modal(document.getElementById('modal_school')).show();
 }
 
-function openUpdateSchoolModal(schid, schName, schCode) {
+function openUpdateSchoolModal(schid, schName, schCode, category) {
     document.getElementById("schoolForm").reset();
     document.getElementById("school_id").value = schid;
     document.querySelector("input[name='schoolName']").value = schName;
     document.querySelector("input[name='schoolCodeName']").value = schCode;
+    document.getElementById('deptCategory').value = category; // SET category here
     document.querySelector("#modal-title-school").innerHTML = "<i class='ph-pencil me-2'></i>Update School";
     
     const btn = document.getElementById("btn-save-school");
@@ -190,10 +237,4 @@ function openUpdateSchoolModal(schid, schName, schCode) {
     header.classList.add("bg-primary");
     new bootstrap.Modal(document.getElementById('modal_school')).show();
 }
-
-$(document).ready(function () {
-    $('#modal_school').on('hidden.bs.modal', function () {
-        location.reload(); // or use DataTables reload if applicable
-    });
-});
 
