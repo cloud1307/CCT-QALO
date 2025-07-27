@@ -117,8 +117,11 @@ $(document).ready(function () {
     // School Form
     handleAjaxFormSubmission('#schoolForm', '../controller/employeeController.php?action=addSchool', '#modal_school');
 
+    //School Program Form
+    handleAjaxFormSubmission('#schoolProgramForm', '../controller/employeeController.php?action=SchoolProgram', '#modal_school_program');
+
         // Optional: Reload on modal close
-    $('#modal_position, #modal_school').on('hidden.bs.modal', function () {
+    $('#modal_position, #modal_school, #modal_school_program').on('hidden.bs.modal', function () {
         location.reload(); // Optional if using DataTables, use DataTables reload instead
     });
 });
@@ -161,7 +164,43 @@ function handleAjaxFormSubmission(formSelector, actionUrl, modalSelector) {
     });
 }
 
+function openAddSchoolProgramModal(){
+    document.getElementById("schoolProgramForm").reset();
+    document.getElementById("school_program_id").value = "";
+    document.querySelector("#modal-title-school-program").innerHTML = "<i class='ph-plus me-2'></i>Add School Program";
 
+    const btn = document.getElementById("btn-save-school-program");
+    btn.classList.remove("btn-warning", "btn-primary");
+    btn.classList.add("btn-success");
+    btn.innerText = "Add School Program";
+
+    // Change modal header background
+    const header = document.querySelector("#modal-header-school-program");
+    header.classList.remove("bg-primary", "bg-warning", "bg-danger");
+    header.classList.add("bg-success");
+
+    new bootstrap.Modal(document.getElementById('modal_school_program')).show();
+}
+
+function openUpdateSchoolProgramModal(schProgid, schid, schProgram, progCode) {
+    document.getElementById("schoolProgramForm").reset();
+    document.getElementById("school_program_id").value = schProgid;
+    document.querySelector("input[name='programDescription']").value = schProgram;
+    document.querySelector("input[name='programCode']").value = progCode;
+    document.getElementById('schoolProgram').value = schid; // SET category here
+    document.querySelector("#modal-title-school-program").innerHTML = "<i class='ph-pencil me-2'></i>Update School Program";
+    
+    const btn = document.getElementById("btn-save-school-program");
+    btn.classList.remove("btn-success", "btn-warning");
+    btn.classList.add("btn-primary");
+    btn.innerText = "Update School Program";;
+
+     // Change modal header background
+    const header = document.querySelector("#modal-header-school-program");
+    header.classList.remove("bg-success", "bg-warning", "bg-danger");
+    header.classList.add("bg-primary");
+    new bootstrap.Modal(document.getElementById('modal_school_program')).show();
+}
 
 function openAddPositionModal() {
     document.getElementById("positionForm").reset();

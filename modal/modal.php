@@ -333,18 +333,21 @@ $schools = $model->getAllSchool('Academic');
 	<div id="modal_school_program" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header bg-success text-white border-0">
-					<h5 class="modal-title"><i class="ph-plus me-2"></i>Add School Program</h5>
+				<div class="modal-header bg-success text-white border-0" id="modal-header-school-program">
+					<h5 class="modal-title" id="modal-title-school-program"><i class="ph-plus me-2"></i>Add School Program</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				</div>
-						<form class="needs-validation" action="#" novalidate method="POST">
+						<form class="needs-validation" id="schoolProgramForm" action="../controller/employeeController.php" novalidate method="POST">
 							<div class="modal-body">
+								<input type="hidden" name="school_program_id" id="school_program_id">
 									<div class="mb-3">												
 											<label class="form-label">School</label>
-												<div class="form-control-feedback form-control-feedback-start">
+												<div class="form-control-feedback">
 													<select class="form-select" name="schoolProgram" id="schoolProgram" required>
 														<option value="">Select School</option>
-														<?php if (!empty($schools)): ?>
+														<?php 
+														print_r($schools);
+														if (!empty($schools)): ?>
 															<?php foreach ($schools as $row): ?>
 																<option value="<?= htmlspecialchars($row['intSchoolID']) ?>"><?= htmlspecialchars($row['varSchoolName']) ?></option>
 															<?php endforeach; ?>
@@ -358,7 +361,7 @@ $schools = $model->getAllSchool('Academic');
 									<div class="mb-3">
 										<label class="form-label">Program Description</label>
 										<div class="form-control-feedback input-group">
-											<input type="text" name="accreditation" class="form-control text-uppercase"  required>										
+											<input type="text" name="programDescription" class="form-control text-uppercase"  required>										
 										<div class="invalid-feedback">Enter Program Description</div>											
 										</div>
 									</div>
@@ -366,7 +369,7 @@ $schools = $model->getAllSchool('Academic');
 									<div class="mb-3">
 										<label class="form-label">Program Code</label>
 										<div class="form-control-feedback  input-group">
-											<input type="text"  class="form-control text-uppercase" name="codeName" required>										
+											<input type="text"  class="form-control text-uppercase" name="programCode" required>										
 										<div class="invalid-feedback">Enter Program Code</div>											
 										</div>
 									</div>							

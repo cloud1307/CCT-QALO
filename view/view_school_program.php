@@ -97,9 +97,14 @@ $schProgram = $model->getAllSchoolProgram();
 															</a>
 
 															<div class="dropdown-menu dropdown-menu-end">
-																<a href="#" class="dropdown-item">
-																	<i class="ph-pencil me-2"></i>
-																	Edit
+																<a href="javascript:void(0);" 
+																		class="dropdown-item"
+																		onclick="openUpdateSchoolProgramModal(<?= $row['intProgramID'] ?>, 
+																		'<?= htmlspecialchars($row['intSchoolID'], ENT_QUOTES) ?>',																		
+																		'<?= htmlspecialchars($row['varProgramName'], ENT_QUOTES) ?>',
+																		'<?= htmlspecialchars($row['varProgramCode'], ENT_QUOTES) ?>')">																	
+																			<i class="ph-pencil me-2"></i>
+																			Edit
 																</a>
 																<a href="#" class="dropdown-item">
 																	<i class="ph-eye me-2"></i>

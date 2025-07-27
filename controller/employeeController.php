@@ -16,6 +16,11 @@ class EmployeeController
             include '../view/employee.php'; // Load the view
         }
         public function addSchool($schName, $schCode, $category, $schid = null){
+            $schName = strtoupper(trim($schName)); // Convert to Uppercase
+            $schCode = strtoupper(trim($schCode)); // Check for duplicates
+            $category = trim($category);
+
+
             //Validate User Input
         if (empty($schName) || empty($schCode) || empty($category)) {
             return[
@@ -49,6 +54,44 @@ class EmployeeController
         }
     }
 
+
+    public function addSchoolProgram($schid, $schProgram, $progCode, $schProgid = null){
+            $schid = trim($schid); 
+            $schProgram = strtoupper(trim($schProgram)); // Convert to Uppercase
+            $progCode = strtoupper(trim($progCode)); // Convert to Uppercase
+            if (empty($schid) || empty($schProgram) || empty($progCode)){
+                return [
+                    'status' => 'warning',
+                    'message' => 'All fields are required.'
+                ];
+            }
+
+            // Check for duplicates
+            if ($this->model->schoolProgramExists($schProgram, $progCode, !empty($schProgid) ? $schProgid : null)) {
+                return [
+                    'status' => 'warning',
+                    'message' => 'School Program already exists.'
+                ];
+            }
+
+                $success = false;
+                $message = '';
+
+            if(!empty($schProgid)){
+                    $success = $this->model->updateSchoolProgram($schProgid, $schid, $schProgram, $progCode);
+                    $message = 'School Program updated successfully.';
+            }else{
+                    $success = $this->model->addSchoolProgram($schid, $schProgram, $progCode);
+                    $message = 'School Program added successfully.';
+            }
+
+            return[
+                'status' => $success ? 'success' : 'error',
+                'message' => $success ? $message : 'Database operation failed.'
+                ];
+            
+    }
+
     public function addPosition($positionName, $id = null) {
         $positionName = ucwords(trim($positionName)); // Convert to Proper Case
         // Validate user input
@@ -76,15 +119,15 @@ class EmployeeController
             $message = 'Position updated successfully.';
         } else {
             // Insert
-            $success = $this->model->addPosition($positionName);
-            $message = 'Position added successfully.';
+            $success = $this->model->addSchoolProgram($schid, $schProgram, $progCode);
+            $message = 'School Program added successfully.';
         }
-        if ($success) {
-            return[
+     
+        return[
         'status' => $success ? 'success' : 'error',
         'message' => $success ? $message : 'Database operation failed.'
         ];
-        }
+        
 
     }
 
@@ -118,6 +161,16 @@ handleAjaxAction('addSchool', function () {
     $schid = $_POST['school_id'] ?? null;
     $controller = new EmployeeController();
     return $controller->addSchool($schName, $schCode, $category, $schid);
+});
+
+// ✅ Handle Add/Update School Program
+handleAjaxAction('SchoolProgram', function(){
+    $schid = $_POST['schoolProgram'] ?? '';
+    $schProgram = $_POST['programDescription'] ?? '';
+    $progCode = $_POST['programCode'] ?? '';
+    $schProgid = $_POST['school_program_id'] ?? null;
+    $controller = new EmployeeController();
+    return $controller->addSchoolProgram($schid, $schProgram, $progCode, $schProgid);
 });
 
 // if (isset($_GET['action']) && $_GET['action'] === 'addSchool' && $_SERVER['REQUEST_METHOD'] === 'POST') {

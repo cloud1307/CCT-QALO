@@ -98,7 +98,7 @@ class EmployeeModel
 
     //School Already Exist
     public function schoolExists($name, $code, $excludeID = null) {
-		$sql = "SELECT COUNT(*) FROM " . $this->table_school . " WHERE (varSchoolName = ? OR varSchoolCode = ?)";
+		$sql = "SELECT COUNT(*) FROM {$this->table_school} WHERE (varSchoolName = ? OR varSchoolCode = ?)";
 		if (!empty($excludeID)) {
 			$sql .= " AND intSchoolID != ?";
 		}
@@ -153,9 +153,37 @@ class EmployeeModel
     public function addSchoolProgram($schid, $schProgram, $progCode){
         $query = "INSERT INTO {$this->table_school_program} (intSchoolID, varProgramName, varProgramCode) VALUES (?, ?, ?)";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("iss");
-        return $stmt->excute();
+        $stmt->bind_param("iss", $schid, $schProgram, $progCode);
+        return $stmt->execute();
     }
+
+    //Update School Program
+    public function updateSchoolProgram($schProgid, $schid, $schProgram, $progCode){        
+        $query = "UPDATE {$this->table_school_program} SET intSchoolID = ?, varProgramName = ?, varProgramCode = ? WHERE intProgramID = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("issi", $schid, $schProgram, $progCode, $schProgid);        
+        return $stmt->execute();
+    }
+
+
+    //School Program Already Exist
+    public function schoolProgramExists($schProgram, $progCode, $schProgid = null) {
+		$sql = "SELECT COUNT(*) FROM {$this->table_school_program} WHERE (varProgramName = ? OR varProgramCode = ?)";
+		if (!empty($schProgid)) {
+			$sql .= " AND intSchoolID != ?";
+		}
+
+		$stmt = $this->conn->prepare($sql);
+		if (!empty($schProgid)) {
+			$stmt->bind_param("ssi", $schProgram, $progCode, $schProgid);
+		} else {
+			$stmt->bind_param("ss", $schProgram, $progCode,);
+		}
+		$stmt->execute();
+		$stmt->bind_result($count);
+		$stmt->fetch();
+		return $count > 0;
+	}
 
 
     //Select All Employee
