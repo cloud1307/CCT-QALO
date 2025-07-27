@@ -120,8 +120,11 @@ $(document).ready(function () {
     //School Program Form
     handleAjaxFormSubmission('#schoolProgramForm', '../controller/employeeController.php?action=SchoolProgram', '#modal_school_program');
 
+    //Major Program Form
+    handleAjaxFormSubmission('#majorProgramForm', '../controller/employeeController.php?action=MajorProgram', '#modal_major_course');
+
         // Optional: Reload on modal close
-    $('#modal_position, #modal_school, #modal_school_program').on('hidden.bs.modal', function () {
+    $('#modal_position, #modal_school, #modal_school_program, #modal_major_course').on('hidden.bs.modal', function () {
         location.reload(); // Optional if using DataTables, use DataTables reload instead
     });
 });
@@ -162,6 +165,43 @@ function handleAjaxFormSubmission(formSelector, actionUrl, modalSelector) {
             }
         });
     });
+}
+
+function openAddMajorProgramModal(){
+    document.getElementById("majorProgramForm").reset();
+    document.getElementById("major_program_id").value = "";
+    document.querySelector(".modal-title").innerHTML = "<i class='ph-plus me-2'></i>Add Major Program";
+
+    const btn = document.getElementById("btn-major-program");
+    btn.classList.remove("btn-warning", "btn-primary");
+    btn.classList.add("btn-success");
+    btn.innerText = "Add Major Program";
+
+    // Change modal header background
+    const header = document.querySelector("#modal-header");
+    header.classList.remove("bg-primary", "bg-warning", "bg-danger");
+    header.classList.add("bg-success");
+
+    new bootstrap.Modal(document.getElementById('modal_major_course')).show();
+}
+
+function openUpdateMajorProgramModal(majorid, progid, majorcourse) {
+    document.getElementById("majorProgramForm").reset();
+    document.getElementById("major_program_id").value = majorid;
+    document.querySelector("input[name='majorProgram']").value = majorcourse;
+    document.getElementById('ProgramDescription').value = progid;
+    document.querySelector("#modal-title").innerHTML = "<i class='ph-pencil me-2'></i>Update Major Program";
+    
+    const btn = document.getElementById("btn-major-program");
+    btn.classList.remove("btn-success", "btn-warning");
+    btn.classList.add("btn-primary");
+    btn.innerText = "Update Major Program";;
+
+     // Change modal header background
+    const header = document.querySelector("#modal-header-school-program");
+    header.classList.remove("bg-success", "bg-warning", "bg-danger");
+    header.classList.add("bg-primary");
+    new bootstrap.Modal(document.getElementById('modal_major_course')).show();
 }
 
 function openAddSchoolProgramModal(){

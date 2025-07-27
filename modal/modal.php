@@ -8,6 +8,8 @@ $conn = $db->connect();
 
 $model = new EmployeeModel($conn);
 $schools = $model->getAllSchool('Academic');
+$schProgram = $model->getAllSchoolProgram();
+//$majorProgram = $model->getAllMajorProgram();
 ?>
 <!-- Update Account Modal -->
 	<div id="modal-account" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
@@ -345,8 +347,7 @@ $schools = $model->getAllSchool('Academic');
 												<div class="form-control-feedback">
 													<select class="form-select" name="schoolProgram" id="schoolProgram" required>
 														<option value="">Select School</option>
-														<?php 
-														print_r($schools);
+														<?php 														
 														if (!empty($schools)): ?>
 															<?php foreach ($schools as $row): ?>
 																<option value="<?= htmlspecialchars($row['intSchoolID']) ?>"><?= htmlspecialchars($row['varSchoolName']) ?></option>
@@ -393,33 +394,37 @@ $schools = $model->getAllSchool('Academic');
 					<h5 class="modal-title"><i class="ph-plus me-2"></i>Add Major Course</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				</div>
-						<form class="needs-validation" action="#" novalidate method="POST">
-							<div class="modal-body">				
-									<div class="mb-3">
-										<label class="form-label">School Program</label>
-										<div class="form-control-feedback form-control-feedback-start input-group">
-											<input type="text" name="accreditation" class="form-control text-uppercase"  required>										
-										<div class="invalid-feedback">Enter School Program</div>
-											<!-- <div class="form-control-feedback-icon">
-												<i class="ph-house-line text-muted"></i>
-											</div> -->
-										</div>
-									</div>
-									
+						<form class="needs-validation" id="majorProgramForm"  action="../controller/employeeController.php" novalidate method="POST">
+							<div class="modal-body">
+								<input type="hidden" name="major_program_id" id="major_program_id">
+									<div class="mb-3">												
+											<label class="form-label">School Program</label>
+												<div class="form-control-feedback input-group">
+													<select class="form-select" name="ProgramDescription" id="ProgramDescription" required>
+														<option value="">Select School Program</option>
+														<?php 
+														
+														if (!empty($schProgram)): ?>
+															<?php foreach ($schProgram as $row): ?>
+																<option value="<?= htmlspecialchars($row['intProgramID']) ?>"><?= htmlspecialchars($row['varProgramName']) ?></option>
+															<?php endforeach; ?>
+														<?php else: ?>
+															<option value="">No School Program Available</option>
+															<?php endif; ?>
+													</select>														
+												</div>														                                
+									</div>									
 									<div class="mb-3">
 										<label class="form-label">Major Course</label>
-										<div class="form-control-feedback form-control-feedback-start input-group">
-											<input type="text"  class="form-control text-uppercase" name="codeName" required>										
-										<div class="invalid-feedback">Enter Major Course</div>
-											<!-- <div class="form-control-feedback-icon">
-												<i class="ph-bookmark text-muted"></i>
-											</div> -->
+										<div class="form-control-feedback  input-group">
+											<input type="text"  class="form-control text-uppercase" name="majorProgram" required>										
+										<div class="invalid-feedback">Enter Major Course</div>											
 										</div>
 									</div>							
 								</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
-								<button type="submit" class="btn btn-primary">Add School</button>
+								<button type="submit" class="btn btn-primary" id="btn-major-program">Add Major Program</button>
 							</div>
 						</form>
 			</div>

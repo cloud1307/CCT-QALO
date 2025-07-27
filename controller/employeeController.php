@@ -59,6 +59,8 @@ class EmployeeController
             $schid = trim($schid); 
             $schProgram = strtoupper(trim($schProgram)); // Convert to Uppercase
             $progCode = strtoupper(trim($progCode)); // Convert to Uppercase
+            
+            //Validate User Input
             if (empty($schid) || empty($schProgram) || empty($progCode)){
                 return [
                     'status' => 'warning',
@@ -131,6 +133,34 @@ class EmployeeController
 
     }
 
+    public function MajorProgram($progid, $majorcourse, $majorid = null){
+        $progid = trim($progid);
+        $majorcourse = strtoupper(trim($majorcourse));
+
+        //Validate User Input
+        if (empty($progid) || empty($majorcourse)){
+            return [
+                'status' => 'warning',
+                'message' => 'All Fields are Required.'
+            ];
+        }
+
+        $success = false;
+        $message = '';
+
+        if (!empty($majorid)){
+            $success = $this->model->updateMajorProgram($progid, $majorcourse, $majorid);
+            $message = 'Major Program added Successfully.';
+        }else{
+            $success = $this->model->addMajorProgram($progid, $majorcourse);
+            $message = 'Major Program added Successfully.';
+        }
+            return[
+                'status' => $success ? 'success' : 'error',
+                'message' => $success ? $message : 'Database operation failed.'
+                ];
+    }
+
 }
 
 // Generic handler for AJAX/form actions
@@ -173,43 +203,14 @@ handleAjaxAction('SchoolProgram', function(){
     return $controller->addSchoolProgram($schid, $schProgram, $progCode, $schProgid);
 });
 
-// if (isset($_GET['action']) && $_GET['action'] === 'addSchool' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-//     $schName = strtoupper(trim($_POST['schoolName'])); // Convert to Uppercase
-//     $schCode = strtoupper(trim($_POST['schoolCodeName'])); // Check for duplicates
-//     $category = trim($_POST['deptCategory']);
-//     $schid = $_POST['school_id'] ?? null;
-
-//     //Validate User Input
-//     if (empty($schName) || empty($schCode) || empty($category)) {
-//         echo json_encode(['status' => 'warning', 'message' => 'All fields are required.']);
-//         exit;
-//     }
-
-//     $model = new EmployeeModel();
-
-//     // Check for duplicates
-//     if ($model->schoolExists($schName, $schCode, $schid)) {
-//         echo json_encode(['status' => 'warning', 'message' => 'School already exists.']);
-//         exit;
-//     }
-
-//     $success = false;
-//     $message = '';
-
-//     if (!empty($schid)) {
-//         $success = $model->updateSchool($schid, $schName, $schCode, $category);
-//         $message = 'School updated successfully.';
-//     } else {
-//         $success = $model->addSchool($schName, $schCode, $category);
-//         $message = 'School added successfully.';
-//     }
-
-//     echo json_encode([
-//         'status' => $success ? 'success' : 'error',
-//         'message' => $success ? $message : 'Database operation failed.'
-//     ]);
-//     exit;
-// }
+// ✅ Handle Add/Update major Program
+handleAjaxAction('MajorProgram', function(){
+    $progid = $_POST['ProgramDescription'] ?? '';
+    $majorcourse = $_POST['majorProgram'] ?? '';
+    $majorid = $_POST['major_program_id'] ?? null;
+    $controller = new EmployeeController();
+    return $controller->MajorProgram($progid, $majorcourse, $majorid);
+});
 
 
 ?>

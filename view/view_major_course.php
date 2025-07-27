@@ -3,7 +3,20 @@ if (session_status() === PHP_SESSION_NONE) {
 	session_start();
 }
 
-include '../include/header.php'; 
+include '../include/header.php';
+
+
+// Load controller
+require_once '../config/config.php'; // where $conn is defined
+require_once '../controller/employeeController.php';
+
+
+$db = new Database();
+$conn = $db->connect();
+
+$model = new EmployeeModel($conn);
+$majorProgram = $model->getAllMajorProgram();
+
 ?>
 <body>
 
@@ -63,17 +76,19 @@ include '../include/header.php';
 									<table class="table datatable-basic table-hover">
 										<thead>
 											<tr>
+												<th>Program Description</th>
 												<th>Major Course</th>
-												<!-- <th>Major Code</th>												 -->
 												<th>Status</th>
 												<th class="text-center">Actions</th>
 											</tr>
 										</thead>
 										<tbody>
+											<?php foreach ($majorProgram as $row): ?>	
 											<tr>
-												<td>BACHELOR OF SCIENCE IN SECONDARY EDUCATION</td>
-												<!-- <td>BSE</td>												 -->
-												<td><span class="badge bg-success bg-opacity-10 text-success">Active</span></td>
+												<td><?= htmlspecialchars($row['varProgramName']) ?></td>
+												<td><?= htmlspecialchars($row['varMajorCourse']) ?></td>
+												
+												<td><span class="badge bg-success bg-opacity-10 text-success"><?= htmlspecialchars($row['enumMajorStatus']) ?></span></td>
 												<td class="text-center">
 													<div class="d-inline-flex">
 														<div class="dropdown">
@@ -82,24 +97,28 @@ include '../include/header.php';
 															</a>
 
 															<div class="dropdown-menu dropdown-menu-end">
-																<a href="#" class="dropdown-item">
-																	<i class="ph-pencil me-2"></i>
-																	Edit
+																<a href="javascript:void(0);" 
+																		class="dropdown-item"
+																		onclick="openUpdateMajorProgramModal(<?= $row['intMajorID'] ?>, 
+																		'<?= htmlspecialchars($row['intProgramID'], ENT_QUOTES) ?>',																		
+																		'<?= htmlspecialchars($row['varMajorCourse'], ENT_QUOTES) ?>')">																	
+																			<i class="ph-pencil me-2"></i>
+																			Edit
 																</a>
-																<a href="#" class="dropdown-item">
+																<!-- <a href="#" class="dropdown-item">
 																	<i class="ph-eye me-2"></i>
 																	View Area
 																</a>
 																<a href="#" class="dropdown-item">
 																	<i class="ph-download me-2"></i>
 																	Download Requirements
-																</a>
+																</a> -->
 															</div>
 														</div>
 													</div>
 												</td>
 											</tr>							
-									
+									<?php endforeach; ?>
 										</tbody>
 									</table>
 								</div>

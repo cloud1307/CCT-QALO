@@ -104,14 +104,14 @@ $school = $model->getAllSchool();
 																			<i class="ph-pencil me-2"></i>
 																			Edit
 																</a>
-																<a href="#" class="dropdown-item">
+																<!-- <a href="#" class="dropdown-item">
 																	<i class="ph-eye me-2"></i>
 																	View Area
 																</a>
 																<a href="#" class="dropdown-item">
 																	<i class="ph-download me-2"></i>
 																	Download Requirements
-																</a>
+																</a> -->
 															</div>
 														</div>
 													</div>

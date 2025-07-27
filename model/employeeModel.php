@@ -8,6 +8,7 @@ class EmployeeModel
     private $table_school = "tbl_school";
     private $table_employee = "tbl_employee";
     private $table_school_program = "tbl_school_program";
+    private $table_major_program = "tbl_school_program_major";
 
 
 	public function __construct() {
@@ -38,21 +39,21 @@ class EmployeeModel
 
     //Insert Into Query For Postion Table
     public function addPosition($position) {
-        $query = "INSERT INTO ". $this->table_position . " (varPosition) VALUES (?)";
+        $query = "INSERT INTO {$this->table_position} (varPosition) VALUES (?)";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("s", $position);
         return $stmt->execute();
     }
     //Update Query for Position Table
     public function updatePosition($id, $position){
-        $query = "UPDATE " . $this->table_position . " SET varPosition = ? WHERE intPositionID = ?";
+        $query = "UPDATE {$this->table_position} SET varPosition = ? WHERE intPositionID = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("si",$position,$id);
         return $stmt->execute();
     }
     //Position Already Exist
     public function positionExists($positionName, $excludeId = null) {
-    $query = "SELECT COUNT(*) as count FROM tbl_position WHERE varPosition = ?";
+    $query = "SELECT COUNT(*) as count FROM {$this->table_position} WHERE varPosition = ?";
     if ($excludeId) {
         $query .= " AND intPositionID != ?";
         $stmt = $this->conn->prepare($query);
@@ -70,7 +71,7 @@ class EmployeeModel
     //Select All Position
     public function getAllPosition() {       
         $positions = []; // ✅ Initialize
-        $query = "SELECT * FROM " . $this->table_position . " ORDER BY varPosition ASC";
+        $query = "SELECT * FROM {$this->table_position} ORDER BY varPosition ASC";
         $result = $this->conn->query($query);        
          if ($result && $result->num_rows > 0) {
             while ($row = $result->fetch_assoc() ) {
@@ -82,7 +83,7 @@ class EmployeeModel
 
     //Insert School
     public function addSchool($schName, $schCode, $category) {
-        $query = "INSERT INTO ". $this->table_school . " (varSchoolName, varSchoolCode, enumCategory) VALUES (?, ?, ?)";
+        $query = "INSERT INTO {$this->table_school} (varSchoolName, varSchoolCode, enumCategory) VALUES (?, ?, ?)";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("sss", $schName, $schCode, $category);
         return $stmt->execute();
@@ -90,7 +91,7 @@ class EmployeeModel
 
     //Update School
     public function updateSchool($schid, $schName, $schCode, $category){        
-        $query = "UPDATE ". $this->table_school . " SET varSchoolName = ?, varSchoolCode = ?, enumCategory = ? WHERE intSchoolID = ?";
+        $query = "UPDATE {$this->table_school} SET varSchoolName = ?, varSchoolCode = ?, enumCategory = ? WHERE intSchoolID = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("sssi", $schName, $schCode, $category, $schid);        
         return $stmt->execute();
@@ -168,7 +169,7 @@ class EmployeeModel
 
     //School Program Already Exist
     public function schoolProgramExists($schProgram, $progCode, $schProgid = null) {
-		$sql = "SELECT COUNT(*) FROM {$this->table_school_program} WHERE (varProgramName = ? OR varProgramCode = ?)";
+		$sql = "SELECT COUNT(*) FROM {$this->table_school_program} WHERE (varProgramName = ? AND varProgramCode = ?)";
 		if (!empty($schProgid)) {
 			$sql .= " AND intSchoolID != ?";
 		}
@@ -185,11 +186,43 @@ class EmployeeModel
 		return $count > 0;
 	}
 
+    //Insert major program
+    public function addMajorProgram($progid, $majorcourse) {
+        $query = "INSERT INTO {$this->table_major_program} (intProgramID, varMajorCourse) VALUES (?, ?)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("is", $progid, $majorcourse);
+        return $stmt->execute();
+    }
+
+    //update major program
+    public function updateMajorProgram($progid, $majorcourse, $majorid){
+        $query = "UPDATE {$this->table_major_program} SET intProgramID = ?, varMajorCourse = ? WHERE intMajorID = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("isi", $progid, $majorcourse, $majorid);
+        return $stmt->execute();
+    }
+
+
+    //Select All Major Program
+    public function getAllMajorProgram(){
+        $query = "SELECT a.*, b.* FROM {$this->table_major_program} a
+        INNER JOIN {$this->table_school_program} b ON b.intProgramID = a.intProgramID
+        ORDER BY a.varMajorCourse ASC";
+
+        $result = $this->conn->query($query);
+        $majorProgram = [];
+
+        if ($result && $result->num_rows > 0){
+            while ($row = $result->fetch_assoc()){
+                $majorProgram[] = $row;
+            }
+        }return $majorProgram;
+    }
+
 
     //Select All Employee
     public function getAllEmployee(){
-        $query = "
-            SELECT a.*, b.*, c.*
+        $query = "SELECT a.*, b.*, c.*
             FROM {$this->table_employee} a
             INNER JOIN {$this->table_position} b ON b.intPositionID = a.intPositionID
             INNER JOIN {$this->table_school} c ON c.intSchoolID = a.intSchoolID
