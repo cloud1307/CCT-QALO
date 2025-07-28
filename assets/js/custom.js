@@ -123,8 +123,14 @@ $(document).ready(function () {
     //Major Program Form
     handleAjaxFormSubmission('#majorProgramForm', '../controller/employeeController.php?action=MajorProgram', '#modal_major_course');
 
+    //Board Resolution Form
+    handleAjaxFormSubmission('#boardResolutionForm', '../controller/employeeController.php?action=BoardResolution', '#modal_board_resolution');
+
+    //Academic Resolution Form
+    handleAjaxFormSubmission('#academicResolutionForm', '../controller/employeeController.php?action=AcademicResolution', '#modal_academic_resolution');
+
         // Optional: Reload on modal close
-    $('#modal_position, #modal_school, #modal_school_program, #modal_major_course').on('hidden.bs.modal', function () {
+    $('#modal_position, #modal_school, #modal_school_program, #modal_major_course, #modal_board_resolution, #modal_academic_resolution').on('hidden.bs.modal', function () {
         location.reload(); // Optional if using DataTables, use DataTables reload instead
     });
 });
@@ -170,15 +176,15 @@ function handleAjaxFormSubmission(formSelector, actionUrl, modalSelector) {
 function openAddMajorProgramModal(){
     document.getElementById("majorProgramForm").reset();
     document.getElementById("major_program_id").value = "";
-    document.querySelector(".modal-title").innerHTML = "<i class='ph-plus me-2'></i>Add Major Program";
+    document.querySelector("#modal-title-major-program").innerHTML = "<i class='ph-plus me-2'></i>Add Major Program";
 
-    const btn = document.getElementById("btn-major-program");
+    const btn = document.getElementById("btn-save-major-program");
     btn.classList.remove("btn-warning", "btn-primary");
     btn.classList.add("btn-success");
     btn.innerText = "Add Major Program";
 
     // Change modal header background
-    const header = document.querySelector("#modal-header");
+    const header = document.querySelector("#modal-header-major-program");
     header.classList.remove("bg-primary", "bg-warning", "bg-danger");
     header.classList.add("bg-success");
 
@@ -190,15 +196,15 @@ function openUpdateMajorProgramModal(majorid, progid, majorcourse) {
     document.getElementById("major_program_id").value = majorid;
     document.querySelector("input[name='majorProgram']").value = majorcourse;
     document.getElementById('ProgramDescription').value = progid;
-    document.querySelector("#modal-title").innerHTML = "<i class='ph-pencil me-2'></i>Update Major Program";
+    document.querySelector("#modal-title-major-program").innerHTML = "<i class='ph-pencil me-2'></i>Update Major Program";
     
-    const btn = document.getElementById("btn-major-program");
+    const btn = document.getElementById("btn-save-major-program");
     btn.classList.remove("btn-success", "btn-warning");
     btn.classList.add("btn-primary");
-    btn.innerText = "Update Major Program";;
+    btn.innerText = "Update Major Program";
 
      // Change modal header background
-    const header = document.querySelector("#modal-header-school-program");
+    const header = document.querySelector("#modal-header-major-program");
     header.classList.remove("bg-success", "bg-warning", "bg-danger");
     header.classList.add("bg-primary");
     new bootstrap.Modal(document.getElementById('modal_major_course')).show();
@@ -233,7 +239,7 @@ function openUpdateSchoolProgramModal(schProgid, schid, schProgram, progCode) {
     const btn = document.getElementById("btn-save-school-program");
     btn.classList.remove("btn-success", "btn-warning");
     btn.classList.add("btn-primary");
-    btn.innerText = "Update School Program";;
+    btn.innerText = "Update School Program";
 
      // Change modal header background
     const header = document.querySelector("#modal-header-school-program");
@@ -269,7 +275,7 @@ function openUpdatePositionModal(id, position) {
     const btn = document.getElementById("btn-save");
     btn.classList.remove("btn-success", "btn-warning");
     btn.classList.add("btn-primary");
-    btn.innerText = "Update Position";;
+    btn.innerText = "Update Position";
 
      // Change modal header background
     const header = document.querySelector("#modal-header");
@@ -308,12 +314,158 @@ function openUpdateSchoolModal(schid, schName, schCode, category) {
     const btn = document.getElementById("btn-save-school");
     btn.classList.remove("btn-success", "btn-warning");
     btn.classList.add("btn-primary");
-    btn.innerText = "Update School";;
+    btn.innerText = "Update School";
 
      // Change modal header background
     const header = document.querySelector("#modal-header-school");
     header.classList.remove("bg-success", "bg-warning", "bg-danger");
     header.classList.add("bg-primary");
     new bootstrap.Modal(document.getElementById('modal_school')).show();
+}
+
+
+
+///modal optimize openmodal
+function openModal(config) {
+    // Reset the form
+    document.getElementById(config.formId).reset();
+
+    // Set ID if provided
+    if (config.idField && config.idValue !== undefined) {
+        document.getElementById(config.idField).value = config.idValue;
+    }
+
+    // Set other form fields
+    if (config.fields && typeof config.fields === "object") {
+        for (const [selector, value] of Object.entries(config.fields)) {
+            const input = document.querySelector(selector);
+            if (input) input.value = value;
+        }
+    }
+
+    // Set modal title
+    const titleEl = document.querySelector(`#${config.titleId}`);
+    if (titleEl) {
+        titleEl.innerHTML = `${config.icon} ${config.title}`;
+    }
+
+    // Set button appearance and label
+    const btn = document.getElementById(config.buttonId);
+    if (btn) {
+        btn.className = `btn ${config.buttonClass}`;
+        btn.innerText = config.buttonText;
+    }
+
+    // Set modal header class
+    const header = document.getElementById(config.headerId);
+    if (header) {
+        header.className = `modal-header ${config.headerClass} text-white border-0`;
+    }
+
+    // Show the modal
+    const modal = new bootstrap.Modal(document.getElementById(config.modalId));
+    modal.show();
+}
+
+
+function openAddBoardResolutionModal() {
+    openModal({
+        formId: "boardResolutionForm",
+        idField: "board_resolution_id",
+        idValue: "",
+        fields: {},
+        titleId: "modal-title-board-resolution",
+        icon: "<i class='ph-plus me-2'></i>",
+        title: "Add Board Resolution",
+        buttonId: "btn-save",
+        buttonText: "Add Board Resolution",
+        buttonClass: "btn-success",
+        headerId: "modal-header",
+        headerClass: "bg-success",
+        modalId: "modal_board_resolution"
+    });
+}
+
+// function openUpdateBoardResolutionModal(boardResolution, boardResolutionCode, boardResolutionYear, boardResolutionID) {
+//     openModal({
+//         formId: "boardResolutionForm",
+//         idField: "board_resolution_id",
+//         idValue: boardResolutionID,
+//         fields: {
+//             "input[name='boardResolution']": boardResolution,
+//             "input[name='resolutionCode']": boardResolutionCode,
+//             "input[name='resolutionYear']": boardResolutionYear
+//         },
+//         titleId: "modal-title-board-resolution",
+//         icon: "<i class='ph-pencil me-2'></i>",
+//         title: "Update Board Resolution",
+//         buttonId: "btn-save-board-resolution",
+//         buttonText: "Update Board Resolution",
+//         buttonClass: "btn-primary",
+//         headerId: "modal-header-board-resolution",
+//         headerClass: "bg-primary",
+//         modalId: "modal_board_resolution"
+//     });
+// }
+
+function openAddAcademicResolutionModal() {
+    openModal({
+        formId: "academicResolutionForm",
+        idField: "academic_resolution_id",
+        idValue: "",
+        fields: {},
+        titleId: "modal-title-academic-resolution",
+        icon: "<i class='ph-plus me-2'></i>",
+        title: "Add Academic Resolution",
+        buttonId: "btn-save",
+        buttonText: "Add Academic Resolution",
+        buttonClass: "btn-success",
+        headerId: "modal-header-academic-resolution",
+        headerClass: "bg-success",
+        modalId: "modal_academic_resolution"
+    });
+}
+
+
+function openUpdateAcademicResolutionModal(academicResolution, academicResolutionCode, academicResolutionYear, academicResolutionID) {
+    openModal({
+        formId: "academicResolutionForm",
+        idField: "academic_resolution_id",
+        idValue: academicResolutionID,
+        fields: {
+            "input[name='academicResolution']": academicResolution,
+            "input[name='academicresolutionCode']": academicResolutionCode,
+            "input[name='academicResolutionYear']": academicResolutionYear
+        },
+        titleId: "modal-title-academic-resolution",
+        icon: "<i class='ph-pencil me-2'></i>",
+        title: "Update Academic Resolution",
+        buttonId: "btn-save-academic-resolution",
+        buttonText: "Update Academic Resolution",
+        buttonClass: "btn-primary",
+        headerId: "modal-header-board-resolution",
+        headerClass: "bg-primary",
+        modalId: "modal_academic_resolution"
+    });
+}
+
+function openUpdateBoardResolutionModal(boardResolution, boardResolutionCode, boardResolutionYear, boardResolutionID) {
+    document.getElementById("boardResolutionForm").reset();
+    document.getElementById("board_resolution_id").value = boardResolutionID;
+    document.querySelector("input[name='boardResolution']").value = boardResolution;
+    document.querySelector("input[name='resolutionCode']").value = boardResolutionCode;
+    document.querySelector("input[name='resolutionYear']").value = boardResolutionYear;
+    document.querySelector("#modal-title-board-resolution").innerHTML = "<i class='ph-pencil me-2'></i>Update Board Resolution";
+    
+    const btn = document.getElementById("btn-save-board-resolution");
+    btn.classList.remove("btn-success", "btn-warning");
+    btn.classList.add("btn-primary");
+    btn.innerText = "Update Board Resolution";
+
+     // Change modal header background
+    const header = document.querySelector("#modal-header-board-resolution");
+    header.classList.remove("bg-success", "bg-warning", "bg-danger");
+    header.classList.add("bg-primary");
+    new bootstrap.Modal(document.getElementById('modal_board_resolution')).show();
 }
 

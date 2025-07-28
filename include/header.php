@@ -9,6 +9,7 @@
 	<link href="../assets/fonts/inter/inter.css" rel="stylesheet" type="text/css">
 	<link href="../assets/icons/phosphor/styles.min.css" rel="stylesheet" type="text/css">
 	<link href="../assets/css/ltr/all.min.css" id="stylesheet" rel="stylesheet" type="text/css">
+	<link href="../assets/icons/icomoon/styles.min.css" rel="stylesheet" type="text/css">
 	<!-- /global stylesheets -->
 
 	<!-- Core JS files -->
@@ -40,6 +41,7 @@
 	<!-- /theme JS files -->
 	 
 	<script src="../assets/js/vendor/notifications/bootbox.min.js"></script>
+	<script src="../assets/js/vendor/notifications/sweet_alert.min.js"></script>
 
 	<script src="../assets/demo/pages/form_validation_styles.js"></script>
 	<script src="../assets/demo/pages/content_page_header.js"></script>

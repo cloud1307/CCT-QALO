@@ -9,6 +9,8 @@ class EmployeeModel
     private $table_employee = "tbl_employee";
     private $table_school_program = "tbl_school_program";
     private $table_major_program = "tbl_school_program_major";
+    private $table_board_resolution = "tbl_board_resolution";
+    private $table_academic_resolution = "tbl_academic_resolution";
 
 
 	public function __construct() {
@@ -99,7 +101,7 @@ class EmployeeModel
 
     //School Already Exist
     public function schoolExists($name, $code, $excludeID = null) {
-		$sql = "SELECT COUNT(*) FROM {$this->table_school} WHERE (varSchoolName = ? OR varSchoolCode = ?)";
+		$sql = "SELECT COUNT(*) FROM {$this->table_school} WHERE (varSchoolName = ? AND varSchoolCode = ?)";
 		if (!empty($excludeID)) {
 			$sql .= " AND intSchoolID != ?";
 		}
@@ -202,6 +204,25 @@ class EmployeeModel
         return $stmt->execute();
     }
 
+    //Check duplicate Major Program
+    public function majorProgramExists($progid, $majorcourse, $majorid = null){
+        $sql = "SELECT COUNT(*) FROM {$this->table_major_program} WHERE (intProgramID = ? AND varMajorCourse = ?)";
+        if (!empty($majorid)) {
+            $sql .= " AND intMajorID != ?";
+        }
+
+        $stmt = $this->conn->prepare($sql);
+        if (!empty($majorid)){
+            $stmt->bind_param('isi', $progid, $majorcourse, $majorid);
+        }else{
+            $stmt->bind_param('is', $progid, $majorcourse);
+        }
+        $stmt->execute();
+        $stmt->bind_result($count);
+        $stmt->fetch();
+        return $count > 0;
+    }
+
 
     //Select All Major Program
     public function getAllMajorProgram(){
@@ -237,6 +258,68 @@ class EmployeeModel
                 }
             }
             return $employee;
+    }
+
+    //Add Board Resolution 
+    public function addBoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear){
+        $query = "INSERT INTO {$this->table_board_resolution} (varBoardResolution, varBoardResolutionCode, BoardResolutionYear, BoardDateUpload) VALUES (?, ?, ?, NOW())";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ssi", $boardResolution, $boardResolutionCode, $boardResolutionYear);
+        return $stmt->execute();
+    }
+
+    //Update Resolution
+    public function updateBoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID){
+        $query = "UPDATE {$this->table_board_resolution} SET varBoardResolution = ?, varBoardResolutionCode = ?, BoardResolutionYear = ? WHERE intBoardResolutionID = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ssii", $boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID);
+        return $stmt->execute();        
+    }
+
+    //Delete Board Resolution
+    public function deleteBoardResolution($boardResolutionID){
+        $query = "DELETE FROM {$this->table_board_resolution} WHERE intBoardResolutionID = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $boardResolutionID);
+        return $stmt->execute();
+    }
+
+    public function getAllBoardResolution(){
+        $query = "SELECT * FROM {$this->table_board_resolution} ORDER BY BoardResolutionYear ASC";
+        $result = $this->conn->query($query);
+        $board_resolution = [];
+
+        if ($result && $result->num_rows > 0){
+            while ($row = $result->fetch_assoc()){
+                $board_resolution[] = $row;
+            }
+        }return $board_resolution;
+    }
+
+    public function addAcademicResolution($academicResolution, $academicResolutionCode, $academicResolutionYear){
+        $query = "INSERT INTO {$this->table_academic_resolution} (varAcademicResolution, varAcademicResolutionCode, AcademicResolutionYear, AcademicDateUpload) VALUES (?, ?, ?, NOW())";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ssi", $academicResolution, $academicResolutionCode, $academicResolutionYear);
+        return $stmt->execute();
+    }
+
+    public function updateAcademicResolution($academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionID){
+        $query = "UPDATE {$this->table_academic_resolution} SET varAcademicResolution = ?, varAcademicResolutionCode = ?, AcademicResolutionYear = ? WHERE intAcademicResolutionID = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ssii", $academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionID);
+        return $stmt->execute();
+    }
+
+    public function getAllAcademicResolution(){
+        $query ="SELECT * FROM {$this->table_academic_resolution} ORDER BY AcademicResolutionYear ASC";
+        $result = $this->conn->query($query);
+        $academic_resolution = [];
+
+        if ($result && $result->num_rows > 0){
+            while ($row = $result->fetch_assoc()){
+                $academic_resolution[] = $row;
+            }
+        }return $academic_resolution;
     }
    
    

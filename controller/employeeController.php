@@ -145,6 +145,14 @@ class EmployeeController
             ];
         }
 
+        //check for duplicates
+        if ($this->model->majorProgramExists($progid, $majorcourse, !empty($majorid) ? $majorid : null)){
+            return[
+                'status' => 'warning',
+                'message' => 'Major Program Already exists.'
+            ];
+        }
+
         $success = false;
         $message = '';
 
@@ -155,10 +163,90 @@ class EmployeeController
             $success = $this->model->addMajorProgram($progid, $majorcourse);
             $message = 'Major Program added Successfully.';
         }
+        return[
+                'status' => $success ? 'success' : 'error',
+                'message' => $success ? $message : 'Database operation failed.'
+            ];
+    }
+
+    public function AcademicResolutions($academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionID = null){
+        $academicResolution = strtoupper(trim($academicResolution));
+        $academicResolutionCode = strtoupper(trim($academicResolutionCode));
+        $academicResolutionYear = trim($academicResolutionYear);
+
+        //Validate User Input
+        if (empty($academicResolution) || empty($academicResolutionCode) || empty($academicResolutionYear)){
+            return [
+                'status' => 'warning',
+                'message' => 'All Fields are required.'
+            ];
+        }
+
+        // Check for duplicates
+            // if ($this->model->academicResolutionExists($academicReslution, $academicResolutionCode, $academicResolutionYear, !empty($academicResolutionID) ? $academicResolutionID : null)) {
+            //     return [
+            //         'status' => 'warning',
+            //         'message' => 'Academic Resolution already exists.'
+            //     ];
+            // }
+
+            $success = false;
+            $message = '';
+
+            if(!empty($schProgid)){
+                    $success = $this->model->updateAcademicResolution($academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionID);
+                    $message = 'Academic Resolution updated successfully.';
+            }else{
+                    $success = $this->model->addAcademicResolution($academicResolution, $academicResolutionCode, $academicResolutionYear);
+                    $message = 'Academic Resolution added successfully.';
+            }
+
             return[
                 'status' => $success ? 'success' : 'error',
                 'message' => $success ? $message : 'Database operation failed.'
                 ];
+
+
+    }
+
+    public function BoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID = null){
+        $boardResolution = strtoupper(trim($boardResolution));
+        $boardResolutionCode =strtoupper(trim($boardResolutionCode));
+        $boardResolutionYear = trim($boardResolutionYear);
+
+        //Validate User input
+        if (empty($boardResolution) || empty($boardResolutionCode) || empty($boardResolutionYear)){
+            return [
+                'status' => 'warning',
+                'message' => 'All Fields are required.'
+            ];
+        }
+
+         // If delete flag is set and ID is provided, delete the record
+        // if ($deleteResolution && !empty($boardResolutionID)) {
+        //     $success = $this->model->deleteBoardResolution($boardResolutionID);
+
+        //     return [
+        //         'status' => $success ? 'success' : 'error',
+        //         'message' => $success ? 'Board Resolution deleted successfully.' : 'Failed to delete Board Resolution.'
+        //     ];
+        // }
+
+        $success = false;
+        $message = '';
+
+        if (!empty($boardResolutionID)){
+            $success = $this->model->updateBoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID);
+            $message = 'Board Resolution updated Succesfully';
+        }else{
+            $success = $this->model->addBoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear);
+            $message = 'Board Resolution added Successfully.';
+        }
+
+        return [
+            'status' => $success ? 'success' : 'error',
+            'message' => $success ? $message : 'Database operation failed'
+        ];
     }
 
 }
@@ -212,6 +300,24 @@ handleAjaxAction('MajorProgram', function(){
     return $controller->MajorProgram($progid, $majorcourse, $majorid);
 });
 
+handleAjaxAction('BoardResolution', function(){
+    $boardResolution = $_POST['boardResolution'] ?? '';
+    $boardResolutionCode = $_POST['resolutionCode'] ?? '';
+    $boardResolutionYear = $_POST['resolutionYear'] ?? '';
+    $boardResolutionID = $_POST['board_resolution_id'] ?? null;
+   // $deleteResolution = isset($_POST['delete']) && $_oPOST['delete'] === 'true'; // Checkbox or JS flag
+    $controller = new EmployeeController();
+    //return $controller->BoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID, $deleteResolution);
+    return $controller->BoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID);
+});
 
+handleAjaxAction('AcademicResolution', function(){
+    $academicResolution = $_POST['academicResolution'] ?? '';
+    $academicResolutionCode = $_POST['academicresolutionCode'] ?? '';
+    $academicResolutionYear = $_POST['academicResolutionYear'] ?? '';
+    $academicResolutionID = $_POST['academic_resolution_id'] ?? null;
+    $controller = new EmployeeController();    
+    return $controller->AcademicResolutions($academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionID);
+});
 ?>
 

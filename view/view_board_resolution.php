@@ -3,7 +3,19 @@ if (session_status() === PHP_SESSION_NONE) {
 	session_start();
 }
 
-include '../include/header.php'; 
+include '../include/header.php';
+
+// Load controller
+require_once '../config/config.php'; // where $conn is defined
+require_once '../controller/employeeController.php';
+
+
+$db = new Database();
+$conn = $db->connect();
+
+$model = new EmployeeModel($conn);
+$board_resolution = $model->getAllBoardResolution();
+//print_r($position);
 ?>
 <body>
 
@@ -61,33 +73,42 @@ include '../include/header.php';
 									</div>
 
 									<table class="table datatable-basic table-hover">
-										<thead>
-											<tr>
+										<thead>											
+											<tr>												
+												<th>No</th>
 												<th>Board Resolution Title</th>
 												<th>Board Resolution Code</th>
 												<th>Year</th>												
-												<th>Status</th>
-												<!-- <th class="text-center">Actions</th> -->
+												<th>File</th>
+												<th class="text-center">Actions</th>
 											</tr>
 										</thead>
 										<tbody>
-											<tr>
-												<td>BACHELOR OF SCIENCE IN SECONDARY EDUCATION</td>
-												<td>CCT01</td>
-												<td>2008</td>												
-												<!-- <td><span class="badge bg-success bg-opacity-10 text-success">Active</span></td> -->
+										<?php foreach ($board_resolution as $row): ?>
+											<tr>												
+												<td><?= htmlspecialchars($row['intBoardResolutionID']) ?></td>
+												<td><?= htmlspecialchars($row['varBoardResolution']) ?></td>
+												<td><?= htmlspecialchars($row['varBoardResolutionCode']) ?></td>
+												<td><?= htmlspecialchars($row['BoardResolutionYear']) ?></td>
+												<td><i class="icon-file-pdf me-3 icon-2x"></i></td>
 												<td class="text-center">
 													<div class="d-inline-flex">
 														<div class="dropdown">
 															<a href="#" class="text-body" data-bs-toggle="dropdown">
 																<i class="ph-list"></i>
 															</a>
-
 															<div class="dropdown-menu dropdown-menu-end">
-																<a href="#" class="dropdown-item">
-																	<i class="ph-pencil me-2"></i>
-																	Edit
+																
+																<a href="javascript:void(0);" 
+																		class="dropdown-item"
+																		onclick="openUpdateBoardResolutionModal(<?= $row['intBoardResolutionID'] ?>,
+																		'<?= htmlspecialchars($row['varBoardResolution'], ENT_QUOTES) ?>',
+																		'<?= htmlspecialchars($row['varBoardResolutionCode'], ENT_QUOTES) ?>',
+																		'<?= htmlspecialchars($row['BoardResolutionYear'], ENT_QUOTES) ?>')">																	
+																			<i class="ph-pencil me-2"></i>
+																			Edit
 																</a>
+
 																<a href="#" class="dropdown-item">
 																	<i class="ph-eye me-2"></i>
 																	View Area
@@ -101,6 +122,7 @@ include '../include/header.php';
 													</div>
 												</td>
 											</tr>
+											<?php endforeach; ?>
 										</tbody>
 									</table>
 								</div>

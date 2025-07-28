@@ -129,7 +129,7 @@ $schProgram = $model->getAllSchoolProgram();
 								</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
-								<button type="submit" class="btn btn-primary">Add Account</button>
+								<button type="submit" class="btn btn-success">Add Account</button>
 							</div>
 						</form>
 			</div>
@@ -200,7 +200,7 @@ $schProgram = $model->getAllSchoolProgram();
 								</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
-								<button type="submit" class="btn btn-primary">Save changes</button>
+								<button type="submit" class="btn btn-success">Save changes</button>
 							</div>
 						</form>
 			</div>
@@ -232,7 +232,7 @@ $schProgram = $model->getAllSchoolProgram();
 								</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
-								<button type="submit" class="btn btn-primary">Save changes</button>
+								<button type="submit" class="btn btn-success">Save changes</button>
 							</div>
 						</form>
 			</div>
@@ -274,7 +274,7 @@ $schProgram = $model->getAllSchoolProgram();
 								</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
-								<button type="submit" class="btn btn-primary">Save changes</button>
+								<button type="submit" class="btn btn-success">Save changes</button>
 							</div>
 						</form>
 			</div>
@@ -323,7 +323,7 @@ $schProgram = $model->getAllSchoolProgram();
 								</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
-								<button type="submit" class="btn btn-primary" id="btn-save-school">Add School</button>
+								<button type="submit" class="btn btn-success" id="btn-save-school">Add School</button>
 							</div>
 						</form>
 			</div>
@@ -377,7 +377,7 @@ $schProgram = $model->getAllSchoolProgram();
 								</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
-								<button type="submit" class="btn btn-primary" id="btn-save-school-program">Add School Program</button>
+								<button type="submit" class="btn btn-success" id="btn-save-school-program">Add School Program</button>
 							</div>
 						</form>
 			</div>
@@ -390,8 +390,8 @@ $schProgram = $model->getAllSchoolProgram();
 	<div id="modal_major_course" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header bg-success text-white border-0">
-					<h5 class="modal-title"><i class="ph-plus me-2"></i>Add Major Course</h5>
+				<div class="modal-header bg-success text-white border-0" id="modal-header-major-program">
+					<h5 class="modal-title" id="modal-title-major-program"><i class="ph-plus me-2"></i>Add Major Course</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				</div>
 						<form class="needs-validation" id="majorProgramForm"  action="../controller/employeeController.php" novalidate method="POST">
@@ -424,7 +424,7 @@ $schProgram = $model->getAllSchoolProgram();
 								</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
-								<button type="submit" class="btn btn-primary" id="btn-major-program">Add Major Program</button>
+								<button type="submit" class="btn btn-success" id="btn-save-major-program">Add Major Program</button>
 							</div>
 						</form>
 			</div>
@@ -436,48 +436,39 @@ $schProgram = $model->getAllSchoolProgram();
 	<div id="modal_board_resolution" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header bg-success text-white border-0">
-					<h5 class="modal-title"><i class="ph-plus me-2"></i>Add Board Resolution</h5>
+				<div class="modal-header bg-success text-white border-0" id="modal-header-board-resolution">
+					<h5 class="modal-title" id="modal-title-board-resolution"><i class="ph-plus me-2"></i>Add Board Resolution</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				</div>
-						<form class="needs-validation" action="#" novalidate method="POST">
-							<div class="modal-body">				
+						<form class="needs-validation" id="boardResolutionForm"  action="../controller/employeeController.php" novalidate method="POST">
+							<div class="modal-body">
+									<input type="hidden" name="board_resolution_id" id="board_resolution_id">
 									<div class="mb-3">
 										<label class="form-label">Board Resolution Title</label>
-										<div class="form-control-feedback form-control-feedback-start input-group">
+										<div class="form-control-feedback input-group">
 											<input type="text" name="boardResolution" class="form-control text-uppercase"  required>										
-										<div class="invalid-feedback">Enter Board Resolution</div>
-											<!-- <div class="form-control-feedback-icon">
-												<i class="ph-house-line text-muted"></i>
-											</div> -->
+										<div class="invalid-feedback">Enter Board Resolution</div>											
 										</div>
-									</div>
-									
+									</div>									
 									<div class="mb-3">
 										<label class="form-label">Resolution Code</label>
-										<div class="form-control-feedback form-control-feedback-start input-group">
+										<div class="form-control-feedback input-group">
 											<input type="text"  class="form-control text-uppercase" name="resolutionCode" required>										
-										<div class="invalid-feedback">Enter Resolution Code</div>
-											<!-- <div class="form-control-feedback-icon">
-												<i class="ph-bookmark text-muted"></i>
-											</div> -->
+										<div class="invalid-feedback">Enter Resolution Code</div>											
 										</div>
 									</div>
 									<div class="mb-3">
 										<label class="form-label">Resolution Year</label>
-										<div class="form-control-feedback form-control-feedback-start input-group">
+										<div class="form-control-feedback input-group">
 											<input type="number"  class="form-control text-uppercase" maxlength="4" name="resolutionYear" required>										
-										<div class="invalid-feedback">Enter Resolution Year</div>
-											<!-- <div class="form-control-feedback-icon">
-												<i class="ph-bookmark text-muted"></i>
-											</div> -->
+										<div class="invalid-feedback">Enter Resolution Year</div>											
 										</div>
 									</div>
 
 									<div class="mb-3">
 										<label class="form-label">Resolution File</label>
 										<div class="form-control-feedback form-control-feedback-start input-group">
-											<input type="file"  class="form-control text-uppercase"  name="fileResolution" accept=".pdf" required>										
+											<input type="file"  class="form-control text-uppercase"  name="fileBoardResolution" accept=".pdf">										
 											<span class="input-group-text">.pdf</span>	
 										<div class="invalid-feedback">Upload File Resolution</div>
 											<div class="form-control-feedback-icon">
@@ -488,7 +479,7 @@ $schProgram = $model->getAllSchoolProgram();
 								</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
-								<button type="submit" class="btn btn-primary">Add School</button>
+								<button type="submit" class="btn btn-success" id="btn-save-board-resolution">Add Board Resolution</button>
 							</div>
 						</form>
 			</div>
@@ -501,59 +492,59 @@ $schProgram = $model->getAllSchoolProgram();
 	<div id="modal_academic_resolution" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header bg-success text-white border-0">
-					<h5 class="modal-title"><i class="ph-plus me-2"></i>Add Academic Resolution</h5>
+				<div class="modal-header bg-success text-white border-0" id="modal-header-academic-resolution">
+					<h5 class="modal-title" id="modal-title-academic-resolution"><i class="ph-plus me-2"></i>Add Academic Resolution</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				</div>
-						<form class="needs-validation" action="#" novalidate method="POST">
-							<div class="modal-body">				
+						<form class="needs-validation" id="academicResolutionForm" action="../controller/employeeController.php" novalidate method="POST">
+							<div class="modal-body">
+								<input type="hidden" name="academic_resolution_id" id="academic_resolution_id">
+									<!-- <div class="mb-3">
+										<label class="form-label">Academic Resolution Title</label>
+										<div class="form-control-feedback input-group">
+											<input type="text" name="academicResolution" class="form-control text-uppercase"  required>										
+										<div class="invalid-feedback">Enter Board Resolution</div>											
+										</div>
+									</div> -->
+
 									<div class="mb-3">
 										<label class="form-label">Academic Resolution Title</label>
-										<div class="form-control-feedback form-control-feedback-start input-group">
-											<input type="text" name="boardResolution" class="form-control text-uppercase"  required>										
-										<div class="invalid-feedback">Enter Board Resolution</div>
-											<!-- <div class="form-control-feedback-icon">
-												<i class="ph-house-line text-muted"></i>
-											</div> -->
+										<div class="form-control-feedback input-group">
+											<textarea rows="3" cols="3" class="form-control text-uppercase" name="academicResolution" placeholder="Academic Resolution Title" required></textarea>
+											<div class="invalid-feedback">Enter Board Resolution</div>		
 										</div>
 									</div>
 									
 									<div class="mb-3">
 										<label class="form-label">Resolution Code</label>
-										<div class="form-control-feedback form-control-feedback-start input-group">
-											<input type="text"  class="form-control text-uppercase" name="resolutionCode" required>										
-										<div class="invalid-feedback">Enter Resolution Code</div>
-											<!-- <div class="form-control-feedback-icon">
-												<i class="ph-bookmark text-muted"></i>
-											</div> -->
+										<div class="form-control-feedback  input-group">
+											<input type="text"  class="form-control text-uppercase" name="academicresolutionCode" required>										
+										<div class="invalid-feedback">Enter Resolution Code</div>											
 										</div>
 									</div>
 									<div class="mb-3">
 										<label class="form-label">Resolution Year</label>
-										<div class="form-control-feedback form-control-feedback-start input-group">
-											<input type="number"  class="form-control text-uppercase" maxlength="4" name="resolutionYear" required>										
-										<div class="invalid-feedback">Enter Resolution Year</div>
-											<!-- <div class="form-control-feedback-icon">
-												<i class="ph-bookmark text-muted"></i>
-											</div> -->
+										<div class="form-control-feedback  input-group">
+											<input type="number"  class="form-control text-uppercase" maxlength="4" name="academicResolutionYear" required>										
+										<div class="invalid-feedback">Enter Resolution Year</div>											
 										</div>
 									</div>
 
-									<div class="mb-3">
+									<!-- <div class="mb-3">
 										<label class="form-label">Academic Resolution File</label>
-										<div class="form-control-feedback form-control-feedback-start input-group">
-											<input type="file"  class="form-control text-uppercase" name="AcadfileResolution" id="fileResolution" accept=".pdf" required>										
+										<div class="form-control-feedback input-group">
+											<input type="file"  class="form-control text-uppercase" name="AcadfileResolution" id="academicFileResolution" accept=".pdf" >										
 											<span class="input-group-text">.pdf</span>	
 										<div class="invalid-feedback">Please upload a valid PDF file.</div>
 											<div class="form-control-feedback-icon">
 												<i class="ph-file-arrow-up  text-muted"></i>
 											</div>
 										</div>
-									</div>													
+									</div>													 -->
 								</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
-								<button type="submit" class="btn btn-primary">Add Academic Resolution</button>
+								<button type="submit" class="btn btn-success" id="btn-save-academic-resolution">Add Academic Resolution</button>
 							</div>
 						</form>
 			</div>
@@ -567,20 +558,43 @@ $schProgram = $model->getAllSchoolProgram();
 
 
 <script>
-document.getElementById('uploadForm').addEventListener('submit', function (e) {
-	e.preventDefault(); // Prevent form from submitting by default
+// document.getElementById('uploadForm').addEventListener('submit', function (e) {
+// 	e.preventDefault(); // Prevent form from submitting by default
 
-	const fileInput = document.getElementById('fileResolution');
-	const file = fileInput.files[0];
+// 	const fileInput = document.getElementById('fileResolution');
+// 	const file = fileInput.files[0];
 
-	// Check if a file is selected and is a PDF
-	if (!file || file.type !== "application/pdf") {
-		fileInput.classList.add('is-invalid');
-	} else {
-		fileInput.classList.remove('is-invalid');
-		// You can now submit the form manually if all validation passes
-		// this.submit(); // Uncomment to allow submission
-		alert('File is valid and ready to be uploaded!');
-	}
-});
+// 	// Check if a file is selected and is a PDF
+// 	if (!file || file.type !== "application/pdf") {
+// 		fileInput.classList.add('is-invalid');
+// 	} else {
+// 		fileInput.classList.remove('is-invalid');
+// 		// You can now submit the form manually if all validation passes
+// 		// this.submit(); // Uncomment to allow submission
+// 		alert('File is valid and ready to be uploaded!');
+// 	}
+// });
 </script>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteBoardResolutionModal" tabindex="-1" aria-labelledby="deleteBoardResolutionLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form id="deleteBoardResolutionForm">
+      <input type="hidden" name="boardResolutionID" id="deleteBoardResolutionID">
+      <input type="hidden" name="delete" value="true">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title" id="deleteBoardResolutionLabel"><i class="ph-trash me-2"></i>Delete Board Resolution</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to delete this Board Resolution?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-danger">Confirm Delete</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

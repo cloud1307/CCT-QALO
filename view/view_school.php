@@ -75,6 +75,7 @@ $school = $model->getAllSchool();
 									<table class="table datatable-basic table-hover">
 										<thead>
 											<tr>
+												<!-- <th>No</th> -->
 												<th>School Name or Department</th>
 												<th>School Code</th>												
 												<th>Department Category</th>
@@ -84,6 +85,7 @@ $school = $model->getAllSchool();
 										<tbody>
 											<?php foreach ($school as $row): ?>
 											<tr>
+												
 												<td><?= htmlspecialchars($row['varSchoolName']) ?></td>
 												<td><?= htmlspecialchars($row['varSchoolCode']) ?></td>												
 												<td><span class="badge bg-success bg-opacity-10 text-success"><?= htmlspecialchars(!empty($row['enumCategory']) ? $row['enumCategory'] : 'Academic') ?></span></td>

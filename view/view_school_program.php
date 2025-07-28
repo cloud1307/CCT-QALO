@@ -95,7 +95,6 @@ $schProgram = $model->getAllSchoolProgram();
 															<a href="#" class="text-body" data-bs-toggle="dropdown">
 																<i class="ph-list"></i>
 															</a>
-
 															<div class="dropdown-menu dropdown-menu-end">
 																<a href="javascript:void(0);" 
 																		class="dropdown-item"
@@ -105,15 +104,7 @@ $schProgram = $model->getAllSchoolProgram();
 																		'<?= htmlspecialchars($row['varProgramCode'], ENT_QUOTES) ?>')">																	
 																			<i class="ph-pencil me-2"></i>
 																			Edit
-																</a>
-																<!-- <a href="#" class="dropdown-item">
-																	<i class="ph-eye me-2"></i>
-																	View Area
-																</a>
-																<a href="#" class="dropdown-item">
-																	<i class="ph-download me-2"></i>
-																	Download Requirements
-																</a> -->
+																</a>																
 															</div>
 														</div>
 													</div>

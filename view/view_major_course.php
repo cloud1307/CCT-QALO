@@ -86,8 +86,7 @@ $majorProgram = $model->getAllMajorProgram();
 											<?php foreach ($majorProgram as $row): ?>	
 											<tr>
 												<td><?= htmlspecialchars($row['varProgramName']) ?></td>
-												<td><?= htmlspecialchars($row['varMajorCourse']) ?></td>
-												
+												<td>MAJOR IN <?= htmlspecialchars($row['varMajorCourse']) ?></td>												
 												<td><span class="badge bg-success bg-opacity-10 text-success"><?= htmlspecialchars($row['enumMajorStatus']) ?></span></td>
 												<td class="text-center">
 													<div class="d-inline-flex">

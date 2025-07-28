@@ -4,6 +4,17 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 include '../include/header.php'; 
+
+// Load controller
+require_once '../config/config.php'; // where $conn is defined
+require_once '../controller/employeeController.php';
+
+
+$db = new Database();
+$conn = $db->connect();
+
+$model = new EmployeeModel($conn);
+$academic_resolution = $model->getAllAcademicResolution();
 ?>
 <body>
 
@@ -63,30 +74,38 @@ include '../include/header.php';
 									<table class="table datatable-basic table-hover">
 										<thead>
 											<tr>
-												<th>Board Resolution Title</th>
-												<th>Board Resolution Code</th>
+												<th>No</th>
+												<th>Academic Resolution Title</th>
+												<th>Academic Resolution Code</th>
 												<th>Year</th>												
-												<th>Status</th>
-												<!-- <th class="text-center">Actions</th> -->
+												<th>File</th>
+												<th class="text-center">Actions</th>
 											</tr>
 										</thead>
 										<tbody>
+											<?php foreach ($academic_resolution as $row): ?>
 											<tr>
-												<td>BACHELOR OF SCIENCE IN SECONDARY EDUCATION</td>
-												<td>CCT01</td>
-												<td>2008</td>												
-												<!-- <td><span class="badge bg-success bg-opacity-10 text-success">Active</span></td> -->
+												<td><?= htmlspecialchars($row['intAcademicResolutionID']) ?></td>
+												<td><?= htmlspecialchars($row['varAcademicResolution']) ?></td>
+												<td><?= htmlspecialchars($row['varAcademicResolutionCode']) ?></td>
+												<td><?= htmlspecialchars($row['AcademicResolutionYear']) ?></td>
+												<td><i class="icon-file-pdf me-3 icon-2x"></i></td>												
+												
 												<td class="text-center">
 													<div class="d-inline-flex">
 														<div class="dropdown">
 															<a href="#" class="text-body" data-bs-toggle="dropdown">
 																<i class="ph-list"></i>
 															</a>
-
-															<div class="dropdown-menu dropdown-menu-end">
-																<a href="#" class="dropdown-item">
-																	<i class="ph-pencil me-2"></i>
-																	Edit
+															<div class="dropdown-menu dropdown-menu-end">																
+																<a href="javascript:void(0);" 
+																		class="dropdown-item"
+																		onclick="openUpdateAcademicResolutionModal(<?= $row['intAcademicResolutionID'] ?>, 
+																		'<?= htmlspecialchars($row['varAcademicResolution'], ENT_QUOTES) ?>',
+																		'<?= htmlspecialchars($row['varAcademicResolutionCode'], ENT_QUOTES) ?>',																		
+																		'<?= htmlspecialchars($row['AcademicResolutionYear'], ENT_QUOTES) ?>')">
+																		<i class="ph-pencil me-2"></i>
+																		Edit
 																</a>
 																<a href="#" class="dropdown-item">
 																	<i class="ph-eye me-2"></i>
@@ -101,6 +120,7 @@ include '../include/header.php';
 													</div>
 												</td>
 											</tr>
+											<?php endforeach; ?>
 										</tbody>
 									</table>
 								</div>
