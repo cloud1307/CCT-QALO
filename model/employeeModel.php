@@ -261,20 +261,24 @@ class EmployeeModel
     }
 
     //Add Board Resolution 
-    public function addBoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear){
-        $query = "INSERT INTO {$this->table_board_resolution} (varBoardResolution, varBoardResolutionCode, BoardResolutionYear, BoardDateUpload) VALUES (?, ?, ?, NOW())";
+    public function addBoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $resolutionFile){
+        $query = "INSERT INTO {$this->table_board_resolution} (varBoardResolution, varBoardResolutionCode, BoardResolutionYear, BoardDateUpload, resolutionFile) VALUES (?, ?, ?, NOW(), ?)";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("ssi", $boardResolution, $boardResolutionCode, $boardResolutionYear);
+        $stmt->bind_param("ssis", $boardResolution, $boardResolutionCode, $boardResolutionYear, $resolutionFile);
         return $stmt->execute();
     }
 
     //Update Resolution
-    public function updateBoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID){
-        $query = "UPDATE {$this->table_board_resolution} SET varBoardResolution = ?, varBoardResolutionCode = ?, BoardResolutionYear = ? WHERE intBoardResolutionID = ?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("ssii", $boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID);
-        return $stmt->execute();        
-    }
+    public function updateBoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID, $resolutionFile = NULL){
+    $file = isset($resolutionFile) ? ", $resolutionFile" : '';
+    $query = "UPDATE {$this->table_board_resolution} 
+              SET varBoardResolution = ?, varBoardResolutionCode = ?, BoardResolutionYear = ?$file 
+              WHERE intBoardResolutionID = ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param("ssisi", $boardResolution, $boardResolutionCode, $boardResolutionYear, $resolutionFile, $boardResolutionID);
+    return $stmt->execute();
+}
+
 
     //Delete Board Resolution
     public function deleteBoardResolution($boardResolutionID){

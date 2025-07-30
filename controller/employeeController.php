@@ -122,7 +122,7 @@ class EmployeeController
         } else {
             // Insert
             $success = $this->model->addSchoolProgram($schid, $schProgram, $progCode);
-            $message = 'School Program added successfully.';
+            $message = 'Positon added successfully.';
         }
      
         return[
@@ -209,38 +209,32 @@ class EmployeeController
 
     }
 
-    public function BoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID = null){
+    public function BoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID = null, $isDeleteResolution = false, $resolutionFile = NULL){
         $boardResolution = strtoupper(trim($boardResolution));
-        $boardResolutionCode =strtoupper(trim($boardResolutionCode));
+        $boardResolutionCode = strtoupper(trim($boardResolutionCode));
         $boardResolutionYear = trim($boardResolutionYear);
 
-        //Validate User input
-        if (empty($boardResolution) || empty($boardResolutionCode) || empty($boardResolutionYear)){
+        if ($isDeleteResolution && !empty($boardResolutionID)) {
+            $success = $this->model->deleteBoardResolution($boardResolutionID);
             return [
-                'status' => 'warning',
-                'message' => 'All Fields are required.'
+                'status' => $success ? 'success' : 'error',
+                'message' => $success ? 'Board Resolution deleted successfully.' : 'Failed to delete Board Resolution.'
             ];
         }
 
-         // If delete flag is set and ID is provided, delete the record
-        // if ($deleteResolution && !empty($boardResolutionID)) {
-        //     $success = $this->model->deleteBoardResolution($boardResolutionID);
-
-        //     return [
-        //         'status' => $success ? 'success' : 'error',
-        //         'message' => $success ? 'Board Resolution deleted successfully.' : 'Failed to delete Board Resolution.'
-        //     ];
-        // }
+        if (empty($boardResolution) || empty($boardResolutionCode) || empty($boardResolutionYear)) {
+            return ['status' => 'warning', 'message' => 'All fields are required.'];
+        }
 
         $success = false;
         $message = '';
 
-        if (!empty($boardResolutionID)){
+        if (!empty($boardResolutionID)) {
             $success = $this->model->updateBoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID);
-            $message = 'Board Resolution updated Succesfully';
-        }else{
-            $success = $this->model->addBoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear);
-            $message = 'Board Resolution added Successfully.';
+            $message = 'Board Resolution updated successfully.';
+        } else {
+            $success = $this->model->addBoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $resolutionFile);
+            $message = 'Board Resolution added successfully.';
         }
 
         return [
@@ -248,6 +242,7 @@ class EmployeeController
             'message' => $success ? $message : 'Database operation failed'
         ];
     }
+
 
 }
 
@@ -305,10 +300,42 @@ handleAjaxAction('BoardResolution', function(){
     $boardResolutionCode = $_POST['resolutionCode'] ?? '';
     $boardResolutionYear = $_POST['resolutionYear'] ?? '';
     $boardResolutionID = $_POST['board_resolution_id'] ?? null;
-   // $deleteResolution = isset($_POST['delete']) && $_oPOST['delete'] === 'true'; // Checkbox or JS flag
-    $controller = new EmployeeController();
-    //return $controller->BoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID, $deleteResolution);
-    return $controller->BoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID);
+    $isDeleteResolution = isset($_POST['deleteResolution']) && $_POST['deleteResolution'] === 'delete';
+    $target_dir = "../uploads/";
+    $target_file = $target_dir . basename($_FILES["fileBoardResolution"]["name"]);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+    // Check if file already exists
+    if (file_exists($target_file)) {
+        echo "Sorry, file already exists.";
+        $uploadOk = 0;
+    }
+
+    // Check file size
+    // if ($_FILES["fileBoardResolution"]["size"] > 500000) {
+    //     echo "Sorry, your file is too large.";
+    //     $uploadOk = 0;
+    // }
+
+    // Allow certain file formats
+    if($imageFileType != "pdf") {
+        echo "Sorry, only PDF files are allowed.";
+        $uploadOk = 0;
+    }
+
+    // Check if $uploadOk is set to 0 by an error
+    if ($uploadOk == 0) {
+        echo "Sorry, your file was not uploaded.";
+        // if everything is ok, try to upload file
+    } else {
+        if (move_uploaded_file($_FILES["fileBoardResolution"]["tmp_name"], $target_file)) {
+            $controller = new EmployeeController();   
+            return $controller->BoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID, $isDeleteResolution, basename( $_FILES["fileBoardResolution"]["name"]));
+        } else {
+            echo "Sorry, there was an error uploading your file.";
+        }
+    }
 });
 
 handleAjaxAction('AcademicResolution', function(){

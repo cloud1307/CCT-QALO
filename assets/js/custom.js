@@ -6,32 +6,6 @@
  *
  * ---------------------------------------------------------------------------- */
 
-// $(document).ready(function () {
-// 	$('#schoolForm').on('submit', function (e) {
-// 		e.preventDefault();
-
-// 		let formData = $(this).serialize();
-
-// 		$.ajax({
-// 			url: '../controller/employeeController.php?action=addSchool',
-// 			type: 'POST',
-// 			data: formData,
-// 			success: function (response) {
-// 				alert('School added successfully!');
-// 				$('#modal_school').modal('hide');
-// 				$('#schoolForm')[0].reset();
-// 				location.reload(); // Reload table data (optional: use AJAX for dynamic)
-// 			},
-// 			error: function () {
-// 				alert('Error adding position.');
-// 			}
-// 		});
-// 	});
-// });
-
-
-
-
 $(document).ready(function () {
     $(document).on('change', '#province', function () {
         var provCode = $(this).val();
@@ -65,50 +39,6 @@ $(document).ready(function () {
         }, 'json');
     });
 });
-// $(document).ready(function () {
-//     $('#modal_school').on('hidden.bs.modal', function () {
-//         location.reload(); // or use DataTables reload if applicable
-//     });
-// });
-
-// $(document).ready(function () {
-//     $('#schoolForm').on('submit', function (e) {
-//         e.preventDefault();
-//         //  Proceed with AJAX
-//         let formData = $(this).serialize();
-//         $.ajax({
-//             url: '../controller/employeeController.php?action=addSchool',
-//             type: 'POST',
-//             data: formData,
-//             success: function (response) {
-//                 const res = JSON.parse(response);
-
-//                 Swal.fire({
-//                     icon: res.status,
-//                     title: res.status.charAt(0).toUpperCase() + res.status.slice(1),
-//                     text: res.message,
-//                     showConfirmButton: res.status !== 'success',
-//                     timer: res.status === 'success' ? 1500 : undefined
-//                 });
-
-//                 if (res.status === 'success') {
-//                     $('#modal_school').modal('hide');
-//                     $('#schoolForm')[0].reset();
-
-//                     setTimeout(function () {
-//                         location.reload();
-//                     }, 1500);
-//                 }
-//             },
-//             error: function () {
-//                 Swal.fire({
-//                     icon: res.status === "warning" ? "warning" : "error",
-// 				    title: res.message                    
-//                 });
-//             }
-//         });
-//     });
-// });
 
 
 $(document).ready(function () {
@@ -138,12 +68,14 @@ $(document).ready(function () {
 function handleAjaxFormSubmission(formSelector, actionUrl, modalSelector) {
     $(formSelector).on('submit', function (e) {
         e.preventDefault();
-        const formData = $(this).serialize();
+        const formData = new FormData($(this)[0]);
 
         $.ajax({
             url: actionUrl,
             type: 'POST',
             data: formData,
+            contentType: false,
+            processData: false,
             success: function (response) {
                 const res = JSON.parse(response);
 
@@ -386,27 +318,7 @@ function openAddBoardResolutionModal() {
     });
 }
 
-// function openUpdateBoardResolutionModal(boardResolution, boardResolutionCode, boardResolutionYear, boardResolutionID) {
-//     openModal({
-//         formId: "boardResolutionForm",
-//         idField: "board_resolution_id",
-//         idValue: boardResolutionID,
-//         fields: {
-//             "input[name='boardResolution']": boardResolution,
-//             "input[name='resolutionCode']": boardResolutionCode,
-//             "input[name='resolutionYear']": boardResolutionYear
-//         },
-//         titleId: "modal-title-board-resolution",
-//         icon: "<i class='ph-pencil me-2'></i>",
-//         title: "Update Board Resolution",
-//         buttonId: "btn-save-board-resolution",
-//         buttonText: "Update Board Resolution",
-//         buttonClass: "btn-primary",
-//         headerId: "modal-header-board-resolution",
-//         headerClass: "bg-primary",
-//         modalId: "modal_board_resolution"
-//     });
-// }
+
 
 function openAddAcademicResolutionModal() {
     openModal({
@@ -426,14 +338,13 @@ function openAddAcademicResolutionModal() {
     });
 }
 
-
 function openUpdateAcademicResolutionModal(academicResolution, academicResolutionCode, academicResolutionYear, academicResolutionID) {
     openModal({
         formId: "academicResolutionForm",
         idField: "academic_resolution_id",
         idValue: academicResolutionID,
         fields: {
-            "input[name='academicResolution']": academicResolution,
+            "textarea[name='academicResolution']": academicResolution,
             "input[name='academicresolutionCode']": academicResolutionCode,
             "input[name='academicResolutionYear']": academicResolutionYear
         },
@@ -449,23 +360,32 @@ function openUpdateAcademicResolutionModal(academicResolution, academicResolutio
     });
 }
 
-function openUpdateBoardResolutionModal(boardResolution, boardResolutionCode, boardResolutionYear, boardResolutionID) {
-    document.getElementById("boardResolutionForm").reset();
-    document.getElementById("board_resolution_id").value = boardResolutionID;
-    document.querySelector("input[name='boardResolution']").value = boardResolution;
-    document.querySelector("input[name='resolutionCode']").value = boardResolutionCode;
-    document.querySelector("input[name='resolutionYear']").value = boardResolutionYear;
-    document.querySelector("#modal-title-board-resolution").innerHTML = "<i class='ph-pencil me-2'></i>Update Board Resolution";
-    
-    const btn = document.getElementById("btn-save-board-resolution");
-    btn.classList.remove("btn-success", "btn-warning");
-    btn.classList.add("btn-primary");
-    btn.innerText = "Update Board Resolution";
 
-     // Change modal header background
-    const header = document.querySelector("#modal-header-board-resolution");
-    header.classList.remove("bg-success", "bg-warning", "bg-danger");
-    header.classList.add("bg-primary");
-    new bootstrap.Modal(document.getElementById('modal_board_resolution')).show();
+
+function openUpdateBoardResolutionModal(boardResolution, boardResolutionCode, boardResolutionYear, boardResolutionID) {
+    openModal({
+        formId: "boardResolutionForm",
+        idField: "board_resolution_id",
+        idValue: boardResolutionID,
+        fields: {
+            "textarea[name='boardResolution']": boardResolution,
+            "input[name='resolutionCode']": boardResolutionCode,
+            "input[name='resolutionYear']": boardResolutionYear
+        },
+        titleId: "modal-title-board-resolution",
+        icon: "<i class='ph-pencil me-2'></i>",
+        title: "Update Board Resolution",
+        buttonId: "btn-save-board-resolution",
+        buttonText: "Update Board Resolution",
+        buttonClass: "btn-primary",
+        headerId: "modal-header-board-resolution",
+        headerClass: "bg-primary",
+        modalId: "modal_board_resolution"
+    });
 }
 
+function openDeleteResolutionModal(id) {
+    document.getElementById('delete_resolution_id').value = id;
+    const deleteModal = new bootstrap.Modal(document.getElementById('deleteBoardResolutionModal'));
+    deleteModal.show();
+}

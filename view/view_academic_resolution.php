@@ -100,10 +100,10 @@ $academic_resolution = $model->getAllAcademicResolution();
 															<div class="dropdown-menu dropdown-menu-end">																
 																<a href="javascript:void(0);" 
 																		class="dropdown-item"
-																		onclick="openUpdateAcademicResolutionModal(<?= $row['intAcademicResolutionID'] ?>, 
+																		onclick="openUpdateAcademicResolutionModal( 
 																		'<?= htmlspecialchars($row['varAcademicResolution'], ENT_QUOTES) ?>',
 																		'<?= htmlspecialchars($row['varAcademicResolutionCode'], ENT_QUOTES) ?>',																		
-																		'<?= htmlspecialchars($row['AcademicResolutionYear'], ENT_QUOTES) ?>')">
+																		'<?= htmlspecialchars($row['AcademicResolutionYear'], ENT_QUOTES) ?>',<?= $row['intAcademicResolutionID'] ?>)">
 																		<i class="ph-pencil me-2"></i>
 																		Edit
 																</a>

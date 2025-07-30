@@ -75,12 +75,12 @@ $board_resolution = $model->getAllBoardResolution();
 									<table class="table datatable-basic table-hover">
 										<thead>											
 											<tr>												
-												<th>No</th>
-												<th>Board Resolution Title</th>
-												<th>Board Resolution Code</th>
-												<th>Year</th>												
-												<th>File</th>
-												<th class="text-center">Actions</th>
+												<th style="width: 5%;">No</th>
+												<th style="width: 50%;">Board Resolution Title</th>
+												<th style="width: 20%;">Board Resolution Code</th>
+												<th style="width: 10%;">Year</th>
+												<th style="width: 5%;">File</th>
+												<th class="text-center" style="width: 10%;">Actions</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -90,7 +90,7 @@ $board_resolution = $model->getAllBoardResolution();
 												<td><?= htmlspecialchars($row['varBoardResolution']) ?></td>
 												<td><?= htmlspecialchars($row['varBoardResolutionCode']) ?></td>
 												<td><?= htmlspecialchars($row['BoardResolutionYear']) ?></td>
-												<td><i class="icon-file-pdf me-3 icon-2x"></i></td>
+												<td><a href="javascript:void(0);"  onclick="window.open('../uploads/<?= htmlspecialchars($row['resolutionFile']) ?>')"><i class="icon-file-pdf me-3 icon-2x text-danger"></i> </a></td>
 												<td class="text-center">
 													<div class="d-inline-flex">
 														<div class="dropdown">
@@ -101,17 +101,20 @@ $board_resolution = $model->getAllBoardResolution();
 																
 																<a href="javascript:void(0);" 
 																		class="dropdown-item"
-																		onclick="openUpdateBoardResolutionModal(<?= $row['intBoardResolutionID'] ?>,
+																		onclick="openUpdateBoardResolutionModal(
 																		'<?= htmlspecialchars($row['varBoardResolution'], ENT_QUOTES) ?>',
 																		'<?= htmlspecialchars($row['varBoardResolutionCode'], ENT_QUOTES) ?>',
-																		'<?= htmlspecialchars($row['BoardResolutionYear'], ENT_QUOTES) ?>')">																	
+																		'<?= htmlspecialchars($row['BoardResolutionYear'], ENT_QUOTES) ?>',
+																		<?= $row['intBoardResolutionID'] ?>)">																	
 																			<i class="ph-pencil me-2"></i>
 																			Edit
 																</a>
 
-																<a href="#" class="dropdown-item">
-																	<i class="ph-eye me-2"></i>
-																	View Area
+																<a href="javascript:void(0);" 
+																		class="dropdown-item"
+																		onclick="openDeleteResolutionModal(<?= $row['intBoardResolutionID'] ?>)">																	
+																			<i class="ph-trash me-2"></i>
+																			Delete
 																</a>
 																<a href="#" class="dropdown-item">
 																	<i class="ph-download me-2"></i>
