@@ -71,7 +71,7 @@ $provinces = $model->getAllProvince();
 										<div class="card-title modal-footer justify-content-between">
 												<h5 class="mb-0">Employee Information</h5>
 										</div>
-								<form class="needs-validation" action="../controller/employeeController.php" novalidate method="POST">
+								<form class="needs-validation" action="../controller/employeeController.php?action=addEmployee" novalidate method="POST">
 										
 									<div class="row">
 											<div class="form-label col-lg-12">												
@@ -326,9 +326,6 @@ $provinces = $model->getAllProvince();
 														<div class="invalid-feedback">Select User Level</div>
 													</div>																                                
 											</div>
-
-
-									
 
 
 										</div>

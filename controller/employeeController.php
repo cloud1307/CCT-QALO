@@ -6,7 +6,7 @@ class EmployeeController
     private $model;
 
     public function __construct() {
-        $this->model = new EmployeeModel();
+        $this->model = new EmployeeModel(); 
     }
 
     public function showForm() {
@@ -182,18 +182,18 @@ class EmployeeController
             ];
         }
 
-        // Check for duplicates
-            // if ($this->model->academicResolutionExists($academicReslution, $academicResolutionCode, $academicResolutionYear, !empty($academicResolutionID) ? $academicResolutionID : null)) {
-            //     return [
-            //         'status' => 'warning',
-            //         'message' => 'Academic Resolution already exists.'
-            //     ];
-            // }
+        //Check for duplicates
+            if ($this->model->AcademicResolutionExists($academicResolution, $academicResolutionCode, $academicResolutionYear, !empty($academicResolutionID) ? $academicResolutionID : null)) {
+                return [
+                    'status' => 'warning',
+                    'message' => 'Academic Resolution already exists.'
+                ];
+            }
 
             $success = false;
             $message = '';
 
-            if(!empty($schProgid)){
+            if(!empty($academicResolutionID)){
                     $success = $this->model->updateAcademicResolution($academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionID);
                     $message = 'Academic Resolution updated successfully.';
             }else{
@@ -235,11 +235,33 @@ class EmployeeController
         $success = false;
         $message = '';
 
+        $target_dir = "../uploads/botupload/";
+        $fileName = basename($resolutionFile["name"]);
+        $target_file = $target_dir . $fileName;
+        // die($target_file);
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+        if ($imageFileType != "pdf") {
+            return ['status' => 'error', 'message' => 'Invalid file type. Only PDF files are allowed.'];
+        }
+
+        if (!move_uploaded_file($resolutionFile["tmp_name"], $target_file)) {
+            return ['status' => 'error', 'message' => 'There was an error uploading your file.'];
+        }
+
         if (!empty($boardResolutionID)) {
-            $success = $this->model->updateBoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID);
+            $boardResolution1 = $this->model->getBoardResolution($boardResolutionID);
+            if ($fileName != $boardResolution1['resolutionFile']) {
+                if (file_exists($target_file)) {
+                    $fileName1 = basename($boardResolution1["resolutionFile"]);
+                    $target_file1 = $target_dir . $fileName1;
+                    unlink($target_file1);
+                }
+            }
+            $success = $this->model->updateBoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID, $fileName);
             $message = 'Board Resolution updated successfully.';
         } else {
-            $success = $this->model->addBoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $resolutionFile);
+            $success = $this->model->addBoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $fileName);
             $message = 'Board Resolution added successfully.';
         }
 
@@ -275,7 +297,7 @@ class EmployeeController
             ];
 
             $model = new EmployeeModel($this->db);
-            $result = $model->insertEmployee($employeeData);
+            $result = $model->addEmployee($employeeData);
 
              if ($result) {
                     $_SESSION['success'] = 'Employee added successfully.';
@@ -346,98 +368,134 @@ handleAjaxAction('MajorProgram', function(){
     return $controller->MajorProgram($progid, $majorcourse, $majorid);
 });
 
-handleAjaxAction('BoardResolution', function(){
+// handleAjaxAction('BoardResolution', function(){
+//     $boardResolution = $_POST['boardResolution'] ?? '';
+//     $boardResolutionCode = $_POST['resolutionCode'] ?? '';
+//     $boardResolutionYear = $_POST['resolutionYear'] ?? '';
+//     $boardResolutionID = $_POST['board_resolution_id'] ?? null;
+//     $isDeleteResolution = isset($_POST['deleteResolution']) && $_POST['deleteResolution'] === 'delete';
+//     $target_dir = "../uploads/botupload/";
+//     $target_file = $target_dir . basename($_FILES["fileBoardResolution"]["name"]);
+//     $uploadOk = 1;
+//     $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+//     // Check if file already exists
+//     if (file_exists($target_file)) {
+//         echo "Sorry, file already exists.";
+//         $uploadOk = 0;
+//     }
+
+//     // Allow certain file formats
+//     if($imageFileType != "pdf") {
+//         echo "Sorry, only PDF files are allowed.";
+//         $uploadOk = 0;
+//     }
+
+//     // Check if $uploadOk is set to 0 by an error
+//     if ($uploadOk == 0) {
+//         echo "Sorry, your file was not uploaded.";
+//         // if everything is ok, try to upload file
+//     } else {
+//         if (move_uploaded_file($_FILES["fileBoardResolution"]["tmp_name"], $target_file)) {
+//             $controller = new EmployeeController();   
+//             return $controller->BoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID, $isDeleteResolution, basename( $_FILES["fileBoardResolution"]["name"]));
+//         } else {
+//             echo "Sorry, there was an error uploading your file.";
+//         }
+//     }
+// });
+
+// handleAjaxAction('AcademicResolution', function(){
+//     $academicResolution = $_POST['academicResolution'] ?? '';
+//     $academicResolutionCode = $_POST['academicresolutionCode'] ?? '';
+//     $academicResolutionYear = $_POST['academicResolutionYear'] ?? '';
+//     $academicResolutionID = $_POST['academic_resolution_id'] ?? null;
+//     $target_dir = "../uploads/acadupload/";
+//     $target_file = $target_dir . basename($_FILES["academicFileResolution"]["name"]);
+//     $uploadOk = 1;
+//     $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+//     // Check if file already exists
+//     if (file_exists($target_file)) {
+//         echo "Sorry, file already exists.";
+//         $uploadOk = 0;
+//     }
+
+//     // Allow certain file formats
+//     if($imageFileType != "pdf") {
+//         echo "Sorry, only PDF files are allowed.";
+//         $uploadOk = 0;
+//     }
+
+//      // Check if $uploadOk is set to 0 by an error
+//     if ($uploadOk == 0) {
+//         echo "Sorry, your file was not uploaded.";
+//         // if everything is ok, try to upload file
+//     } else {
+//         if (move_uploaded_file($_FILES["academicFileResolution"]["tmp_name"], $target_file)) {
+//             $controller = new EmployeeController();    
+//              return $controller->AcademicResolutions($academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionID, basename( $_FILES["academicFileResolution"]["name"]));
+//         }else {
+//             echo "Sorry, there was an error uploading your file.";
+//         }
+//     }
+// });
+
+
+
+
+handleAjaxAction('BoardResolution', function () {
     $boardResolution = $_POST['boardResolution'] ?? '';
     $boardResolutionCode = $_POST['resolutionCode'] ?? '';
     $boardResolutionYear = $_POST['resolutionYear'] ?? '';
     $boardResolutionID = $_POST['board_resolution_id'] ?? null;
-    $isDeleteResolution = isset($_POST['deleteResolution']) && $_POST['deleteResolution'] === 'delete';
-    $target_dir = "../uploads/botupload/";
-    $target_file = $target_dir . basename($_FILES["fileBoardResolution"]["name"]);
-    $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+    //$isDeleteResolution = isset($_POST['deleteResolution']) && $_POST['deleteResolution'] === 'delete';
 
-    // Check if file already exists
-    if (file_exists($target_file)) {
-        echo "Sorry, file already exists.";
-        $uploadOk = 0;
-    }
+    // $target_dir = "../uploads/botupload/";
+    // $fileName = basename($_FILES["fileBoardResolution"]["name"]);
+    // $target_file = $target_dir . $fileName;
+    // $uploadOk = 1;
 
-    // Allow certain file formats
-    if($imageFileType != "pdf") {
-        echo "Sorry, only PDF files are allowed.";
-        $uploadOk = 0;
-    }
+    // if (file_exists($target_file)) {
+    //     return ['status' => 'error', 'message' => 'File already exists. Please rename and try again.'];
+    // }
 
-    // Check if $uploadOk is set to 0 by an error
-    if ($uploadOk == 0) {
-        echo "Sorry, your file was not uploaded.";
-        // if everything is ok, try to upload file
-    } else {
-        if (move_uploaded_file($_FILES["fileBoardResolution"]["tmp_name"], $target_file)) {
-            $controller = new EmployeeController();   
-            return $controller->BoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID, $isDeleteResolution, basename( $_FILES["fileBoardResolution"]["name"]));
-        } else {
-            echo "Sorry, there was an error uploading your file.";
-        }
-    }
+    $controller = new EmployeeController();
+    return $controller->BoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID, $isDeleteResolution, $_FILES['fileBoardResolution']);
 });
 
-handleAjaxAction('AcademicResolution', function(){
+
+handleAjaxAction('AcademicResolution', function () {
     $academicResolution = $_POST['academicResolution'] ?? '';
     $academicResolutionCode = $_POST['academicresolutionCode'] ?? '';
     $academicResolutionYear = $_POST['academicResolutionYear'] ?? '';
     $academicResolutionID = $_POST['academic_resolution_id'] ?? null;
+
     $target_dir = "../uploads/acadupload/";
-    $target_file = $target_dir . basename($_FILES["academicFileResolution"]["name"]);
+    $fileName = basename($_FILES["academicFileResolution"]["name"]);
+    $target_file = $target_dir . $fileName;
     $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-    // Check if file already exists
     if (file_exists($target_file)) {
-        echo "Sorry, file already exists.";
-        $uploadOk = 0;
+        return ['status' => 'error', 'message' => 'File already exists. Please rename and try again.'];
     }
 
-    // Allow certain file formats
-    if($imageFileType != "pdf") {
-        echo "Sorry, only PDF files are allowed.";
-        $uploadOk = 0;
+    if ($imageFileType != "pdf") {
+        return ['status' => 'error', 'message' => 'Invalid file type. Only PDF files are allowed.'];
     }
 
-     // Check if $uploadOk is set to 0 by an error
-    if ($uploadOk == 0) {
-        echo "Sorry, your file was not uploaded.";
-        // if everything is ok, try to upload file
-    } else {
-        if (move_uploaded_file($_FILES["academicFileResolution"]["tmp_name"], $target_file)) {
-            $controller = new EmployeeController();    
-             return $controller->AcademicResolutions($academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionID, basename( $_FILES["academicFileResolution"]["name"]));
-        }else {
-            echo "Sorry, there was an error uploading your file.";
-        }
+    if (!move_uploaded_file($_FILES["academicFileResolution"]["tmp_name"], $target_file)) {
+        return ['status' => 'error', 'message' => 'There was an error uploading your file.'];
     }
+
+    $controller = new EmployeeController();
+    return $controller->AcademicResolutions($academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionID, $fileName);
 });
+
+
+
+
+
 ?>
 
-<?php if (isset($_SESSION['success'])): ?>
-<script>
-Swal.fire({
-  icon: 'success',
-  title: 'Success!',
-  text: '<?= $_SESSION['success'] ?>',
-  confirmButtonColor: '#3085d6'
-});
-</script>
-<?php unset($_SESSION['success']); endif; ?>
-
-<?php if (isset($_SESSION['error'])): ?>
-<script>
-Swal.fire({
-  icon: 'error',
-  title: 'Error!',
-  text: '<?= $_SESSION['error'] ?>',
-  confirmButtonColor: '#d33'
-});
-</script>
-<?php unset($_SESSION['error']); endif; ?>

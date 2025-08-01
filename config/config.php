@@ -1,5 +1,6 @@
 <?php
 date_default_timezone_set('Asia/Manila');
+error_reporting(1);
 
 class Database {
 	private $host = "localhost";

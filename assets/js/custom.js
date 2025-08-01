@@ -6,6 +6,60 @@
  *
  * ---------------------------------------------------------------------------- */
 
+//sweet alert for file upload
+
+$('.resolution-form').on('submit', function (e) {
+    e.preventDefault();
+    
+    const $form = $(this);
+    const formData = new FormData(this);
+    const action = $form.data('action'); // e.g., 'BoardResolution' or 'AcademicResolution'
+
+    $.ajax({
+        url: '../controller/employeeController.php?action=' + action,
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            let res;
+            try {
+                res = JSON.parse(response);
+            } catch (e) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Unexpected Error',
+                    text: 'Could not parse server response.'
+                });
+                return;
+            }
+
+            Swal.fire({
+                icon: res.status === 'success' ? 'success' : 'error',
+                title: res.status === 'success' ? 'Success' : 'Error',
+                text: res.message
+            }).then(() => {
+                if (res.status === 'success') {
+                    $form[0].reset();
+                    $('.modal').modal('hide');
+                    // Optionally reload table or data
+                }
+            });
+        },
+        error: function () {
+            Swal.fire({
+                icon: 'error',
+                title: 'AJAX Error',
+                text: 'Something went wrong during the request.'
+            });
+        }
+    });
+});
+
+//-sweet alert for file upload
+
+
+
 
 $(document).ready(function () {
     $(document).on('change', '#province', function () {

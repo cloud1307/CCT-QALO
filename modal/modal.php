@@ -553,7 +553,7 @@ $schProgram = $model->getAllSchoolProgram();
 					<h5 class="modal-title" id="modal-title-academic-resolution"><i class="ph-plus me-2"></i>Add Academic Resolution</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				</div>
-						<form class="needs-validation" id="academicResolutionForm" action="../controller/employeeController.php" novalidate method="POST" enctype="multipart/form-data">
+						<form class="needs-validation resolution-form" data-action="AcademicResolution" id="academicResolutionForm" action="../controller/employeeController.php" novalidate method="POST" enctype="multipart/form-data">
 							<div class="modal-body">
 								<input type="hidden" name="academic_resolution_id" id="academic_resolution_id">									
 									<div class="mb-3">

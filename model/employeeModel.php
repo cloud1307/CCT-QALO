@@ -248,14 +248,14 @@ class EmployeeModel
             enumCivilStatus, BirthDate, varPlaceOfBirth, varHouseNo, varStreet,
             intProvID, intCityMunID, intBrgyID,
             intSchoolID, intPositionID, EmploymentDate, enumJobStatus, enumJobCategory, enumUserLevel, dateCreated
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW()";
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
 
         $stmt = $this->conn->prepare($query);
         if (!$stmt) {
 			throw new Exception("Email check query preparation failed: " . $this->conn->error);
 		}
         $stmt->bind_param(
-            'isssssss ssiii ii ssss',
+            'isssssssssiiiiisssss',
             $data['employeeNumber'],
             $data['lastName'],
             $data['firstName'],
@@ -333,14 +333,31 @@ class EmployeeModel
 
     //Update Resolution
         public function updateBoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID, $resolutionFile = NULL){
-        $file = isset($resolutionFile) ? ", $resolutionFile" : '';
+        $file = isset($resolutionFile) ? ", resolutionFile = ?" : '';
+        $params = isset($resolutionFile) ? "ssisi" : 'ssis';
         $query = "UPDATE {$this->table_board_resolution} 
                 SET varBoardResolution = ?, varBoardResolutionCode = ?, BoardResolutionYear = ?$file 
                 WHERE intBoardResolutionID = ?";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("ssisi", $boardResolution, $boardResolutionCode, $boardResolutionYear, $resolutionFile, $boardResolutionID);
+        if (isset($resolutionFile)) {
+            $stmt->bind_param($params, $boardResolution, $boardResolutionCode, $boardResolutionYear, $resolutionFile, $boardResolutionID);
+        } else {
+            $stmt->bind_param($params, $boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID);
+        }
         return $stmt->execute();
     }
+
+
+    public function getBoardResolution($boardResolutionID){
+        $query = "SELECT * FROM {$this->table_board_resolution} WHERE intBoardResolutionID  = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('i', $boardResolutionID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();;
+        return $row;
+    }
+    
 
      public function BoardResolutionExists($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID = null){
         $sql = "SELECT COUNT(*) FROM {$this->table_board_resolution} WHERE (varBoardResolution = ? AND varBoardResolutionCode = ? AND BoardResolutionYear = ? )";
@@ -395,6 +412,24 @@ class EmployeeModel
         return $stmt->execute();
     }
 
+    public function AcademicResolutionExists($academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionID = null){
+        $sql = "SELECT COUNT(*) FROM {$this->table_board_resolution} WHERE (varBoardResolution = ? AND varBoardResolutionCode = ? AND BoardResolutionYear = ? )";
+        if (!empty($majorid)) {
+            $sql .= " AND intBoardResolutionID != ?";
+        }
+
+        $stmt = $this->conn->prepare($sql);
+        if (!empty($boardResolutionID)){
+            $stmt->bind_param('ssii', $academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionID);
+        }else{
+            $stmt->bind_param('ssi', $academicResolution, $academicResolutionCode, $academicResolutionYear);
+        }
+        $stmt->execute();
+        $stmt->bind_result($count);
+        $stmt->fetch();
+        return $count > 0;
+    }
+
     public function getAllAcademicResolution(){
         $query ="SELECT * FROM {$this->table_academic_resolution} ORDER BY AcademicResolutionYear ASC";
         $result = $this->conn->query($query);
@@ -405,6 +440,15 @@ class EmployeeModel
                 $academic_resolution[] = $row;
             }
         }return $academic_resolution;
+    }
+
+    //Add City Resolution
+    public function addCityResolution($cityResolution, $cityResolutionCode, $cityResolutionYear, $cityResolutionFile){
+        $citydocumentVerifyID = date('Ymd') . mt_rand(100000000, 999999999);
+        $query = "INSERT INTO {$this->table_city_resolution} (varCityResolution, varCityResolutionCode, CityResolutionYear, CityDateUpload, CityResolutionFile, CitydocumentVerifyID) VALUES (?, ?, ?, NOW(),?, ?)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ssiss", $cityResolution, $cityResolutionCode, $cityResolutionYear, $cityResolutionFile, $citydocumentVerifyID);
+        return $stmt->execute();
     }
    
 
