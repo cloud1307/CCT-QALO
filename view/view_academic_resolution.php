@@ -48,7 +48,7 @@ $academic_resolution = $model->getAllAcademicResolution();
 							<div class="breadcrumb py-2">
 								<a href="index.html" class="breadcrumb-item"><i class="ph-house"></i></a>
 								<a href="dashboard.php" class="breadcrumb-item">Home</a>
-								<span class="breadcrumb-item active">List of Board Resolution</span>
+								<span class="breadcrumb-item active">List of Academic Resolution</span>
 							</div>
 						</div>						
 					</div>
@@ -65,7 +65,7 @@ $academic_resolution = $model->getAllAcademicResolution();
 								<div class="card">									
 									<div class="card-header">
 										<div class="card-title modal-footer justify-content-between">
-												<h5 class="mb-0">List of Board Resolution</h5>												
+												<h5 class="mb-0">List of Academic Resolution</h5>												
 												<?php	include '../modal/modal.php'; ?>
 												<a href="#modal_academic_resolution" class="btn btn-outline-success" data-bs-toggle="modal"><i class="ph-buildings me-2"></i> Add Academic Resolution</a> 
 										</div>								
@@ -74,12 +74,12 @@ $academic_resolution = $model->getAllAcademicResolution();
 									<table class="table datatable-basic table-hover">
 										<thead>
 											<tr>
-												<th>No</th>
-												<th>Academic Resolution Title</th>
-												<th>Academic Resolution Code</th>
-												<th>Year</th>												
-												<th>File</th>
-												<th class="text-center">Actions</th>
+												<th style="width: 5%;">No</th>
+												<th style="width: 50%;">Academic Resolution Title</th>
+												<th style="width: 20%;">Academic Resolution Code</th>
+												<th style="width: 10%;">Year</th>												
+												<th style="width: 5%;">File</th>
+												<th class="text-center" style="width: 10%;" >Actions</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -89,7 +89,7 @@ $academic_resolution = $model->getAllAcademicResolution();
 												<td><?= htmlspecialchars($row['varAcademicResolution']) ?></td>
 												<td><?= htmlspecialchars($row['varAcademicResolutionCode']) ?></td>
 												<td><?= htmlspecialchars($row['AcademicResolutionYear']) ?></td>
-												<td><i class="icon-file-pdf me-3 icon-2x"></i></td>												
+												<td><a href="javascript:void(0);"  onclick="window.open('../uploads/acadupload/<?= htmlspecialchars($row['AcadResolutionFile']) ?>')"><i class="icon-file-pdf me-3 icon-2x text-danger"></i> </a></td>												
 												
 												<td class="text-center">
 													<div class="d-inline-flex">

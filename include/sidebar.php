@@ -55,7 +55,9 @@
 							</a>
 							<ul class="nav-group-sub collapse">
 								<li class="nav-item"><a href="view_board_resolution.php" class="nav-link">Board Resolution</a></li>
-                                <li class="nav-item"><a href="view_academic_resolution.php" class="nav-link">Academic Resolution</a></li>                                
+								<li class="nav-item"><a href="view_city_resolution.php" class="nav-link">City Resolution</a></li> 
+                                <li class="nav-item"><a href="view_academic_resolution.php" class="nav-link">Academic Resolution</a></li>
+								                                
 							</ul>
 						</li>
 
@@ -101,7 +103,7 @@
 										<li class="nav-item"><a href="view_requirements.php" class="nav-link">Summary Requiments</a></li>										
 									</ul>
 								</li>
-								<li class="nav-item"><a href="#" class="nav-link">Archive</a></li>								
+								<li class="nav-item"><a href="view_archive_employee.php" class="nav-link">Archive</a></li>								
 						</li>
 						<!-- /forms -->
 					</ul>

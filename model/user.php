@@ -4,6 +4,7 @@ require_once '../config/config.php';
 class User {
 	private $conn;
 	private $table_name = "tbl_account";
+	private $table_employee = "tbl_employee";
 
 	public function __construct() {
 		$db = new Database();

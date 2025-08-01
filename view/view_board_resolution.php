@@ -90,7 +90,7 @@ $board_resolution = $model->getAllBoardResolution();
 												<td><?= htmlspecialchars($row['varBoardResolution']) ?></td>
 												<td><?= htmlspecialchars($row['varBoardResolutionCode']) ?></td>
 												<td><?= htmlspecialchars($row['BoardResolutionYear']) ?></td>
-												<td><a href="javascript:void(0);"  onclick="window.open('../uploads/<?= htmlspecialchars($row['resolutionFile']) ?>')"><i class="icon-file-pdf me-3 icon-2x text-danger"></i> </a></td>
+												<td><a href="javascript:void(0);"  onclick="window.open('../uploads/botupload/<?= htmlspecialchars($row['resolutionFile']) ?>')"><i class="icon-file-pdf me-3 icon-2x text-danger"></i> </a></td>
 												<td class="text-center">
 													<div class="d-inline-flex">
 														<div class="dropdown">
@@ -117,8 +117,12 @@ $board_resolution = $model->getAllBoardResolution();
 																			Delete
 																</a>
 																<a href="#" class="dropdown-item">
+																	<i class="ph-printer me-2"></i>
+																	print
+																</a>
+																<a href="#" class="dropdown-item">
 																	<i class="ph-download me-2"></i>
-																	Download Requirements
+																	Download File
 																</a>
 															</div>
 														</div>

@@ -40,7 +40,8 @@ $schProgram = $model->getAllSchoolProgram();
 									<div class="mb-3">
 										<label class="form-label">Recovery Email Address</label>
 										<div class="form-control-feedback form-control-feedback-start input-group">
-											<input type="text"  class="form-control" placeholder="john@doe.com" name="recovery_email" value="<?= htmlspecialchars($userData['varRecoveryEmail'] ?? 'Not available') ?>" required>										
+											<input type="text"  class="form-control" placeholder="john@doe.com" name="recovery_email" value="<?= htmlspecialchars($userData['varRecoveryEmail'] ?? 'Not available') ?>" disabled required>
+											<span class="input-group-text"><i class="ph-lock text-muted"></i></span>										
 										<div class="invalid-feedback">Enter Recovery Email</div>
 											<div class="form-control-feedback-icon">
 												<i class="ph-envelope text-muted"></i>
@@ -469,7 +470,7 @@ $schProgram = $model->getAllSchoolProgram();
 									<div class="mb-3">
 										<label class="form-label">Resolution File</label>
 										<div class="form-control-feedback form-control-feedback-start input-group">
-											<input type="file"  class="form-control text-uppercase" name="fileBoardResolution" accept=".pdf">										
+											<input type="file"  class="form-control text-uppercase" name="fileBoardResolution" accept=".pdf" required>										
 											<span class="input-group-text">.pdf</span>	
 											<div class="invalid-feedback">Upload File Resolution</div>
 											<div class="form-control-feedback-icon">
@@ -488,6 +489,61 @@ $schProgram = $model->getAllSchoolProgram();
 	</div>
 <!-- /Board Resolution Modal -->
 
+<!--City Resolution Modal -->
+	<div id="modal_city_resolution" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-success text-white border-0" id="modal-header-city-resolution">
+					<h5 class="modal-title" id="modal-title-city-resolution"><i class="ph-plus me-2"></i>Add City Resolution</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+						<form class="needs-validation" id="cityResolutionForm"  action="../controller/employeeController.php" novalidate method="POST" enctype="multipart/form-data"> 
+							<div class="modal-body">
+									<input type="hidden" name="city_resolution_id" id="board_resolution_id">
+									<input type="hidden" name="deletecityResolution" value="delete">									
+									<div class="mb-3">
+										<label class="form-label">City Resolution Title</label>
+										<div class="form-control-feedback input-group">
+											<textarea rows="3" cols="3" class="form-control text-uppercase" name="cityResolution" placeholder="City Resolution Title" required></textarea>
+											<div class="invalid-feedback">Enter City Resolution</div>		
+										</div>
+									</div>									
+									<div class="mb-3">
+										<label class="form-label">City Resolution Code</label>
+										<div class="form-control-feedback input-group">
+											<input type="text"  class="form-control text-uppercase" name="cityResolutionCode" required>										
+										<div class="invalid-feedback">Enter City Resolution Code</div>											
+										</div>
+									</div>
+									<div class="mb-3">
+										<label class="form-label">City Resolution Year</label>
+										<div class="form-control-feedback input-group">
+											<input type="number"  class="form-control text-uppercase" maxlength="4" name="cityResolutionYear" required>										
+										<div class="invalid-feedback">Enter City Resolution Year</div>											
+										</div>
+									</div>
+
+									<div class="mb-3">
+										<label class="form-label">City Resolution File</label>
+										<div class="form-control-feedback form-control-feedback-start input-group">
+											<input type="file"  class="form-control text-uppercase" name="cityResolutionFile" accept=".pdf" required>										
+											<span class="input-group-text">.pdf</span>	
+											<div class="invalid-feedback">Upload File City Resolution</div>
+											<div class="form-control-feedback-icon">
+												<i class="ph-file-arrow-up  text-muted"></i>
+											</div>
+										</div>
+									</div>													
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
+									<button type="submit" class="btn btn-success" id="btn-save-city-resolution">Add City Resolution</button>
+								</div>
+						</form>
+			</div>
+		</div>
+	</div>
+<!-- /City Resolution Modal -->
 
 <!-- Academic Resolution Modal -->
 	<div id="modal_academic_resolution" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
@@ -497,7 +553,7 @@ $schProgram = $model->getAllSchoolProgram();
 					<h5 class="modal-title" id="modal-title-academic-resolution"><i class="ph-plus me-2"></i>Add Academic Resolution</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				</div>
-						<form class="needs-validation" id="academicResolutionForm" action="../controller/employeeController.php" novalidate method="POST">
+						<form class="needs-validation" id="academicResolutionForm" action="../controller/employeeController.php" novalidate method="POST" enctype="multipart/form-data">
 							<div class="modal-body">
 								<input type="hidden" name="academic_resolution_id" id="academic_resolution_id">									
 									<div class="mb-3">
@@ -525,8 +581,8 @@ $schProgram = $model->getAllSchoolProgram();
 
 									<div class="mb-3">
 										<label class="form-label">Academic Resolution File</label>
-										<div class="form-control-feedback input-group">
-											<input type="file"  class="form-control text-uppercase" name="AcadfileResolution" id="academicFileResolution" accept=".pdf" >										
+										<div class="form-control-feedback form-control-feedback-start input-group">
+											<input type="file"  class="form-control text-uppercase" name="academicFileResolution" id="academicFileResolution" accept=".pdf" >										
 											<span class="input-group-text">.pdf</span>	
 										<div class="invalid-feedback">Please upload a valid PDF file.</div>
 											<div class="form-control-feedback-icon">
@@ -551,22 +607,22 @@ $schProgram = $model->getAllSchoolProgram();
 
 
 <script>
-document.getElementById('uploadForm').addEventListener('submit', function (e) {
-	e.preventDefault(); // Prevent form from submitting by default
+// document.getElementById('uploadForm').addEventListener('submit', function (e) {
+// 	e.preventDefault(); // Prevent form from submitting by default
 
-	const fileInput = document.getElementById('fileResolution');
-	const file = fileInput.files[0];
+// 	const fileInput = document.getElementById('fileResolution');
+// 	const file = fileInput.files[0];
 
-	// Check if a file is selected and is a PDF
-	if (!file || file.type !== "application/pdf") {
-		fileInput.classList.add('is-invalid');
-	} else {
-		fileInput.classList.remove('is-invalid');
-		// You can now submit the form manually if all validation passes
-		// this.submit(); // Uncomment to allow submission
-		alert('File is valid and ready to be uploaded!');
-	}
-});
+// 	// Check if a file is selected and is a PDF
+// 	if (!file || file.type !== "application/pdf") {
+// 		fileInput.classList.add('is-invalid');
+// 	} else {
+// 		fileInput.classList.remove('is-invalid');
+// 		// You can now submit the form manually if all validation passes
+// 		// this.submit(); // Uncomment to allow submission
+// 		alert('File is valid and ready to be uploaded!');
+// 	}
+// });
 </script>
 
 <!-- Delete Confirmation Modal -->

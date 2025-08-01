@@ -6,6 +6,7 @@
  *
  * ---------------------------------------------------------------------------- */
 
+
 $(document).ready(function () {
     $(document).on('change', '#province', function () {
         var provCode = $(this).val();
@@ -318,7 +319,33 @@ function openAddBoardResolutionModal() {
     });
 }
 
+function openUpdateBoardResolutionModal(boardResolution, boardResolutionCode, boardResolutionYear, boardResolutionID) {
+    openModal({
+        formId: "boardResolutionForm",
+        idField: "board_resolution_id",
+        idValue: boardResolutionID,
+        fields: {
+            "textarea[name='boardResolution']": boardResolution,
+            "input[name='resolutionCode']": boardResolutionCode,
+            "input[name='resolutionYear']": boardResolutionYear
+        },
+        titleId: "modal-title-board-resolution",
+        icon: "<i class='ph-pencil me-2'></i>",
+        title: "Update Board Resolution",
+        buttonId: "btn-save-board-resolution",
+        buttonText: "Update Board Resolution",
+        buttonClass: "btn-primary",
+        headerId: "modal-header-board-resolution",
+        headerClass: "bg-primary",
+        modalId: "modal_board_resolution"
+    });
+}
 
+function openDeleteResolutionModal(boardResolutionID) {
+    document.getElementById('delete_resolution_id').value = boardResolutionID;
+    const deleteModal = new bootstrap.Modal(document.getElementById('deleteBoardResolutionModal'));
+    deleteModal.show();
+}
 
 function openAddAcademicResolutionModal() {
     openModal({
@@ -354,7 +381,7 @@ function openUpdateAcademicResolutionModal(academicResolution, academicResolutio
         buttonId: "btn-save-academic-resolution",
         buttonText: "Update Academic Resolution",
         buttonClass: "btn-primary",
-        headerId: "modal-header-board-resolution",
+        headerId: "modal-header-academic-resolution",
         headerClass: "bg-primary",
         modalId: "modal_academic_resolution"
     });
@@ -362,30 +389,4 @@ function openUpdateAcademicResolutionModal(academicResolution, academicResolutio
 
 
 
-function openUpdateBoardResolutionModal(boardResolution, boardResolutionCode, boardResolutionYear, boardResolutionID) {
-    openModal({
-        formId: "boardResolutionForm",
-        idField: "board_resolution_id",
-        idValue: boardResolutionID,
-        fields: {
-            "textarea[name='boardResolution']": boardResolution,
-            "input[name='resolutionCode']": boardResolutionCode,
-            "input[name='resolutionYear']": boardResolutionYear
-        },
-        titleId: "modal-title-board-resolution",
-        icon: "<i class='ph-pencil me-2'></i>",
-        title: "Update Board Resolution",
-        buttonId: "btn-save-board-resolution",
-        buttonText: "Update Board Resolution",
-        buttonClass: "btn-primary",
-        headerId: "modal-header-board-resolution",
-        headerClass: "bg-primary",
-        modalId: "modal_board_resolution"
-    });
-}
 
-function openDeleteResolutionModal(id) {
-    document.getElementById('delete_resolution_id').value = id;
-    const deleteModal = new bootstrap.Modal(document.getElementById('deleteBoardResolutionModal'));
-    deleteModal.show();
-}

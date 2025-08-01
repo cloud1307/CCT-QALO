@@ -71,7 +71,7 @@ $provinces = $model->getAllProvince();
 										<div class="card-title modal-footer justify-content-between">
 												<h5 class="mb-0">Employee Information</h5>
 										</div>
-								<form class="needs-validation" action="#" novalidate method="POST">
+								<form class="needs-validation" action="../controller/employeeController.php" novalidate method="POST">
 										
 									<div class="row">
 											<div class="form-label col-lg-12">												
@@ -112,7 +112,7 @@ $provinces = $model->getAllProvince();
 											<div class="form-label col-lg-4">												
 												<label class="form-label">Gender</label>
 													<div class="form-control-feedback">
-														<select class="form-select" required>
+														<select class="form-select" name="gender" required>
 															<option value="">Select Gender</option>
 															<option value="Male">Male</option>
 															<option value="Female">Female</option>
@@ -120,10 +120,34 @@ $provinces = $model->getAllProvince();
 														<div class="invalid-feedback">Select Gender</div>															
 													</div>																													                                
 											</div>
+
 											<div class="form-label col-lg-6">												
+												<label class="form-label">Contact Number</label>
+													<div class="form-control-feedback form-control-feedback-start">
+															<input type="text" name="contactNumber" class="form-control" placeholder="0999-999-9999"  required>										
+														<div class="invalid-feedback">Enter Contact Number 0999-999-9999</div>
+														<div class="valid-feedback">Valid Contact Number 0999-999-9999</div>														
+														<div class="form-control-feedback-icon">
+															<i class="ph-phone text-muted"></i>
+														</div>
+													</div>
+											</div>
+
+											<div class="form-label col-lg-6">												
+												<label class="form-label">Alternative Email Address</label>
+													<div class="form-control-feedback form-control-feedback-start">
+															<input type="email" name="dateOfBirth" class="form-control" placeholder="ENTER ALTERNATIVE EMAIL ADDRESS" required>										
+														<div class="invalid-feedback">Enter Alternative Email Address</div>
+														<div class="form-control-feedback-icon">
+															<i class="ph-envelope text-muted"></i>
+														</div>
+													</div>
+											</div>
+
+											<div class="form-label col-lg-4">												
 												<label class="form-label">Civil Status</label>
 													<div class="form-control-feedback form-control-feedback-start">
-														<select class="form-select" required>
+														<select class="form-select" name="civilStatus" required>
 															<option value="">Select Civil Status</option>
 															<option value="Single">Single</option>
 															<option value="Married">Married</option>
@@ -134,8 +158,9 @@ $provinces = $model->getAllProvince();
 														</select>
 														<div class="invalid-feedback">Select Civil Status</div>
 													</div>															                                
-											</div>
-											<div class="form-label col-lg-6">												
+											</div>											
+
+											<div class="form-label col-lg-4">												
 												<label class="form-label">Date of Birth</label>
 													<div class="form-control-feedback form-control-feedback-start">
 															<input type="text" name="dateOfBirth" class="form-control datepicker-date-format" placeholder="Enter date in yyyy-mm-dd"  required>										
@@ -146,19 +171,34 @@ $provinces = $model->getAllProvince();
 													</div>
 											</div>
 
-											<div class="form-label col-lg-6">												
-												<label class="form-label">House No.</label>
+
+											<div class="form-label col-lg-4">												
+												<label class="form-label">Place of Birth</label>
 													<div class="form-control-feedback">
-														<input type="text" name="houseNo" class="form-control text-uppercase" placeholder="Enter House Number" required>
-														<div class="invalid-feedback">Enter House Number</div>															
+														<input type="text" name="placeofBirth" class="form-control text-uppercase" placeholder="Enter Place of Birth" required>
+														<div class="invalid-feedback">Enter Place of Birth</div>															
 													</div>				                                
 											</div>
 
 											<div class="form-label col-lg-6">												
-												<label class="form-label">Street/Building/Floor</label>
-													<div class="form-control-feedback">
+												<label class="form-label">House No. (if not available N/A)</label>
+													<div class="form-control-feedback form-control-feedback-start">
+														<input type="text" name="houseNo" class="form-control text-uppercase" placeholder="Enter House Number" required>
+														<div class="invalid-feedback">Enter House Number</div>
+														<div class="form-control-feedback-icon">
+															<i class="ph-house text-muted"></i>
+														</div>															
+													</div>				                                
+											</div>
+
+											<div class="form-label col-lg-6">												
+												<label class="form-label">Street/Purok/Poblacion/Building/Floor</label>
+													<div class="form-control-feedback form-control-feedback-start">
 														<input type="text" name="street" class="form-control text-uppercase" placeholder="Enter Street/Building/Floor" required>
-														<div class="invalid-feedback">Enter Street/Building/Floor</div>															
+														<div class="invalid-feedback">Enter Street/Building/Floor</div>
+														<div class="form-control-feedback-icon">
+															<i class="ph-buildings text-muted"></i>
+														</div>														
 													</div>				                                
 											</div>											
 
@@ -206,7 +246,7 @@ $provinces = $model->getAllProvince();
 															<option value="">Select School</option>
 															<?php if (!empty($school)): ?>
 																<?php foreach ($school as $row): ?>
-																	<option value="<?= htmlspecialchars($row['intSchoolID']) ?>"><?= htmlspecialchars($row['varSchoolCode']) ?></option>
+																	<option value="<?= htmlspecialchars($row['intSchoolID']) ?>"><?= htmlspecialchars($row['varSchoolName']) ?></option>
 																<?php endforeach; ?>
 															<?php else: ?>
 																<option value="">No School Available</option>
@@ -318,3 +358,5 @@ $provinces = $model->getAllProvince();
 	<!-- /page content -->
 </body>
 </html>
+
+

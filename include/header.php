@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
 	<meta charset="utf-8">
@@ -47,12 +48,16 @@
 	<script src="../assets/demo/pages/content_page_header.js"></script>
 	<script src="../assets/demo/pages/table_elements.js"></script>
 	<script src="../assets/demo/pages/components_modals.js"></script>
-
-	<script src="../assets/js/vendor/pickers/datepicker.min.js"></script>
-	<script src="../assets/js/vendor/forms/selects/select2.min.js"></script>
-
 	<script src="../assets/demo/pages/picker_date.js"></script>
 	<script src="../assets/demo/pages/form_select2.js"></script>
+
+	<script src="../assets/js/vendor/pickers/datepicker.min.js"></script>	
+	<script src="../assets/js/vendor/pickers/daterangepicker.js"></script>
+	<script src="../assets/js/vendor/forms/selects/select2.min.js"></script>
+	<script src="../assets/js/vendor/forms/selects/bootstrap_multiselect.js"></script>
+
+	
+	
 
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
