@@ -72,7 +72,7 @@ $position = $model->getAllPosition();
 										</div>								
 									</div>
 
-									<table class="table datatable-basic  table-striped table-hover">
+									<table class="table datatable-show-all  table-striped table-hover">
 											<thead>
 												<tr>
 													<!-- <th>ID</th> -->

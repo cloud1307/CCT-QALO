@@ -75,6 +75,7 @@ $schProgram = $model->getAllSchoolProgram();
 									<table class="table datatable-basic table-hover">
 										<thead>
 											<tr>
+												<th>ID</th>
 												<th>School</th>
 												<th>Program Description</th>
 												<th>Program Code</th>												
@@ -85,6 +86,7 @@ $schProgram = $model->getAllSchoolProgram();
 										<tbody>
 											<?php foreach ($schProgram as $row): ?>											
 											<tr>
+												<td><?= htmlspecialchars($row['intProgramID']) ?></td>
 												<td><?= htmlspecialchars($row['varSchoolName']) ?></td>
 												<td><?= htmlspecialchars($row['varProgramName']) ?></td>
 												<td><?= htmlspecialchars($row['varProgramCode']) ?></td>												

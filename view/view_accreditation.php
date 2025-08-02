@@ -3,7 +3,18 @@ if (session_status() === PHP_SESSION_NONE) {
 	session_start();
 }
 
-include '../include/header.php'; ?>
+include '../include/header.php'; 
+
+// Load controller
+require_once '../config/config.php'; // where $conn is defined
+require_once '../controller/employeeController.php';
+
+
+$db = new Database();
+$conn = $db->connect();
+$model = new EmployeeModel($conn);
+$accreditation = $model->getAllAccreditation();
+?>
 <body>
 
 	<!-- Main navbar -->
@@ -70,9 +81,10 @@ include '../include/header.php'; ?>
 											</tr>
 										</thead>
 										<tbody>
+											<?php foreach ($accreditation as $row):?>
 											<tr>
-												<td>COMMISSION ON HIGHER EDUCATION</td>
-												<td>CHED</td>
+												<td><?= htmlspecialchars($row['varAccredittaionName']) ?></td>
+												<td><?= htmlspecialchars($row['varAccredCode']) ?></td>
 												<td><span class="badge bg-success bg-opacity-10 text-success">Active</span></td>
 												<td class="text-center">
 													<div class="d-inline-flex">
@@ -98,7 +110,8 @@ include '../include/header.php'; ?>
 														</div>
 													</div>
 												</td>
-											</tr>							
+											</tr>
+											<?php endforeach; ?>				
 									
 										</tbody>
 									</table>

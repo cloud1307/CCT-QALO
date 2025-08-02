@@ -613,6 +613,7 @@ document.addEventListener('DOMContentLoaded', function() {
     App.initCore();
 });
 
+
 // When page is fully loaded
 window.addEventListener('load', function() {
     App.initAfterLoad();

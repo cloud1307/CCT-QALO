@@ -38,7 +38,15 @@ const ExtendedFormControls = function() {
         const maskPhoneElement = document.querySelector('#mask_phone');
         if(maskPhoneElement) {
             const maskPhone = IMask(maskPhoneElement, {
-                mask: '+{3}(000)000-00-00'
+                mask: '+{63}900-0000-000'
+            });
+        }
+
+         // Employee ID
+        const maskemployeeIDElement = document.querySelector('#mask_employeeID');
+        if(maskemployeeIDElement) {
+            const maskEmployeeID = IMask(maskemployeeIDElement, {
+                mask: '0000000000'
             });
         }
 

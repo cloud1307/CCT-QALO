@@ -21,7 +21,6 @@
 	<!-- Theme JS files -->
 	<script src="../assets/js/jquery/jquery.min.js"></script>
 	<script src="../assets/js/vendor/tables/datatables/datatables.min.js"></script>
-	<!-- <script src="../assets/js/vendor/tables/datatables/extensions/key_table.min.js"></script> -->
 
 	<script src="../assets/js/vendor/uploaders/fileinput/plugins/sortable.min.js"></script>
 	<script src="../assets/js/vendor/uploaders/fileinput/fileinput.min.js"></script>
@@ -34,8 +33,10 @@
 	<script src="../assets/demo/pages/datatables_extension_buttons_html5.js"></script>
 	<script src="../assets/demo/pages/datatables_advanced.js"></script>
 	
+	
 	<!-- Data Tables Basic Styling -->
 	<script src="../assets/demo/pages/datatables_basic.js"></script>
+	<script src="../assets/demo/pages/datatables_advanced.js"></script>
 	<script src="../assets/demo/pages/datatables_data_sources.js"></script>
 	<!-- Key data tables -->
 	<script src="../assets/demo/pages/datatables_extension_key_table.js"></script>
@@ -56,7 +57,13 @@
 	<script src="../assets/js/vendor/forms/selects/select2.min.js"></script>
 	<script src="../assets/js/vendor/forms/selects/bootstrap_multiselect.js"></script>
 
-	
+
+	<script src="../assets/js/vendor/forms/inputs/imask.min.js"></script>
+	<script src="../assets/js/vendor/forms/inputs/autosize.min.js"></script>
+	<script src="../assets/js/vendor/forms/inputs/passy.js"></script>
+	<script src="../assets/js/vendor/forms/inputs/maxlength.min.js"></script>
+
+	<script src="../assets/demo/pages/form_controls_extended.js"></script>
 	
 
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -121,7 +121,7 @@ class EmployeeController
             $message = 'Position updated successfully.';
         } else {
             // Insert
-            $success = $this->model->addSchoolProgram($schid, $schProgram, $progCode);
+            $success = $this->model->addPosition($positionName);            
             $message = 'Positon added successfully.';
         }
      
@@ -209,10 +209,11 @@ class EmployeeController
 
     }
 
-    public function BoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID = null, $isDeleteResolution = false, $resolutionFile = NULL){
+    public function BoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID = null, $resolutionFile = NULL){
         $boardResolution = strtoupper(trim($boardResolution));
         $boardResolutionCode = strtoupper(trim($boardResolutionCode));
         $boardResolutionYear = trim($boardResolutionYear);
+
 
         //Delete Board Resolution
         if ($isDeleteResolution && !empty($boardResolutionID)) {
@@ -230,7 +231,12 @@ class EmployeeController
 
         //Check for duplicates
 
-        // if ($this->BoardResolutionExists($boardResolution, $boardResolutionCode, $boardResolutionYear, !empty()))
+        //  if ($this->BoardResolutionExists($boardResolution, $boardResolutionCode, $boardResolutionYear,$resolutionFile, !empty(boardResolutionID) ? $boardResolutionID : null)){
+        //     return [
+        //         'status' => 'warning',
+        //         'message' => 'Board Resolution Already exists.'
+        //     ];
+        // }
 
         $success = false;
         $message = '';
@@ -257,9 +263,10 @@ class EmployeeController
                     $target_file1 = $target_dir . $fileName1;
                     unlink($target_file1);
                 }
-            }
-            $success = $this->model->updateBoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID, $fileName);
-            $message = 'Board Resolution updated successfully.';
+            }           
+                $success = $this->model->updateBoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID, $fileName);
+                $message = 'Board Resolution updated successfully.';
+               
         } else {
             $success = $this->model->addBoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $fileName);
             $message = 'Board Resolution added successfully.';
@@ -368,6 +375,8 @@ handleAjaxAction('MajorProgram', function(){
     return $controller->MajorProgram($progid, $majorcourse, $majorid);
 });
 
+
+
 // handleAjaxAction('BoardResolution', function(){
 //     $boardResolution = $_POST['boardResolution'] ?? '';
 //     $boardResolutionCode = $_POST['resolutionCode'] ?? '';
@@ -447,7 +456,7 @@ handleAjaxAction('MajorProgram', function(){
 handleAjaxAction('BoardResolution', function () {
     $boardResolution = $_POST['boardResolution'] ?? '';
     $boardResolutionCode = $_POST['resolutionCode'] ?? '';
-    $boardResolutionYear = $_POST['resolutionYear'] ?? '';
+    $boardResolutionYear = $_POST['resolutionYear'] ?? '';    
     $boardResolutionID = $_POST['board_resolution_id'] ?? null;
     //$isDeleteResolution = isset($_POST['deleteResolution']) && $_POST['deleteResolution'] === 'delete';
 
@@ -461,7 +470,7 @@ handleAjaxAction('BoardResolution', function () {
     // }
 
     $controller = new EmployeeController();
-    return $controller->BoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID, $isDeleteResolution, $_FILES['fileBoardResolution']);
+    return $controller->BoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID, $_FILES['fileBoardResolution']);
 });
 
 

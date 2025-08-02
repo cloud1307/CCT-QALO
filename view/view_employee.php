@@ -73,11 +73,11 @@ $employee = $model->getAllEmployee('Active');
 									<table class="table datatable-basic table-hover">
 										<thead>
 											<tr>
-												<th>LastName</th>
-												<th>FirstName</th>
-												<th>Position</th>
-												<th>Department</th>
-												<th>Job Category</th>													
+												<th style="width: 15%;">LastName</th>
+												<th style="width: 15%;">FirstName</th>
+												<th style="width: 30%;">Position</th>
+												<th style="width: 25%;">Department</th>
+												<th style="width: 15%;">Job Category</th>													
 												<th>Status</th>
 												<th class="text-center">Actions</th>
 											</tr>

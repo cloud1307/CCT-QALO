@@ -75,7 +75,7 @@ $school = $model->getAllSchool();
 									<table class="table datatable-basic table-hover">
 										<thead>
 											<tr>
-												<!-- <th>No</th> -->
+												<!-- <th>ID</th> -->
 												<th>School Name or Department</th>
 												<th>School Code</th>												
 												<th>Department Category</th>
@@ -83,8 +83,9 @@ $school = $model->getAllSchool();
 											</tr>
 										</thead>
 										<tbody>
-											<?php foreach ($school as $row): ?>
+											<?php foreach ($school as $row):?>
 											<tr>
+												
 												
 												<td><?= htmlspecialchars($row['varSchoolName']) ?></td>
 												<td><?= htmlspecialchars($row['varSchoolCode']) ?></td>												

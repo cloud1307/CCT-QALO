@@ -76,9 +76,12 @@ $provinces = $model->getAllProvince();
 									<div class="row">
 											<div class="form-label col-lg-12">												
 												<label class="form-label">Employee Number</label>
-													<div class="form-control-feedback">
-														<input type="number" name="EmployeeNumber" class="form-control" placeholder="Enter Employee Number" required>
-														<div class="invalid-feedback">Enter Employee Number</div>															
+													<div class="form-control-feedback form-control-feedback-start">
+														<input type="text" name="EmployeeNumber" class="form-control" placeholder="0000000000" id="mask_employeeID" required>
+														<div class="invalid-feedback">Enter Employee Number</div>
+														<div class="form-control-feedback-icon">
+															<i class="icon-user-tie text-muted"></i>
+														</div>															
 													</div>				                                
 											</div>
 											<div class="form-label col-lg-12">												
@@ -124,9 +127,8 @@ $provinces = $model->getAllProvince();
 											<div class="form-label col-lg-6">												
 												<label class="form-label">Contact Number</label>
 													<div class="form-control-feedback form-control-feedback-start">
-															<input type="text" name="contactNumber" class="form-control" placeholder="0999-999-9999"  required>										
-														<div class="invalid-feedback">Enter Contact Number 0999-999-9999</div>
-														<div class="valid-feedback">Valid Contact Number 0999-999-9999</div>														
+															<input type="text" name="contactNumber" class="form-control" placeholder="{63}900-0000-000" id="mask_phone" required>										
+														<div class="invalid-feedback">Enter Contact Number {63}900-0000-000</div>																											
 														<div class="form-control-feedback-icon">
 															<i class="ph-phone text-muted"></i>
 														</div>
@@ -136,7 +138,7 @@ $provinces = $model->getAllProvince();
 											<div class="form-label col-lg-6">												
 												<label class="form-label">Alternative Email Address</label>
 													<div class="form-control-feedback form-control-feedback-start">
-															<input type="email" name="dateOfBirth" class="form-control" placeholder="ENTER ALTERNATIVE EMAIL ADDRESS" required>										
+															<input type="email" name="dateOfBirth" class="form-control" placeholder="Enter Alternative Email Address" required>										
 														<div class="invalid-feedback">Enter Alternative Email Address</div>
 														<div class="form-control-feedback-icon">
 															<i class="ph-envelope text-muted"></i>

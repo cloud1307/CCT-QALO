@@ -12,6 +12,7 @@ class EmployeeModel
     private $table_board_resolution = "tbl_board_resolution";
     private $table_academic_resolution = "tbl_academic_resolution";
     private $table_city_resolution = "tbl_city_resolution";
+    private $table_accreditation = 'tbl_accreditation';
 
 
 	public function __construct() {
@@ -44,7 +45,7 @@ class EmployeeModel
     public function addPosition($position) {
         $query = "INSERT INTO {$this->table_position} (varPosition) VALUES (?)";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("s", $position);
+        $stmt->bind_param("s", $position);        
         return $stmt->execute();
     }
     //Update Query for Position Table
@@ -324,7 +325,7 @@ class EmployeeModel
         }
     //Add Board Resolution 
         public function addBoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $resolutionFile){
-            $documentVerifyID = date('Ym') . mt_rand(1000000000, 9999999999);
+            $documentVerifyID = date('Ymd') . mt_rand(1000000000, 9999999999);
             $query = "INSERT INTO {$this->table_board_resolution} (varBoardResolution, varBoardResolutionCode, BoardResolutionYear, BoardDateUpload, resolutionFile, boardResoDocumentVerifyID) VALUES (?, ?, ?, NOW(), ?, ?)";
             $stmt = $this->conn->prepare($query);
             $stmt->bind_param("ssiss", $boardResolution, $boardResolutionCode, $boardResolutionYear, $resolutionFile, $documentVerifyID);
@@ -398,7 +399,7 @@ class EmployeeModel
     }
 
     public function addAcademicResolution($academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionFile){
-        $AcademicdocumentVerifyID = date('Ym') . mt_rand(1000000000, 9999999999);
+        $AcademicdocumentVerifyID = date('Ymd') . mt_rand(1000000000, 9999999999);
         $query = "INSERT INTO {$this->table_academic_resolution} (varAcademicResolution, varAcademicResolutionCode, AcademicResolutionYear, AcademicDateUpload, AcadResolutionFile, AcademicdocumentVerifyID) VALUES (?, ?, ?, NOW(),?, ?)";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("ssiss", $academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionFile, $AcademicdocumentVerifyID);
@@ -454,7 +455,7 @@ class EmployeeModel
 
     //Get All City Resolution
     public function getAllCityResolution(){
-        $query ="SELECT * FROM {$this->table_city_resolution}";
+        $query = "SELECT * FROM {$this->table_city_resolution}";
         $result = $this->conn->query($query);
         $city_resolution = [];
 
@@ -465,6 +466,18 @@ class EmployeeModel
         }return $city_resolution;
     }
    
+    //Get All Accreditation
+    public function getAllAccreditation(){
+        $query = "SELECT * FROM {$this->table_accreditation}";
+        $result = $this->conn->query($query);
+        $accreditation = [];
+
+        if ($result && $result->num_rows > 0){
+            while ($row = $result->fetch_assoc()){
+                $accreditation[] = $row;
+            }
+        }return $accreditation;
+    }
 
 }// --/EmployeeModel---
 

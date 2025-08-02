@@ -373,7 +373,7 @@ function openAddBoardResolutionModal() {
     });
 }
 
-function openUpdateBoardResolutionModal(boardResolution, boardResolutionCode, boardResolutionYear, boardResolutionID) {
+function openUpdateBoardResolutionModal(boardResolution, boardResolutionCode, boardResolutionYear, resolutionFile, boardResolutionID) {
     openModal({
         formId: "boardResolutionForm",
         idField: "board_resolution_id",
@@ -381,7 +381,8 @@ function openUpdateBoardResolutionModal(boardResolution, boardResolutionCode, bo
         fields: {
             "textarea[name='boardResolution']": boardResolution,
             "input[name='resolutionCode']": boardResolutionCode,
-            "input[name='resolutionYear']": boardResolutionYear
+            "input[name='resolutionYear']": boardResolutionYear,
+            "input[name='fileBoardResolution']": resolutionFile
         },
         titleId: "modal-title-board-resolution",
         icon: "<i class='ph-pencil me-2'></i>",
@@ -395,11 +396,6 @@ function openUpdateBoardResolutionModal(boardResolution, boardResolutionCode, bo
     });
 }
 
-function openDeleteResolutionModal(boardResolutionID) {
-    document.getElementById('delete_resolution_id').value = boardResolutionID;
-    const deleteModal = new bootstrap.Modal(document.getElementById('deleteBoardResolutionModal'));
-    deleteModal.show();
-}
 
 function openAddAcademicResolutionModal() {
     openModal({
@@ -444,3 +440,9 @@ function openUpdateAcademicResolutionModal(academicResolution, academicResolutio
 
 
 
+
+function openDeleteResolutionModal(boardResolutionID) {
+    document.getElementById('delete_resolution_id').value = boardResolutionID;
+    const deleteModal = new bootstrap.Modal(document.getElementById('deleteBoardResolutionModal'));
+    deleteModal.show();
+}

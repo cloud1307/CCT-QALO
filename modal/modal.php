@@ -109,7 +109,7 @@ $schProgram = $model->getAllSchoolProgram();
 									<div class="mb-3">
 										<label class="form-label">School Program</label>
 										<div class="form-control-feedback form-control-feedback-start input-group">
-											<input type="text" name="accreditation" class="form-control text-uppercase"  required>										
+											<input type="text" name="SchoolProgram" class="form-control text-uppercase"  required>										
 										<div class="invalid-feedback">Enter School Program</div>
 											<!-- <div class="form-control-feedback-icon">
 												<i class="ph-house-line text-muted"></i>
@@ -120,7 +120,7 @@ $schProgram = $model->getAllSchoolProgram();
 									<div class="mb-3">
 										<label class="form-label">Major Course</label>
 										<div class="form-control-feedback form-control-feedback-start input-group">
-											<input type="text"  class="form-control text-uppercase" name="codeName" required>										
+											<input type="text"  class="form-control text-uppercase" name="MajorCourse" required>										
 										<div class="invalid-feedback">Enter Major Course</div>
 											<!-- <div class="form-control-feedback-icon">
 												<i class="ph-bookmark text-muted"></i>
@@ -288,16 +288,16 @@ $schProgram = $model->getAllSchoolProgram();
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header bg-success text-white border-0" id="modal-header-school">
-					<h5 class="modal-title" id="modal-title-school"><i class="ph-plus me-2"></i>Add Schools</h5>
+					<h5 class="modal-title" id="modal-title-school"><i class="ph-plus me-2"></i>Add School/Department</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				</div>
 						<form class="needs-validation" id="schoolForm" action="../controller/employeeController.php" novalidate method="POST">
 							<div class="modal-body">				
 									<input type="hidden" name="school_id" id="school_id">
 									<div class="mb-3">
-										<label class="form-label">School Name</label>
+										<label class="form-label">School or Department</label>
 										<div class="form-control-feedback  input-group">
-											<input type="text" name="schoolName" class="form-control text-uppercase" placeholder="Enter School Name"  required>										
+											<input type="text" name="schoolName" class="form-control text-uppercase" placeholder="Enter School or Department"  required>										
 										<!-- <div class="invalid-feedback">Enter School</div>											 -->
 										</div>
 									</div>
@@ -374,7 +374,22 @@ $schProgram = $model->getAllSchoolProgram();
 											<input type="text"  class="form-control text-uppercase" name="programCode" required>										
 										<div class="invalid-feedback">Enter Program Code</div>											
 										</div>
-									</div>							
+									</div>
+									<div class="d-flex align-items-center mb-3">
+										<div class="form-check">
+											<input type="checkbox" name="withMajor" id="withMajorCheckbox" class="form-check-input">
+											<label class="form-check-label" for="withMajorCheckbox">With Major</label>
+										</div>
+									</div>
+
+									<div class="mb-3" id="majorCourseGroup" style="display: none;">
+										<label class="form-label">Major Course</label>
+										<div class="form-control-feedback input-group">
+											<input type="text" class="form-control text-uppercase" name="MajorCourse" id="majorCourseInput">
+											<div class="invalid-feedback">Enter Major Course</div>
+										</div>
+									</div>
+
 								</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>

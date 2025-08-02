@@ -76,6 +76,7 @@ $majorProgram = $model->getAllMajorProgram();
 									<table class="table datatable-basic table-hover">
 										<thead>
 											<tr>
+												<th>ID</th>
 												<th>Program Description</th>
 												<th>Major Course</th>
 												<th>Status</th>
@@ -85,6 +86,7 @@ $majorProgram = $model->getAllMajorProgram();
 										<tbody>
 											<?php foreach ($majorProgram as $row): ?>	
 											<tr>
+												<td><?= htmlspecialchars($row['intMajorID']) ?></td>
 												<td><?= htmlspecialchars($row['varProgramName']) ?></td>
 												<td>MAJOR IN <?= htmlspecialchars($row['varMajorCourse']) ?></td>												
 												<td><span class="badge bg-success bg-opacity-10 text-success"><?= htmlspecialchars($row['enumMajorStatus']) ?></span></td>
@@ -100,7 +102,7 @@ $majorProgram = $model->getAllMajorProgram();
 																		class="dropdown-item"
 																		onclick="openUpdateMajorProgramModal(<?= $row['intMajorID'] ?>, 
 																		'<?= htmlspecialchars($row['intProgramID'], ENT_QUOTES) ?>',																		
-																		'<?= htmlspecialchars($row['varMajorCourse'], ENT_QUOTES) ?>')">																	
+																		'<?= htmlspecialchars($row['varMajorCourse'], ENT_QUOTES) ?>')">															
 																			<i class="ph-pencil me-2"></i>
 																			Edit
 																</a>

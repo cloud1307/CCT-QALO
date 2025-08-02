@@ -72,11 +72,11 @@ $employee = $model->getAllEmployee('non-active');
 									<table class="table datatable-basic table-hover">
 										<thead>
 											<tr>
-												<th>LastName</th>
-												<th>FirstName</th>
-												<th>Position</th>
-												<th>Department</th>
-												<th>Job Category</th>													
+												<th style="width: 20%;">LastName</th>
+												<th style="width: 20%;">FirstName</th>
+												<th style="width: 30%;">Position</th>
+												<th style="width: 15%;">Department</th>
+												<th style="width: 15%;">Job Category</th>													
 												<th>Status</th>
 												<th class="text-center">Actions</th>
 											</tr>
@@ -122,12 +122,12 @@ $employee = $model->getAllEmployee('non-active');
 																	Edit
 																</a>
 																<a href="#" class="dropdown-item">
-																	<i class="ph-eye me-2"></i>
-																	View Area
+																	<i class="ph-user me-2"></i>
+																	View Profile
 																</a>
 																<a href="#" class="dropdown-item">
-																	<i class="ph-download me-2"></i>
-																	Download Requirements
+																	<i class="ph-file me-2"></i>
+																	Service Record
 																</a>
 															</div>
 														</div>
