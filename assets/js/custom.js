@@ -440,9 +440,44 @@ function openUpdateAcademicResolutionModal(academicResolution, academicResolutio
 
 
 
+//DELETE RESOLUTION
+function confirmDeleteBoardResolution(resolutionID) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "This action will permanently delete the board resolution.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Yes, delete it!',
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Send AJAX request to delete
+            fetch('../controller/employeeController.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `action=deleteBoardResolution&board_resolution_id=${resolutionID}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                Swal.fire({
+                    icon: data.status,
+                    title: data.status === 'success' ? 'Deleted!' : 'Error!',
+                    text: data.message,
+                    timer: 2000,
+                    showConfirmButton: false
+                });
 
-function openDeleteResolutionModal(boardResolutionID) {
-    document.getElementById('delete_resolution_id').value = boardResolutionID;
-    const deleteModal = new bootstrap.Modal(document.getElementById('deleteBoardResolutionModal'));
-    deleteModal.show();
+                if (data.status === 'success') {
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2000);
+                }
+            })
+            .catch(() => {
+                Swal.fire('Error!', 'An unexpected error occurred.', 'error');
+            });
+        }
+    });
 }

@@ -349,15 +349,15 @@ class EmployeeModel
     }
 
 
-    public function getBoardResolution($boardResolutionID){
-        $query = "SELECT * FROM {$this->table_board_resolution} WHERE intBoardResolutionID  = ?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param('i', $boardResolutionID);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();;
-        return $row;
-    }
+    // public function getBoardResolution($boardResolutionID){
+    //     $query = "SELECT * FROM {$this->table_board_resolution} WHERE intBoardResolutionID  = ?";
+    //     $stmt = $this->conn->prepare($query);
+    //     $stmt->bind_param('i', $boardResolutionID);
+    //     $stmt->execute();
+    //     $result = $stmt->get_result();
+    //     $row = $result->fetch_assoc();;
+    //     return $row;
+    // }
     
 
      public function BoardResolutionExists($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID = null){
@@ -406,31 +406,21 @@ class EmployeeModel
 }
 
     //Delete Board Resolution
-public function deleteBoardResolution($boardResolutionID) {
-    // Step 1: Get the file name
-    $query = "SELECT resolutionFile FROM {$this->table_board_resolution} WHERE intBoardResolutionID = ?";
-    $stmt = $this->conn->prepare($query);
-    $stmt->bind_param("i", $boardResolutionID);
-    $stmt->execute();
-    $stmt->bind_result($fileName);
-    $stmt->fetch();
-    $stmt->close();
-
-    // Step 2: Delete the file if it exists
-    if (!empty($fileName)) {
-        $filePath = "../uploads/botupload/" . $fileName;
-        if (file_exists($filePath)) {
-            unlink($filePath);
-        }
+    public function getBoardResolution($boardResolutionID) {
+        $query = "SELECT resolutionFile FROM {$this->table_board_resolution} WHERE intBoardResolutionID = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $boardResolutionID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
     }
 
-    // Step 3: Delete the record from the database
-    $query = "DELETE FROM {$this->table_board_resolution} WHERE intBoardResolutionID = ?";
-    $stmt = $this->conn->prepare($query);
-    $stmt->bind_param("i", $boardResolutionID);
-    return $stmt->execute();
-}
-
+    public function deleteBoardResolution($boardResolutionID) {
+        $query = "DELETE FROM {$this->table_board_resolution} WHERE intBoardResolutionID = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $boardResolutionID);
+        return $stmt->execute();
+    }
 
     public function getAllBoardResolution(){
         $query = "SELECT * FROM {$this->table_board_resolution} ORDER BY BoardResolutionYear DESC";
