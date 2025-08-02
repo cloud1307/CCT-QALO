@@ -209,64 +209,70 @@ class EmployeeController
 
     }
 
-    public function BoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID = null, $resolutionFile = NULL){
-        $boardResolution = strtoupper(trim($boardResolution));
-        $boardResolutionCode = strtoupper(trim($boardResolutionCode));
-        $boardResolutionYear = trim($boardResolutionYear);
+   
 
-        //Validation user input
-        if (empty($boardResolution) || empty($boardResolutionCode) || empty($boardResolutionYear)) {
-            return ['status' => 'warning', 'message' => 'All fields are required.'];
-        }
+    public function BoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID = null, $resolutionFile = null) {
+    $boardResolution = strtoupper(trim($boardResolution));
+    $boardResolutionCode = strtoupper(trim($boardResolutionCode));
+    $boardResolutionYear = trim($boardResolutionYear);
 
-        //Check for duplicates
+    $target_dir = "../uploads/botupload/";
+    $fileName = null;
 
-        //  if ($this->BoardResolutionExists($boardResolution, $boardResolutionCode, $boardResolutionYear,$resolutionFile, !empty(boardResolutionID) ? $boardResolutionID : null)){
-        //     return [
-        //         'status' => 'warning',
-        //         'message' => 'Board Resolution Already exists.'
-        //     ];
-        // }
+    // Validation: required fields
+    if (empty($boardResolution) || empty($boardResolutionCode) || empty($boardResolutionYear)) {
+        return ['status' => 'warning', 'message' => 'All fields are required.'];
+    }
 
-        $success = false;
-        $message = '';
+    // Validation: check for duplicates
+    if ($this->model->BoardResolutionExists($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID)) {
+        return ['status' => 'warning', 'message' => 'Board Resolution already exists.'];
+    }
 
-        $target_dir = "../uploads/botupload/";
+    // File validation (only if uploading new file or filename changed)
+    if (!empty($resolutionFile["name"])) {
         $fileName = basename($resolutionFile["name"]);
         $target_file = $target_dir . $fileName;
-        // die($target_file);
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-        if ($imageFileType != "pdf") {
-            return ['status' => 'error', 'message' => 'Invalid file type. Only PDF files are allowed.'];
+        if ($fileType !== "pdf") {
+            return ['status' => 'warning', 'message' => 'Invalid file type. Only PDF files are allowed.'];
         }
 
+        // Check filename conflict with other records
+        if ($this->model->ResolutionFileExists($fileName, $boardResolutionID)) {
+            return ['status' => 'warning', 'message' => 'File name already used in another record. Please rename the file.'];            
+        }
+
+        // Upload new file
         if (!move_uploaded_file($resolutionFile["tmp_name"], $target_file)) {
-            return ['status' => 'error', 'message' => 'There was an error uploading your file.'];
+            return ['status' => 'warning', 'message' => 'There was an error uploading your file.'];
         }
-
-        if (!empty($boardResolutionID)) {
-            $boardResolution1 = $this->model->getBoardResolution($boardResolutionID);
-            if ($fileName != $boardResolution1['resolutionFile']) {
-                if (file_exists($target_file)) {
-                    $fileName1 = basename($boardResolution1["resolutionFile"]);
-                    $target_file1 = $target_dir . $fileName1;
-                    unlink($target_file1);
-                }
-            }           
-                $success = $this->model->updateBoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID, $fileName);
-                $message = 'Board Resolution updated successfully.';
-               
-        } else {
-            $success = $this->model->addBoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $fileName);
-            $message = 'Board Resolution added successfully.';
-        }
-
-        return [
-            'status' => $success ? 'success' : 'error',
-            'message' => $success ? $message : 'Database operation failed'
-        ];
     }
+
+    // Perform insert or update
+    if (!empty($boardResolutionID)) {
+        $existing = $this->model->getBoardResolution($boardResolutionID);
+        $existingFile = $existing['resolutionFile'] ?? '';
+
+        // Delete old file if a new file was uploaded and names differ
+        if ($fileName !== $existingFile && file_exists($target_dir . $existingFile)) {
+            unlink($target_dir . $existingFile);
+        }
+
+        $success = $this->model->updateBoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID, $fileName);
+        $message = 'Board Resolution updated successfully.';
+    } else {
+        $success = $this->model->addBoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $fileName);
+        $message = 'Board Resolution added successfully.';
+    }
+
+    return [
+        'status' => $success ? 'success' : 'error',
+        'message' => $success ? $message : 'Database operation failed.'
+    ];
+}
+
 
     public function addEmployee() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -365,16 +371,23 @@ handleAjaxAction('MajorProgram', function(){
     return $controller->MajorProgram($progid, $majorcourse, $majorid);
 });
 
-
 handleAjaxAction('BoardResolution', function () {
     $boardResolution = $_POST['boardResolution'] ?? '';
     $boardResolutionCode = $_POST['resolutionCode'] ?? '';
-    $boardResolutionYear = $_POST['resolutionYear'] ?? '';    
+    $boardResolutionYear = $_POST['resolutionYear'] ?? '';
     $boardResolutionID = $_POST['board_resolution_id'] ?? null;
     $resolutionFile = $_FILES['fileBoardResolution'] ?? null;
+
     $controller = new EmployeeController();
-    return $controller->BoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID, $resolutionFile);
+    return $controller->BoardResolution(
+        $boardResolution,
+        $boardResolutionCode,
+        $boardResolutionYear,
+        $boardResolutionID,
+        $resolutionFile
+    );
 });
+
 
 
 handleAjaxAction('AcademicResolution', function () {

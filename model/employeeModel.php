@@ -361,30 +361,76 @@ class EmployeeModel
     
 
      public function BoardResolutionExists($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID = null){
-        $sql = "SELECT COUNT(*) FROM {$this->table_board_resolution} WHERE (varBoardResolution = ? AND varBoardResolutionCode = ? AND BoardResolutionYear = ? )";
-        if (!empty($majorid)) {
+        $sql = "SELECT COUNT(*) FROM {$this->table_board_resolution} WHERE varBoardResolution = ? AND varBoardResolutionCode = ? AND BoardResolutionYear = ?";
+        
+        if (!empty($boardResolutionID)) {
             $sql .= " AND intBoardResolutionID != ?";
         }
 
         $stmt = $this->conn->prepare($sql);
+        
         if (!empty($boardResolutionID)){
-            $stmt->bind_param('ssii', $boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID);
-        }else{
+            // Corrected: Only one 'i' for the last int ID
+            $stmt->bind_param('sssi', $boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID);
+        } else {
             $stmt->bind_param('ssi', $boardResolution, $boardResolutionCode, $boardResolutionYear);
         }
+
         $stmt->execute();
         $stmt->bind_result($count);
         $stmt->fetch();
+        $stmt->close();
         return $count > 0;
     }
 
-    //Delete Board Resolution
-    public function deleteBoardResolution($boardResolutionID){
-        $query = "DELETE FROM {$this->table_board_resolution} WHERE intBoardResolutionID = ?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("i", $boardResolutionID);
-        return $stmt->execute();
+
+    public function ResolutionFileExists($fileName, $boardResolutionID = null) {
+    $sql = "SELECT COUNT(*) FROM {$this->table_board_resolution} WHERE resolutionFile = ?";
+    if (!empty($boardResolutionID)) {
+        $sql .= " AND intBoardResolutionID != ?";
     }
+
+    $stmt = $this->conn->prepare($sql);
+    if (!empty($boardResolutionID)) {
+        $stmt->bind_param('si', $fileName, $boardResolutionID);
+    } else {
+        $stmt->bind_param('s', $fileName);
+    }
+
+    $stmt->execute();
+    $stmt->bind_result($count);
+    $stmt->fetch();
+    $stmt->close();
+
+    return $count > 0;
+}
+
+    //Delete Board Resolution
+public function deleteBoardResolution($boardResolutionID) {
+    // Step 1: Get the file name
+    $query = "SELECT resolutionFile FROM {$this->table_board_resolution} WHERE intBoardResolutionID = ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param("i", $boardResolutionID);
+    $stmt->execute();
+    $stmt->bind_result($fileName);
+    $stmt->fetch();
+    $stmt->close();
+
+    // Step 2: Delete the file if it exists
+    if (!empty($fileName)) {
+        $filePath = "../uploads/botupload/" . $fileName;
+        if (file_exists($filePath)) {
+            unlink($filePath);
+        }
+    }
+
+    // Step 3: Delete the record from the database
+    $query = "DELETE FROM {$this->table_board_resolution} WHERE intBoardResolutionID = ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param("i", $boardResolutionID);
+    return $stmt->execute();
+}
+
 
     public function getAllBoardResolution(){
         $query = "SELECT * FROM {$this->table_board_resolution} ORDER BY BoardResolutionYear DESC";
