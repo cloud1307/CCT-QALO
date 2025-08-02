@@ -112,7 +112,7 @@ $board_resolution = $model->getAllBoardResolution();
 
 																<a href="javascript:void(0);" 
 																		class="dropdown-item"
-																		onclick="openResolutionModal(<?= $row['intBoardResolutionID'] ?>)">																	
+																		onclick="openDeleteResolutionModal(<?= $row['intBoardResolutionID'] ?>)">																	
 																			<i class="ph-trash me-2"></i>
 																			Delete
 																</a>

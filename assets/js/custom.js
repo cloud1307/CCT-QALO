@@ -373,7 +373,7 @@ function openAddBoardResolutionModal() {
     });
 }
 
-function openUpdateBoardResolutionModal(boardResolution, boardResolutionCode, boardResolutionYear, resolutionFile, boardResolutionID) {
+function openUpdateBoardResolutionModal(boardResolution, boardResolutionCode, boardResolutionYear, boardResolutionID) {
     openModal({
         formId: "boardResolutionForm",
         idField: "board_resolution_id",
@@ -381,8 +381,7 @@ function openUpdateBoardResolutionModal(boardResolution, boardResolutionCode, bo
         fields: {
             "textarea[name='boardResolution']": boardResolution,
             "input[name='resolutionCode']": boardResolutionCode,
-            "input[name='resolutionYear']": boardResolutionYear,
-            "input[name='fileBoardResolution']": resolutionFile
+            "input[name='resolutionYear']": boardResolutionYear
         },
         titleId: "modal-title-board-resolution",
         icon: "<i class='ph-pencil me-2'></i>",
@@ -436,6 +435,7 @@ function openUpdateAcademicResolutionModal(academicResolution, academicResolutio
         modalId: "modal_academic_resolution"
     });
 }
+
 
 
 

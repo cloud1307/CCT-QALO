@@ -214,16 +214,6 @@ class EmployeeController
         $boardResolutionCode = strtoupper(trim($boardResolutionCode));
         $boardResolutionYear = trim($boardResolutionYear);
 
-
-        //Delete Board Resolution
-        if ($isDeleteResolution && !empty($boardResolutionID)) {
-            $success = $this->model->deleteBoardResolution($boardResolutionID);
-            return [
-                'status' => $success ? 'success' : 'error',
-                'message' => $success ? 'Board Resolution deleted successfully.' : 'Failed to delete Board Resolution.'
-            ];
-        }
-
         //Validation user input
         if (empty($boardResolution) || empty($boardResolutionCode) || empty($boardResolutionYear)) {
             return ['status' => 'warning', 'message' => 'All fields are required.'];
@@ -376,101 +366,14 @@ handleAjaxAction('MajorProgram', function(){
 });
 
 
-
-// handleAjaxAction('BoardResolution', function(){
-//     $boardResolution = $_POST['boardResolution'] ?? '';
-//     $boardResolutionCode = $_POST['resolutionCode'] ?? '';
-//     $boardResolutionYear = $_POST['resolutionYear'] ?? '';
-//     $boardResolutionID = $_POST['board_resolution_id'] ?? null;
-//     $isDeleteResolution = isset($_POST['deleteResolution']) && $_POST['deleteResolution'] === 'delete';
-//     $target_dir = "../uploads/botupload/";
-//     $target_file = $target_dir . basename($_FILES["fileBoardResolution"]["name"]);
-//     $uploadOk = 1;
-//     $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-
-//     // Check if file already exists
-//     if (file_exists($target_file)) {
-//         echo "Sorry, file already exists.";
-//         $uploadOk = 0;
-//     }
-
-//     // Allow certain file formats
-//     if($imageFileType != "pdf") {
-//         echo "Sorry, only PDF files are allowed.";
-//         $uploadOk = 0;
-//     }
-
-//     // Check if $uploadOk is set to 0 by an error
-//     if ($uploadOk == 0) {
-//         echo "Sorry, your file was not uploaded.";
-//         // if everything is ok, try to upload file
-//     } else {
-//         if (move_uploaded_file($_FILES["fileBoardResolution"]["tmp_name"], $target_file)) {
-//             $controller = new EmployeeController();   
-//             return $controller->BoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID, $isDeleteResolution, basename( $_FILES["fileBoardResolution"]["name"]));
-//         } else {
-//             echo "Sorry, there was an error uploading your file.";
-//         }
-//     }
-// });
-
-// handleAjaxAction('AcademicResolution', function(){
-//     $academicResolution = $_POST['academicResolution'] ?? '';
-//     $academicResolutionCode = $_POST['academicresolutionCode'] ?? '';
-//     $academicResolutionYear = $_POST['academicResolutionYear'] ?? '';
-//     $academicResolutionID = $_POST['academic_resolution_id'] ?? null;
-//     $target_dir = "../uploads/acadupload/";
-//     $target_file = $target_dir . basename($_FILES["academicFileResolution"]["name"]);
-//     $uploadOk = 1;
-//     $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-
-//     // Check if file already exists
-//     if (file_exists($target_file)) {
-//         echo "Sorry, file already exists.";
-//         $uploadOk = 0;
-//     }
-
-//     // Allow certain file formats
-//     if($imageFileType != "pdf") {
-//         echo "Sorry, only PDF files are allowed.";
-//         $uploadOk = 0;
-//     }
-
-//      // Check if $uploadOk is set to 0 by an error
-//     if ($uploadOk == 0) {
-//         echo "Sorry, your file was not uploaded.";
-//         // if everything is ok, try to upload file
-//     } else {
-//         if (move_uploaded_file($_FILES["academicFileResolution"]["tmp_name"], $target_file)) {
-//             $controller = new EmployeeController();    
-//              return $controller->AcademicResolutions($academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionID, basename( $_FILES["academicFileResolution"]["name"]));
-//         }else {
-//             echo "Sorry, there was an error uploading your file.";
-//         }
-//     }
-// });
-
-
-
-
 handleAjaxAction('BoardResolution', function () {
     $boardResolution = $_POST['boardResolution'] ?? '';
     $boardResolutionCode = $_POST['resolutionCode'] ?? '';
     $boardResolutionYear = $_POST['resolutionYear'] ?? '';    
     $boardResolutionID = $_POST['board_resolution_id'] ?? null;
-    //$isDeleteResolution = isset($_POST['deleteResolution']) && $_POST['deleteResolution'] === 'delete';
-
-    // $target_dir = "../uploads/botupload/";
-    // $fileName = basename($_FILES["fileBoardResolution"]["name"]);
-    // $target_file = $target_dir . $fileName;
-    // $uploadOk = 1;
-
-    // if (file_exists($target_file)) {
-    //     return ['status' => 'error', 'message' => 'File already exists. Please rename and try again.'];
-    // }
-
+    $resolutionFile = $_FILES['fileBoardResolution'] ?? null;
     $controller = new EmployeeController();
-    return $controller->BoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID, $_FILES['fileBoardResolution']);
+    return $controller->BoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID, $resolutionFile);
 });
 
 
