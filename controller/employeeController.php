@@ -313,6 +313,23 @@ class EmployeeController
         }
     }
 
+    public function deleteBoardResolution($board_resolution_id)
+    {
+        $existing = $this->model->getBoardResolution($board_resolution_id);
+        $existingFile = $existing['resolutionFile'] ?? '';
+        $filePath = '../uploads/botupload/' . $existingFile;
+
+        $success = $this->model->deleteBoardResolution($board_resolution_id);
+    
+        if ($success) {
+            if (file_exists($filePath)) unlink($filePath);
+            echo json_encode(['status' => 'success', 'message' => 'Board Resolution deleted successfully.']);
+            return ['status' => 'success', 'message' => 'Board Resolution deleted successfully.'];        
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Failed to delete Board Resolution.']);
+            return ['status' => 'error', 'message' => 'Failed to delete Board Resolution.'];  
+        }
+    }
 
 }
 
@@ -421,25 +438,9 @@ handleAjaxAction('AcademicResolution', function () {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'deleteBoardResolution') {
     $boardResolutionID = intval($_POST['board_resolution_id']);
-
-    // Fetch the filename first to delete the physical file
-    $existing = $this->model->getBoardResolution($boardResolutionID);
-    var_dump($existing);
-    $existingFile = $existing['resolutionFile'] ?? '';
-    $filePath = '../uploads/botupload/' . $existingFile;
-
-    $success = $this->model->deleteBoardResolution($boardResolutionID);
-   
-    if ($success) {
-        if (file_exists($filePath)) unlink($filePath);
-         return ['status' => 'success', 'message' => 'Board Resolution deleted successfully.'];        
-    } else {
-        return ['status' => 'error', 'message' => 'Failed to delete Board Resolution.'];  
-       
-    }
-    exit;
+    $controller = new EmployeeController();
+    return $controller->deleteBoardResolution($boardResolutionID);
 }
-
 
 ?>
 
