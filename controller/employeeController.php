@@ -15,7 +15,7 @@ class EmployeeController
             $provinces = $this->model->getAllProvince();
             include '../view/employee.php'; // Load the view
         }
-        public function addSchool($schName, $schCode, $category, $schid = null){
+    public function addSchool($schName, $schCode, $category, $schid = null){
             $schName = strtoupper(trim($schName)); // Convert to Uppercase
             $schCode = strtoupper(trim($schCode)); // Check for duplicates
             $category = trim($category);
@@ -158,7 +158,7 @@ class EmployeeController
 
         if (!empty($majorid)){
             $success = $this->model->updateMajorProgram($progid, $majorcourse, $majorid);
-            $message = 'Major Program added Successfully.';
+            $message = 'Major Program updated Successfully.';
         }else{
             $success = $this->model->addMajorProgram($progid, $majorcourse);
             $message = 'Major Program added Successfully.';
@@ -212,43 +212,43 @@ class EmployeeController
    
 
     public function BoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID = null, $resolutionFile = null) {
-    $boardResolution = strtoupper(trim($boardResolution));
-    $boardResolutionCode = strtoupper(trim($boardResolutionCode));
-    $boardResolutionYear = trim($boardResolutionYear);
+        $boardResolution = strtoupper(trim($boardResolution));
+        $boardResolutionCode = strtoupper(trim($boardResolutionCode));
+        $boardResolutionYear = trim($boardResolutionYear);
 
-    $target_dir = "../uploads/botupload/";
-    $fileName = null;
+        $target_dir = "../uploads/botupload/";
+        $fileName = null;
 
-    // Validation: required fields
-    if (empty($boardResolution) || empty($boardResolutionCode) || empty($boardResolutionYear)) {
-        return ['status' => 'warning', 'message' => 'All fields are required.'];
-    }
-
-    // Validation: check for duplicates
-    if ($this->model->BoardResolutionExists($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID)) {
-        return ['status' => 'warning', 'message' => 'Board Resolution already exists.'];
-    }
-
-    // File validation (only if uploading new file or filename changed)
-    if (!empty($resolutionFile["name"])) {
-        $fileName = basename($resolutionFile["name"]);
-        $target_file = $target_dir . $fileName;
-        $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-
-        if ($fileType !== "pdf") {
-            return ['status' => 'warning', 'message' => 'Invalid file type. Only PDF files are allowed.'];
+        // Validation: required fields
+        if (empty($boardResolution) || empty($boardResolutionCode) || empty($boardResolutionYear)) {
+            return ['status' => 'warning', 'message' => 'All fields are required.'];
         }
 
-        // Check filename conflict with other records
-        if ($this->model->ResolutionFileExists($fileName, $boardResolutionID)) {
-            return ['status' => 'warning', 'message' => 'File name already used in another record. Please rename the file.'];            
+        // Validation: check for duplicates
+        if ($this->model->BoardResolutionExists($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID)) {
+            return ['status' => 'warning', 'message' => 'Board Resolution already exists.'];
         }
 
-        // Upload new file
-        if (!move_uploaded_file($resolutionFile["tmp_name"], $target_file)) {
-            return ['status' => 'warning', 'message' => 'There was an error uploading your file.'];
+        // File validation (only if uploading new file or filename changed)
+        if (!empty($resolutionFile["name"])) {
+            $fileName = basename($resolutionFile["name"]);
+            $target_file = $target_dir . $fileName;
+            $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+            if ($fileType !== "pdf") {
+                return ['status' => 'warning', 'message' => 'Invalid file type. Only PDF files are allowed.'];
+            }
+
+            // Check filename conflict with other records
+            if ($this->model->ResolutionFileExists($fileName, $boardResolutionID)) {
+                return ['status' => 'warning', 'message' => 'File name already used in another record. Please rename the file.'];            
+            }
+
+            // Upload new file
+            if (!move_uploaded_file($resolutionFile["tmp_name"], $target_file)) {
+                return ['status' => 'warning', 'message' => 'There was an error uploading your file.'];
+            }
         }
-    }
 
     // Perform insert or update
     if (!empty($boardResolutionID)) {
@@ -272,6 +272,32 @@ class EmployeeController
         'message' => $success ? $message : 'Database operation failed.'
     ];
 }
+
+    ///Update Employment Status
+    public function UpdateEmploymentStatus($EmploymentStatus, $employeeID = null) {
+        $EmploymentStatus = trim($EmploymentStatus);
+
+        // Validate User Input
+        if (empty($EmploymentStatus)) {
+            return [
+                'status' => 'warning',
+                'message' => 'Employment Status required.'
+            ];
+        }
+
+        $success = false;
+        $message = '';
+
+        if (!empty($employeeID)) {
+            $success = $this->model->updateEmployementStatus($EmploymentStatus, $employeeID);
+            $message = 'Employment Status updated successfully.';
+        }
+
+        return [
+            'status' => $success ? 'success' : 'error',
+            'message' => $success ? $message : 'Database operation failed.'
+        ];
+    }
 
 
     public function addEmployee() {
@@ -330,6 +356,86 @@ class EmployeeController
             return ['status' => 'error', 'message' => 'Failed to delete Board Resolution.'];  
         }
     }
+
+    public function Accreditation($accreditation, $accreditationCode, $accreditationID = null){
+        $accreditation = strtoupper(trim($accreditation));
+        $accreditationCode = strtoupper(trim($accreditationCode));
+
+        //Validate User Input
+        if (empty($accreditation) || empty($accreditationCode)){
+            return [
+                'status' => 'warning',
+                'message' => 'All fields are required.'
+            ];
+        }
+
+        //check for duplicates
+
+        if($this->model->accreditationExist($accreditation, $accreditationCode, !empty($accreditationID) ? $accreditationID : null )){
+            return [
+                'status' => 'warning',
+                'message' => 'Accreditation Already Exists.'
+            ];
+        }
+
+        $success = false;
+        $message = '';
+
+        if(!empty($accreditationID)){
+            //Update Accreditation
+            $success = $this->model->updateAccreditation($accreditation, $accreditationCode, $accreditationID);
+            $message = 'Accreditation update Successfully.';
+        }else {
+            $success = $this->model->addAccreditation($accreditation, $accreditationCode);
+            $message = 'Accreditation added Successfully.';
+        }
+
+        return [
+            'status' => $success ? 'success' : 'error',
+            'message' => $success ? $message : 'Database operation failed.'
+        ];
+    }
+
+
+    public function Area($areaCode, $areaDescription, $AreaID = null){
+        $areaCode = strtoupper(trim($areaCode));
+        $areaDescription = strtoupper(trim($areaDescription));
+
+        //Validate User Input
+        if (empty($areaCode) || empty($areaDescription)){
+            return [
+                'status' => 'warning',
+                'message' => 'All fields are required.'
+            ];
+        }
+
+        //check for duplicates
+
+        if($this->model->areaExist($areaCode, $areaDescription, !empty($AreaID) ? $AreaID : null )){
+            return [
+                'status' => 'warning',
+                'message' => 'Area Already Exists.'
+            ];
+        }
+
+        $success = false;
+        $message = '';
+
+        if(!empty($AreaID)){
+            //Update Accreditation
+            $success = $this->model->updateArea($areaCode, $areaDescription, $AreaID);
+            $message = 'Area update Successfully.';
+        }else {
+            $success = $this->model->addArea($areaCode, $areaDescription);
+            $message = 'Area added Successfully.';
+        }
+
+        return [
+            'status' => $success ? 'success' : 'error',
+            'message' => $success ? $message : 'Database operation failed.'
+        ];
+    }
+    
 
 }
 
@@ -406,6 +512,33 @@ handleAjaxAction('BoardResolution', function () {
 });
 
 
+handleAjaxAction('UpdateEmploymentStatus', function () {
+    $EmploymentStatus = $_POST['employmentStatus'] ?? '';
+    $employeeID = $_POST['employee_status_id'] ?? null;
+    $controller = new EmployeeController();
+    return $controller->UpdateEmploymentStatus($EmploymentStatus, $employeeID);
+});
+
+// ✅ Handle Add/Update accreditation
+handleAjaxAction('Accreditation', function () {
+    $accreditation = $_POST['accreditation'] ?? '';
+    $accreditationCode = $_POST['AccreditationCodeName'] ?? '';
+    $accreditationID = $_POST['accreditation_id'] ?? null;
+    $controller = new EmployeeController();
+    //var_dump($controller);
+    return $controller->Accreditation($accreditation, $accreditationCode, $accreditationID);
+});
+
+
+// ✅ Handle Add/Update Area
+handleAjaxAction('Area', function () {
+    $areaCode = $_POST['areaCode'] ?? '';
+    $areaDescription = $_POST['areaDescription'] ?? '';
+    $AreaID = $_POST['area_id'] ?? null;
+    $controller = new EmployeeController();
+    return $controller->Area($areaCode, $areaDescription, $AreaID);
+});
+
 
 handleAjaxAction('AcademicResolution', function () {
     $academicResolution = $_POST['academicResolution'] ?? '';
@@ -441,6 +574,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'deleteBoardRe
     $controller = new EmployeeController();
     return $controller->deleteBoardResolution($boardResolutionID);
 }
+
+
+
 
 ?>
 

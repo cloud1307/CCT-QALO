@@ -96,29 +96,60 @@ $(document).ready(function () {
 });
 
 
+// $(document).ready(function () {
+//     // Position Form
+//     handleAjaxFormSubmission('#positionForm', '../controller/employeeController.php?action=add', '#modal_position');
+//     // School Form
+//     handleAjaxFormSubmission('#schoolForm', '../controller/employeeController.php?action=addSchool', '#modal_school');
+
+//     //School Program Form
+//     handleAjaxFormSubmission('#schoolProgramForm', '../controller/employeeController.php?action=SchoolProgram', '#modal_school_program');
+
+//     //Major Program Form
+//     handleAjaxFormSubmission('#majorProgramForm', '../controller/employeeController.php?action=MajorProgram', '#modal_major_course');
+
+//     //Board Resolution Form
+//     handleAjaxFormSubmission('#boardResolutionForm', '../controller/employeeController.php?action=BoardResolution', '#modal_board_resolution');
+
+//     //Academic Resolution Form
+//     handleAjaxFormSubmission('#academicResolutionForm', '../controller/employeeController.php?action=AcademicResolution', '#modal_academic_resolution');
+
+//         // Optional: Reload on modal close
+//     $('#modal_position, #modal_school, #modal_school_program, #modal_major_course, #modal_board_resolution, #modal_academic_resolution').on('hidden.bs.modal', function () {
+//         location.reload(); // Optional if using DataTables, use DataTables reload instead
+//     });
+// });
+
 $(document).ready(function () {
-    // Position Form
-    handleAjaxFormSubmission('#positionForm', '../controller/employeeController.php?action=add', '#modal_position');
-    // School Form
-    handleAjaxFormSubmission('#schoolForm', '../controller/employeeController.php?action=addSchool', '#modal_school');
+    const forms = [
+        { id: '#positionForm', action: 'add', modal: '#modal_position' },
+        { id: '#schoolForm', action: 'addSchool', modal: '#modal_school' },
+        { id: '#schoolProgramForm', action: 'SchoolProgram', modal: '#modal_school_program' },
+        { id: '#majorProgramForm', action: 'MajorProgram', modal: '#modal_major_course' },
+        { id: '#boardResolutionForm', action: 'BoardResolution', modal: '#modal_board_resolution' },
+        { id: '#academicResolutionForm', action: 'AcademicResolution', modal: '#modal_academic_resolution' },
+        { id: '#employmentStatusForm', action: 'UpdateEmploymentStatus', modal: '#modal_status_update'},
+        { id: '#accreditationForm', action: 'Accreditation', modal: '#modal_accreditation'},
+        { id: '#areaForm', action: 'Area', modal: '#modal_area'}
+    ];
 
-    //School Program Form
-    handleAjaxFormSubmission('#schoolProgramForm', '../controller/employeeController.php?action=SchoolProgram', '#modal_school_program');
+    forms.forEach(form => {
+        handleAjaxFormSubmission(
+            form.id,
+            `../controller/employeeController.php?action=${form.action}`,
+            form.modal
+        );
+    });
 
-    //Major Program Form
-    handleAjaxFormSubmission('#majorProgramForm', '../controller/employeeController.php?action=MajorProgram', '#modal_major_course');
-
-    //Board Resolution Form
-    handleAjaxFormSubmission('#boardResolutionForm', '../controller/employeeController.php?action=BoardResolution', '#modal_board_resolution');
-
-    //Academic Resolution Form
-    handleAjaxFormSubmission('#academicResolutionForm', '../controller/employeeController.php?action=AcademicResolution', '#modal_academic_resolution');
-
-        // Optional: Reload on modal close
-    $('#modal_position, #modal_school, #modal_school_program, #modal_major_course, #modal_board_resolution, #modal_academic_resolution').on('hidden.bs.modal', function () {
-        location.reload(); // Optional if using DataTables, use DataTables reload instead
+    // Combine all modal IDs into a single selector
+    const modalSelectors = forms.map(f => f.modal).join(', ');
+    $(modalSelectors).on('hidden.bs.modal', function () {
+        location.reload(); // Replace with DataTable reload if applicable
     });
 });
+
+
+
 
 function handleAjaxFormSubmission(formSelector, actionUrl, modalSelector) {
     $(formSelector).on('submit', function (e) {
@@ -433,6 +464,107 @@ function openUpdateAcademicResolutionModal(academicResolution, academicResolutio
         headerId: "modal-header-academic-resolution",
         headerClass: "bg-primary",
         modalId: "modal_academic_resolution"
+    });
+}
+
+function updateStatusModal(EmploymentStatus, employeeID) {
+    console.log("employeeID passed to modal:", employeeID); // For debug
+    openModal({
+        formId: "employmentStatusForm",
+        idField: "employee_status_id",
+        idValue: employeeID,
+        fields: {
+            "select[name='employmentStatus']": EmploymentStatus
+        },
+        titleId: "modal-title-employmentStatus",
+        icon: "<i class='ph-pencil me-2'></i>",
+        title: "Update Employment Status",
+        buttonId: "btn-save-employment-status",
+        buttonText: "Update Employment Status",
+        buttonClass: "btn-primary",
+        headerId: ".modal-header",
+        headerClass: "modal-header bg-info",
+        modalId: "modal_status_update"
+    });
+}
+
+//Accreditation Modal
+function openAddAccreditationModal() {
+    openModal({
+        formId: "accreditationForm",
+        idField: "accreditation_id",
+        idValue: "",
+        fields: {},
+        titleId: "modal-title-accreditation",
+        icon: "<i class='ph-plus me-2'></i>",
+        title: "Add Accreditation",
+        buttonId: "btn-accreditation",
+        buttonText: "Add Accreditation",
+        buttonClass: "btn-success",
+        headerId: "modal-header-accreditation",
+        headerClass: "bg-success",
+        modalId: "modal_accreditation"
+    });
+}
+
+
+function openUpdateAccreditationModal(accreditation, accreditationCode, accreditationID) {
+    openModal({
+        formId: "accreditationForm",
+        idField: "accreditation_id",
+        idValue: accreditationID,
+        fields: {            
+            "input[name='accreditation']": accreditation,
+            "input[name='AccreditationCodeName']": accreditationCode
+        },
+        titleId: "modal-title-accreditation",
+        icon: "<i class='ph-pencil me-2'></i>",
+        title: "Update Accreditation",
+        buttonId: "btn-accreditation",
+        buttonText: "Update Accreditation",
+        buttonClass: "btn-primary",
+        headerId: "modal-header-accreditation",
+        headerClass: "bg-primary",
+        modalId: "modal_accreditation"
+    });
+}
+
+function openAddAreaModal() {
+    openModal({
+        formId: "areaForm",
+        idField: "area_id",
+        idValue: "",
+        fields: {},
+        titleId: "modal-title-area",
+        icon: "<i class='ph-plus me-2'></i>",
+        title: "Add Area",
+        buttonId: "btn-accreditation",
+        buttonText: "Add Area",
+        buttonClass: "btn-success",
+        headerId: "modal-header-area",
+        headerClass: "bg-success",
+        modalId: "modal_area"
+    });
+}
+
+function openUpdateAreaModal(areaCode, areaDescription, AreaID) {
+    openModal({
+        formId: "areaForm",
+        idField: "area_id",
+        idValue: AreaID,
+        fields: {            
+            "input[name='areaCode']": areaCode,
+            "input[name='areaDescription']": areaDescription
+        },
+        titleId: "modal-title-area",
+        icon: "<i class='ph-pencil me-2'></i>",
+        title: "Update Area",
+        buttonId: "btn-area",
+        buttonText: "Update Accreditation",
+        buttonClass: "btn-primary",
+        headerId: "modal-header-area",
+        headerClass: "bg-primary",
+        modalId: "modal_area"
     });
 }
 

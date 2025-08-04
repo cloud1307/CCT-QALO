@@ -9,7 +9,6 @@ include '../include/header.php';
 require_once '../config/config.php'; // where $conn is defined
 require_once '../controller/employeeController.php';
 
-
 $db = new Database();
 $conn = $db->connect();
 $model = new EmployeeModel($conn);
@@ -65,6 +64,7 @@ $employee = $model->getAllEmployee('non-active');
 									<div class="card-header">
 										<div class="card-title modal-footer justify-content-between">
 												<h5 class="mb-0">List of Inactive Employee</h5>
+												<?php	include '../modal/modal.php'; ?>											
 												<a href="view_employee.php" class="btn btn-outline-primary" ><i class="ph-person me-2"></i> View Employee</a> 
 										</div>								
 									</div>
@@ -106,21 +106,21 @@ $employee = $model->getAllEmployee('non-active');
 												<td><?= htmlspecialchars($row['varFirstName']) ?></td>
 												<td><?= htmlspecialchars($row['varPosition']) ?></td>
 												<td><?= htmlspecialchars($row['varSchoolCode']) ?></td>
-												<td><?= htmlspecialchars($row['enumJobCategory']) ?></td>
-												<!-- <td>BSE</td>												 -->
-												<td><a href="#"><span class="badge <?= $badgeClass ?>"><?= htmlspecialchars($status) ?></span></a></td>
+												<td><?= htmlspecialchars($row['enumJobCategory']) ?></td>												
+												<td><a href="javascript:void(0);" onclick="updateStatusModal('<?= htmlspecialchars($row['enumEmploymentStatus'], ENT_QUOTES) ?>', <?= (int)$row['intEmployeeID'] ?>)"><span class="badge <?= $badgeClass ?>"><?= htmlspecialchars($status)  ?></span></a></td>
 												<td class="text-center">
 													<div class="d-inline-flex">
 														<div class="dropdown">
 															<a href="#" class="text-body" data-bs-toggle="dropdown">
 																<i class="ph-list"></i>
-															</a>
+															</a>														
 
 															<div class="dropdown-menu dropdown-menu-end">
-																<a href="#" class="dropdown-item">
-																	<i class="ph-pencil me-2"></i>
-																	Edit
-																</a>
+																<a href="#" 
+																		class="dropdown-item"																		>
+																			<i class="ph-pencil me-2"></i>
+																			Edit
+																</a>															
 																<a href="#" class="dropdown-item">
 																	<i class="ph-user me-2"></i>
 																	View Profile

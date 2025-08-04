@@ -12,7 +12,7 @@ $schProgram = $model->getAllSchoolProgram();
 //$majorProgram = $model->getAllMajorProgram();
 ?>
 <!-- Update Account Modal -->
-	<div id="modal-account" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+	<div id="modal-account" class="modal fade"  data-bs-keyboard="false" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header text-white border-0">					
@@ -37,6 +37,16 @@ $schProgram = $model->getAllSchoolProgram();
 										</div>
 									</div>
 
+									<!-- <div class="mb-3">
+										<label class="form-label">Contact Number</label>
+										<div class="form-control-feedback form-control-feedback-start">
+											<input type="text" class="form-control" placeholder="Password" disabled name="conctactNumber" value="<?= htmlspecialchars(isset($userData['varPassword']) ? $userData['varPassword'] : 'Not available') ?>">
+											<div class="form-control-feedback-icon">
+												<i class="ph-phone text-muted"></i>
+											</div>
+										</div>
+									</div> -->
+
 									<div class="mb-3">
 										<label class="form-label">Recovery Email Address</label>
 										<div class="form-control-feedback form-control-feedback-start input-group">
@@ -52,7 +62,7 @@ $schProgram = $model->getAllSchoolProgram();
 									<div class="mb-3">
 										<label class="form-label">Contact Number</label>
 										<div class="form-control-feedback form-control-feedback-start input-group">
-											<input type="text"  class="form-control" placeholder="999-9999-999" maxlength="10" data-mask="+99-99-9999-9999" name="contactNumber" value="<?= htmlspecialchars($userData['varContactNumber'] ?? 'Not available') ?>" required>										
+											<input type="text"  class="form-control" placeholder="{63}900-0000-000" id="mask_phone" name="contactNumber" value="<?= htmlspecialchars($userData['varContactNumber'] ?? 'Not available') ?>" required>										
 										<div class="invalid-feedback">Enter Contact Number</div>
 											<div class="form-control-feedback-icon">
 												<i class="ph-phone text-muted"></i>	
@@ -170,12 +180,13 @@ $schProgram = $model->getAllSchoolProgram();
 	<div id="modal_accreditation" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header bg-success text-white border-0">
-					<h5 class="modal-title"><i class="ph-plus me-2"></i>Add Accreditation</h5>
+				<div class="modal-header bg-success text-white border-0" id="modal-header-accreditation">
+					<h5 class="modal-title" id="modal-title-accreditation"><i class="ph-plus me-2"></i>Add Accreditation</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				</div>
-						<form class="needs-validation" id="accreditationForm" action="#" novalidate method="POST">
-							<div class="modal-body">				
+						<form class="needs-validation" id="accreditationForm" action="../controller/employeeController.php" novalidate method="POST">
+							<div class="modal-body">
+								<input type="hidden" name="accreditation_id" id="accreditation_id">				
 									<div class="mb-3">
 										<label class="form-label">Accreditation Name</label>
 										<div class="form-control-feedback form-control-feedback-start input-group">
@@ -191,7 +202,7 @@ $schProgram = $model->getAllSchoolProgram();
 									<div class="mb-3">
 										<label class="form-label">Accreditation Code Name</label>
 										<div class="form-control-feedback form-control-feedback-start input-group">
-											<input type="text"  class="form-control text-uppercase" name="codeName" required>										
+											<input type="text"  class="form-control text-uppercase" name="AccreditationCodeName" required>										
 										<div class="invalid-feedback">Enter Code Name</div>
 											<div class="form-control-feedback-icon">
 												<i class="ph-bookmarks-simple text-muted"></i>
@@ -201,7 +212,7 @@ $schProgram = $model->getAllSchoolProgram();
 								</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
-								<button type="submit" class="btn btn-success">Save changes</button>
+								<button type="submit" class="btn btn-success" id="btn-accreditation">Save changes</button>
 							</div>
 						</form>
 			</div>
@@ -214,26 +225,38 @@ $schProgram = $model->getAllSchoolProgram();
 	<div id="modal_area" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header bg-success text-white border-0">
-					<h5 class="modal-title"><i class="ph-plus me-2"></i>Add Area</h5>
+				<div class="modal-header bg-success text-white border-0" id="modal-header-area">
+					<h5 class="modal-title" id="modal-title-area"><i class="ph-plus me-2"></i>Add Area</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				</div>
-						<form class="needs-validation" action="#" novalidate method="POST">
-							<div class="modal-body">				
+						<form class="needs-validation" id="areaForm" action="../controller/employeeController.php" novalidate method="POST">
+							<div class="modal-body">
+									<input type="hidden" name="area_id" id="area_id">				
 									<div class="mb-3">
-										<label class="form-label">Area Name</label>
-										<div class="form-control-feedback form-control-feedback-start input-group">
-											<input type="text" name="area" class="form-control text-uppercase"  required>										
+										<label class="form-label">Area Code</label>
+										<div class="form-control-feedback input-group">
+											<input type="text" name="areaCode" class="form-control text-uppercase"  required>										
 										<div class="invalid-feedback">Enter Area Name</div>
-											<div class="form-control-feedback-icon">
+											<!-- <div class="form-control-feedback-icon">
 												<i class="ph-buildings text-muted"></i>
-											</div>
+											</div> -->
 										</div>
-									</div>				
+									</div>
+									
+									<div class="mb-3">
+										<label class="form-label">Area Description</label>
+										<div class="form-control-feedback input-group">
+											<input type="text" name="areaDescription" class="form-control text-uppercase"  required>										
+										<div class="invalid-feedback">Enter Area Name</div>
+											<!-- <div class="form-control-feedback-icon">
+												<i class="ph-buildings text-muted"></i>
+											</div> -->
+										</div>
+									</div>
 								</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
-								<button type="submit" class="btn btn-success">Save changes</button>
+								<button type="submit" class="btn btn-success" id="btn-area">Save changes</button>
 							</div>
 						</form>
 			</div>
@@ -618,28 +641,6 @@ $schProgram = $model->getAllSchoolProgram();
 
 
 
-
-
-
-<script>
-// document.getElementById('uploadForm').addEventListener('submit', function (e) {
-// 	e.preventDefault(); // Prevent form from submitting by default
-
-// 	const fileInput = document.getElementById('fileResolution');
-// 	const file = fileInput.files[0];
-
-// 	// Check if a file is selected and is a PDF
-// 	if (!file || file.type !== "application/pdf") {
-// 		fileInput.classList.add('is-invalid');
-// 	} else {
-// 		fileInput.classList.remove('is-invalid');
-// 		// You can now submit the form manually if all validation passes
-// 		// this.submit(); // Uncomment to allow submission
-// 		alert('File is valid and ready to be uploaded!');
-// 	}
-// });
-</script>
-
 <!-- Delete Confirmation Modal -->
 <div class="modal fade" id="deleteBoardResolutionModal" tabindex="-1" aria-labelledby="deleteBoardResolutionLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -662,3 +663,40 @@ $schProgram = $model->getAllSchoolProgram();
     </form>
   </div>
 </div>
+
+
+<!-- Update Employment Status Modal -->
+	<div id="modal_status_update" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-info text-white border-0">
+					<h5 class="modal-title" id="modal-title-employmentStatus"><i class="ph-pencil me-2"></i>Update Employment Status</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+						<form class="needs-validation" id="employmentStatusForm" action="../controller/employeeController.php" novalidate method="POST">
+							<div class="modal-body">
+								<input type="hidden" name="employee_status_id" id="employee_status_id">
+									<div class="mb-3">
+										<label class="form-label">Employment Status</label>
+										<div class="form-control-feedback input-group">
+											<select class="form-select" name="employmentStatus" required>
+												<option value="">Select Job Category</option>
+												<option value="Active">Active</option>
+												<option value="Inactive">Inactive</option>	
+												<option value="Retired">Retired</option>	
+												<option value="Resigned">Resigned</option>		
+												<option value="Terminated">Terminated</option>
+												<option value="Non-Renewal">Non-Renewal</option>													
+											</select>
+										</div>
+									</div>
+								</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
+								<button type="submit" class="btn btn-primary" id="btn-save-employment-status">Update Employment Status</button>
+							</div>
+						</form>
+			</div>
+		</div>
+	</div>
+<!-- /Update Employment Status Modal -->

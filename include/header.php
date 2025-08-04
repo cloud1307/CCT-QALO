@@ -31,7 +31,6 @@
 	<script src="../assets/js/custom.js"></script>
 
 	<script src="../assets/demo/pages/datatables_extension_buttons_html5.js"></script>
-	<script src="../assets/demo/pages/datatables_advanced.js"></script>
 	
 	
 	<!-- Data Tables Basic Styling -->

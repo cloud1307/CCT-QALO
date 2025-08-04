@@ -4,6 +4,15 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 include '../include/header.php'; 
+
+// Load controller
+require_once '../config/config.php'; // where $conn is defined
+require_once '../controller/employeeController.php';
+
+$db = new Database();
+$conn = $db->connect();
+$model = new EmployeeModel($conn);
+$area = $model->getAllArea();
 ?>
 <body>
 
@@ -37,7 +46,7 @@ include '../include/header.php';
 							<div class="breadcrumb py-2">
 								<a href="index.html" class="breadcrumb-item"><i class="ph-house"></i></a>
 								<a href="dashboard.php" class="breadcrumb-item">Home</a>
-								<span class="breadcrumb-item active">Accreditation List</span>
+								<span class="breadcrumb-item active">Area List</span>
 							</div>
 						</div>						
 					</div>
@@ -55,7 +64,7 @@ include '../include/header.php';
 								<div class="card">									
 									<div class="card-header">
 										<div class="card-title modal-footer justify-content-between">
-												<h5 class="mb-0">Area List</h5>												
+												<h5 class="mb-0">View Area List</h5>												
 												<?php	include '../modal/modal.php'; ?>
 												<a href="#modal_area" class="btn btn-outline-success" data-bs-toggle="modal"><i class="ph-plus me-2"></i> Add Area</a> 
 										</div>								
@@ -64,14 +73,18 @@ include '../include/header.php';
 									<table class="table datatable-basic table-hover">
 										<thead>
 											<tr>
-												<th>Area Name</th>												
+												
+												<th>Area Code</th>
+												<th>Area Description</th>													
 												<!-- <th>Status</th> -->
 												<th class="text-center">Actions</th>
 											</tr>
 										</thead>
 										<tbody>
+											<?php foreach ($area as $row): ?>
 											<tr>
-												<td>COMMISSION ON HIGHER EDUCATION</td>												
+												<td><?= htmlspecialchars($row['varAreaCode']) ?></td>
+												<td><?= htmlspecialchars($row['varAreaDescription']) ?></td>												
 												<!-- <td><span class="badge bg-success bg-opacity-10 text-success">Active</span></td> -->
 												<td class="text-center">
 													<div class="d-inline-flex">
@@ -81,10 +94,16 @@ include '../include/header.php';
 															</a>
 
 															<div class="dropdown-menu dropdown-menu-end">
-																<a href="#" class="dropdown-item">
-																	<i class="ph-pencil me-2"></i>
-																	Edit
-																</a>
+																<a href="javascript:void(0);" 
+																		class="dropdown-item"
+																		onclick="openUpdateAreaModal(
+																		'<?= htmlspecialchars($row['varAreaCode'], ENT_QUOTES) ?>',
+																		'<?= htmlspecialchars($row['varAreaDescription'], ENT_QUOTES) ?>',
+																		 <?= $row['intAreaID'] ?>																		
+																		)">
+																			<i class="ph-pencil me-2"></i>
+																			Edit
+																	</a>
 																<a href="#" class="dropdown-item">
 																	<i class="ph-eye me-2"></i>
 																	View Area
@@ -97,7 +116,8 @@ include '../include/header.php';
 														</div>
 													</div>
 												</td>
-											</tr>							
+											</tr>
+											<?php endforeach; ?>					
 									
 										</tbody>
 									</table>

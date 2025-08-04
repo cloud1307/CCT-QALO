@@ -13,6 +13,7 @@ class EmployeeModel
     private $table_academic_resolution = "tbl_academic_resolution";
     private $table_city_resolution = "tbl_city_resolution";
     private $table_accreditation = 'tbl_accreditation';
+    private $table_area = 'tbl_accreditation_area';
 
 
 	public function __construct() {
@@ -244,7 +245,7 @@ class EmployeeModel
 
     //Add Employee
         public function addEmployee($data) {
-        $query = "INSERT INTO tbl_employee (
+        $query = "INSERT INTO {$this->table_employee} (
             intEmployeeNumber, varLastName, varFirstName, varMiddleName, varExtensionName, enumGender,
             enumCivilStatus, BirthDate, varPlaceOfBirth, varHouseNo, varStreet,
             intProvID, intCityMunID, intBrgyID,
@@ -281,6 +282,13 @@ class EmployeeModel
 
         );
 
+        return $stmt->execute();
+    }
+
+    public function updateEmployementStatus($EmploymentStatus, $employeeID = null){
+        $query = "UPDATE {$this->table_employee} SET enumEmploymentStatus = ? WHERE intEmployeeID = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("si", $EmploymentStatus, $employeeID);
         return $stmt->execute();
     }
 
@@ -348,18 +356,7 @@ class EmployeeModel
         return $stmt->execute();
     }
 
-
-    // public function getBoardResolution($boardResolutionID){
-    //     $query = "SELECT * FROM {$this->table_board_resolution} WHERE intBoardResolutionID  = ?";
-    //     $stmt = $this->conn->prepare($query);
-    //     $stmt->bind_param('i', $boardResolutionID);
-    //     $stmt->execute();
-    //     $result = $stmt->get_result();
-    //     $row = $result->fetch_assoc();;
-    //     return $row;
-    // }
-    
-
+    //Board Resolution Exists
      public function BoardResolutionExists($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID = null){
         $sql = "SELECT COUNT(*) FROM {$this->table_board_resolution} WHERE varBoardResolution = ? AND varBoardResolutionCode = ? AND BoardResolutionYear = ?";
         
@@ -383,7 +380,7 @@ class EmployeeModel
         return $count > 0;
     }
 
-
+    //Check Resolution File Exists
     public function ResolutionFileExists($fileName, $boardResolutionID = null) {
     $sql = "SELECT COUNT(*) FROM {$this->table_board_resolution} WHERE resolutionFile = ?";
     if (!empty($boardResolutionID)) {
@@ -513,6 +510,84 @@ class EmployeeModel
                 $accreditation[] = $row;
             }
         }return $accreditation;
+    }
+
+    public function addAccreditation($accreditation, $accreditationCode){
+        $query ="INSERT INTO {$this->table_accreditation} (varAccredittaionName, varAccredCode) VALUES (?, ?)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ss", $accreditation, $accreditationCode);
+        return $stmt->execute();
+    }
+
+    public function updateAccreditation($accreditation, $accreditationCode, $accreditationID = null){
+        $query = "UPDATE {$this->table_accreditation} SET varAccredittaionName = ?, varAccredCode = ? WHERE intAccredID =?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ssi", $accreditation, $accreditationCode, $accreditationID);
+        return $stmt->execute();
+    }
+
+    //Check duplicate Accreditation
+    public function accreditationExist($accreditation, $accreditationCode, $accreditationID = null){
+        $sql = "SELECT COUNT(*) FROM {$this->table_accreditation} WHERE (varAccredittaionName = ? AND varAccredCode = ?)";
+        if (!empty($accreditationID)) {
+            $sql .= " AND intAccredID != ?";
+        }
+
+        $stmt = $this->conn->prepare($sql);
+        if (!empty($accreditationID)){
+            $stmt->bind_param('ssi', $accreditation, $accreditationCode, $accreditationID);
+        }else{
+            $stmt->bind_param('ss', $accreditation, $accreditationCode);
+        }
+        $stmt->execute();
+        $stmt->bind_result($count);
+        $stmt->fetch();
+        return $count > 0;
+    }
+
+    public function getAllArea(){
+         $query = "SELECT * FROM {$this->table_area}";
+        $result = $this->conn->query($query);
+        $area = [];
+
+        if ($result && $result->num_rows > 0){
+            while ($row = $result->fetch_assoc()){
+                $area[] = $row;
+            }
+        }return $area;
+    }
+
+    public function addArea($areaCode, $areaDescription){
+        $query ="INSERT INTO {$this->table_area} (varAreaCode, varAreaDescription) VALUES (?, ?)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ss", $areaCode, $areaDescription);
+        return $stmt->execute();
+    }
+
+    public function updateArea($areaCode, $areaDescription, $AreaID = null){
+        $query = "UPDATE {$this->table_area} SET varAreaCode = ?, varAreaDescription = ? WHERE intAreaID =?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ssi", $areaCode, $areaDescription, $AreaID);
+        return $stmt->execute();
+    }
+
+    //Check duplicate Accreditation
+    public function areaExist($areaCode, $areaDescription, $AreaID = null){
+        $query = "SELECT COUNT(*) FROM {$this->table_area} WHERE (varAreaCode = ? AND varAreaDescription = ?)";
+        if (!empty($AreaID)) {
+            $query .= " AND intAreaID != ?";
+        }
+
+        $stmt = $this->conn->prepare($query);
+        if (!empty($AreaID)){
+            $stmt->bind_param('ssi', $areaCode, $areaDescription, $AreaID);
+        }else{
+            $stmt->bind_param('ss', $areaCode, $areaDescription);
+        }
+        $stmt->execute();
+        $stmt->bind_result($count);
+        $stmt->fetch();
+        return $count > 0;
     }
 
 }// --/EmployeeModel---

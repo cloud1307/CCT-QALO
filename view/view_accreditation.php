@@ -12,6 +12,7 @@ require_once '../controller/employeeController.php';
 
 $db = new Database();
 $conn = $db->connect();
+
 $model = new EmployeeModel($conn);
 $accreditation = $model->getAllAccreditation();
 ?>
@@ -94,18 +95,24 @@ $accreditation = $model->getAllAccreditation();
 															</a>
 
 															<div class="dropdown-menu dropdown-menu-end">
-																<a href="#" class="dropdown-item">
-																	<i class="ph-pencil me-2"></i>
-																	Edit
-																</a>
-																<a href="#" class="dropdown-item">
+																<a href="javascript:void(0);" 
+																		class="dropdown-item"
+																		onclick="openUpdateAccreditationModal( 
+																		'<?= htmlspecialchars($row['varAccredittaionName'], ENT_QUOTES) ?>',
+																		'<?= htmlspecialchars($row['varAccredittaionName'], ENT_QUOTES) ?>',
+																		<?= $row['intAccredID'] ?>
+																		)">
+																			<i class="ph-pencil me-2"></i>
+																			Edit
+																	</a>
+																<!-- <a href="#" class="dropdown-item">
 																	<i class="ph-eye me-2"></i>
 																	View Area
 																</a>
 																<a href="#" class="dropdown-item">
 																	<i class="ph-download me-2"></i>
 																	Download Requirements
-																</a>
+																</a> -->
 															</div>
 														</div>
 													</div>

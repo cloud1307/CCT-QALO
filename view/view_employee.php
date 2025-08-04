@@ -66,7 +66,7 @@ $employee = $model->getAllEmployee('Active');
 										<div class="card-title modal-footer justify-content-between">
 												<h5 class="mb-0">List of Employee</h5>												
 												<?php	include '../modal/modal.php'; ?>
-												<a href="employee.php" class="btn btn-outline-success" ><i class="ph-buildings me-2"></i> Add Employee</a> 
+												<a href="employee.php" class="btn btn-outline-success" ><i class="ph-users me-2"></i> Add Employee</a> 
 										</div>								
 									</div>
 
@@ -90,8 +90,8 @@ $employee = $model->getAllEmployee('Active');
 												<td><?= htmlspecialchars($row['varPosition']) ?></td>
 												<td><?= htmlspecialchars($row['varSchoolCode']) ?></td>
 												<td><?= htmlspecialchars($row['enumJobCategory']) ?></td>
-												<!-- <td>BSE</td>												 -->
-												<td><a href="#" ><span class="badge bg-success bg-opacity-10 text-success"><?= htmlspecialchars($row['enumEmploymentStatus']) ?></span></a></td>
+												<td><a href="javascript:void(0);" onclick="updateStatusModal('<?= htmlspecialchars($row['enumEmploymentStatus'], ENT_QUOTES) ?>', <?= (int)$row['intEmployeeID'] ?>)"><span class="badge bg-success bg-opacity-10 text-success"><?= htmlspecialchars($row['enumEmploymentStatus']) ?></span></a></td>
+												
 												<td class="text-center">
 													<div class="d-inline-flex">
 														<div class="dropdown">
