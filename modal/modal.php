@@ -593,7 +593,8 @@ $schProgram = $model->getAllSchoolProgram();
 				</div>
 						<form class="needs-validation resolution-form" data-action="AcademicResolution" id="academicResolutionForm" action="../controller/employeeController.php" novalidate method="POST" enctype="multipart/form-data">
 							<div class="modal-body">
-								<input type="hidden" name="academic_resolution_id" id="academic_resolution_id">									
+								<input type="hidden" name="academic_resolution_id" id="academic_resolution_id">
+								<input type="hidden" name="deleteAcademic" value="delete">								
 									<div class="mb-3">
 										<label class="form-label">Academic Resolution Title</label>
 										<div class="form-control-feedback input-group">

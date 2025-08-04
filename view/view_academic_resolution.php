@@ -107,9 +107,11 @@ $academic_resolution = $model->getAllAcademicResolution();
 																		<i class="ph-pencil me-2"></i>
 																		Edit
 																</a>
-																<a href="#" class="dropdown-item">
-																	<i class="ph-eye me-2"></i>
-																	View Area
+																<a href="javascript:void(0);" 
+																		class="dropdown-item"
+																		onclick="confirmDeleteAcademicResolution(<?= $row['intAcademicResolutionID'] ?>)">																	
+																			<i class="ph-trash me-2"></i>
+																			Delete
 																</a>
 																<a href="#" class="dropdown-item">
 																	<i class="ph-download me-2"></i>

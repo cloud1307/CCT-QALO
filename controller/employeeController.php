@@ -169,11 +169,31 @@ class EmployeeController
             ];
     }
 
+    public function deleteAcademicResolution($academicResolutionID)
+    {
+        $existing = $this->model->getAcademicResolution($academicResolutionID);
+        $existingFile = $existing['AcadResolutionFile'] ?? '';
+        $filePath = '../uploads/acadupload/' . $existingFile;
+
+        $success = $this->model->deleteAcademicResolution($academicResolutionID);
+    
+        if ($success) {
+            if (file_exists($filePath)) unlink($filePath);
+            echo json_encode(['status' => 'success', 'message' => 'Academic Resolution deleted successfully.']);
+            return ['status' => 'success', 'message' => 'Academic Resolution deleted successfully.'];        
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Failed to delete Board Resolution.']);
+            return ['status' => 'error', 'message' => 'Failed to delete Board Resolution.'];  
+        }
+    }
+
     public function AcademicResolutions($academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionID = null, $academicResolutionFile = NULL){
         $academicResolution = strtoupper(trim($academicResolution));
         $academicResolutionCode = strtoupper(trim($academicResolutionCode));
         $academicResolutionYear = trim($academicResolutionYear);
 
+        $target_dir = "../uploads/acadupload/";
+        $fileName = null;
         //Validate User Input
         if (empty($academicResolution) || empty($academicResolutionCode) || empty($academicResolutionYear)){
             return [
@@ -183,21 +203,48 @@ class EmployeeController
         }
 
         //Check for duplicates
-            if ($this->model->AcademicResolutionExists($academicResolution, $academicResolutionCode, $academicResolutionYear, !empty($academicResolutionID) ? $academicResolutionID : null)) {
+            if ($this->model->AcademicResolutionExists($academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionID)) {
                 return [
                     'status' => 'warning',
                     'message' => 'Academic Resolution already exists.'
                 ];
             }
 
-            $success = false;
-            $message = '';
+             // File validation (only if uploading new file or filename changed)
+        if (!empty($academicResolutionFile["name"])) {
+            $fileName = basename($academicResolutionFile["name"]);
+            $target_file = $target_dir . $fileName;
+            $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+            if ($fileType !== "pdf") {
+                return ['status' => 'warning', 'message' => 'Invalid file type. Only PDF files are allowed.'];
+            }
+
+            // Check filename conflict with other records
+            if ($this->model->AcademicResolutionFileExists($fileName, $academicResolutionID)) {
+                return ['status' => 'warning', 'message' => 'File name already used in another record. Please rename the file.'];            
+            }
+
+            // Upload new file
+            if (!move_uploaded_file($academicResolutionFile["tmp_name"], $target_file)) {
+                return ['status' => 'warning', 'message' => 'There was an error uploading your file.'];
+            }
+        }
 
             if(!empty($academicResolutionID)){
-                    $success = $this->model->updateAcademicResolution($academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionID);
+                     $existing = $this->model->getAcademicResolution($academicResolutionID);
+                     //die($existing);
+                     $existingFile = $existing['AcadResolutionFile'] ?? '';
+                    
+                     // Delete old file if a new file was uploaded and names differ
+                    if ($fileName !== $existingFile && file_exists($target_dir . $existingFile)) {
+                        unlink($target_dir . $existingFile);
+                    }
+               
+                    $success = $this->model->updateAcademicResolution($academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionID, $fileName);
                     $message = 'Academic Resolution updated successfully.';
             }else{
-                    $success = $this->model->addAcademicResolution($academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionFile);
+                    $success = $this->model->addAcademicResolution($academicResolution, $academicResolutionCode, $academicResolutionYear, $fileName);
                     $message = 'Academic Resolution added successfully.';
             }
 
@@ -261,6 +308,7 @@ class EmployeeController
         }
 
         $success = $this->model->updateBoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID, $fileName);
+        var_dump($success);
         $message = 'Board Resolution updated successfully.';
     } else {
         $success = $this->model->addBoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $fileName);
@@ -545,27 +593,9 @@ handleAjaxAction('AcademicResolution', function () {
     $academicResolutionCode = $_POST['academicresolutionCode'] ?? '';
     $academicResolutionYear = $_POST['academicResolutionYear'] ?? '';
     $academicResolutionID = $_POST['academic_resolution_id'] ?? null;
-
-    $target_dir = "../uploads/acadupload/";
-    $fileName = basename($_FILES["academicFileResolution"]["name"]);
-    $target_file = $target_dir . $fileName;
-    $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-
-    if (file_exists($target_file)) {
-        return ['status' => 'error', 'message' => 'File already exists. Please rename and try again.'];
-    }
-
-    if ($imageFileType != "pdf") {
-        return ['status' => 'error', 'message' => 'Invalid file type. Only PDF files are allowed.'];
-    }
-
-    if (!move_uploaded_file($_FILES["academicFileResolution"]["tmp_name"], $target_file)) {
-        return ['status' => 'error', 'message' => 'There was an error uploading your file.'];
-    }
-
+    $academicFile = $_FILES["academicFileResolution"] ?? null;
     $controller = new EmployeeController();
-    return $controller->AcademicResolutions($academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionID, $fileName);
+    return $controller->AcademicResolutions($academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionID, $academicFile);
 });
 
 
@@ -575,7 +605,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'deleteBoardRe
     return $controller->deleteBoardResolution($boardResolutionID);
 }
 
-
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'deleteAcademicResolution') {
+    $academicResolutionID = intval($_POST['academic_resolution_id']);
+    $controller = new EmployeeController();
+    return $controller->deleteAcademicResolution($academicResolutionID);
+}
 
 
 ?>

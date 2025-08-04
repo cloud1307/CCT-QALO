@@ -364,8 +364,7 @@ class EmployeeModel
             $sql .= " AND intBoardResolutionID != ?";
         }
 
-        $stmt = $this->conn->prepare($sql);
-        
+        $stmt = $this->conn->prepare($sql);        
         if (!empty($boardResolutionID)){
             // Corrected: Only one 'i' for the last int ID
             $stmt->bind_param('sssi', $boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID);
@@ -393,16 +392,14 @@ class EmployeeModel
     } else {
         $stmt->bind_param('s', $fileName);
     }
-
     $stmt->execute();
     $stmt->bind_result($count);
     $stmt->fetch();
     $stmt->close();
-
     return $count > 0;
 }
 
-    //Delete Board Resolution
+    
     public function getBoardResolution($boardResolutionID) {
         $query = "SELECT resolutionFile FROM {$this->table_board_resolution} WHERE intBoardResolutionID = ?";
         $stmt = $this->conn->prepare($query);
@@ -411,7 +408,7 @@ class EmployeeModel
         $result = $stmt->get_result();
         return $result->fetch_assoc();
     }
-
+    //Delete Board Resolution
     public function deleteBoardResolution($boardResolutionID) {
         $query = "DELETE FROM {$this->table_board_resolution} WHERE intBoardResolutionID = ?";
         $stmt = $this->conn->prepare($query);
@@ -439,30 +436,76 @@ class EmployeeModel
         return $stmt->execute();
     }
 
-    public function updateAcademicResolution($academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionID){
-        $query = "UPDATE {$this->table_academic_resolution} SET varAcademicResolution = ?, varAcademicResolutionCode = ?, AcademicResolutionYear = ? WHERE intAcademicResolutionID = ?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("ssii", $academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionID);
+    public function updateAcademicResolution($academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionID, $academicResolutionFile = NULL){
+        $acadFile = isset($academicResolutionFile) ? ", AcadResolutionFile = ?" : '';
+        $params = isset($academicResolutionFile) ? "ssisi" : 'ssis';
+        $query = "UPDATE {$this->table_academic_resolution} 
+            SET varAcademicResolution = ?, varAcademicResolutionCode = ?, AcademicResolutionYear = ?$acadFile 
+            WHERE intAcademicResolutionID = ?";
+        $stmt = $this->conn->prepare($query);        
+        if(isset($academicResolutionFile)){
+            $stmt->bind_param($params, $academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionFile, $academicResolutionID);
+        }else {
+             $stmt->bind_param($params, $academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionID);
+        }       
         return $stmt->execute();
     }
 
     public function AcademicResolutionExists($academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionID = null){
-        $sql = "SELECT COUNT(*) FROM {$this->table_board_resolution} WHERE (varBoardResolution = ? AND varBoardResolutionCode = ? AND BoardResolutionYear = ? )";
-        if (!empty($majorid)) {
-            $sql .= " AND intBoardResolutionID != ?";
+        $sql = "SELECT COUNT(*) FROM {$this->table_academic_resolution} WHERE varAcademicResolution = ? AND varAcademicResolutionCode = ? AND AcademicResolutionYear = ?";
+        if (!empty($academicResolutionID)) {
+            $sql .= " AND intAcademicResolutionID != ?";
         }
 
         $stmt = $this->conn->prepare($sql);
-        if (!empty($boardResolutionID)){
-            $stmt->bind_param('ssii', $academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionID);
+        if (!empty($academicResolutionID)){
+            $stmt->bind_param('sssi', $academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionID);
         }else{
             $stmt->bind_param('ssi', $academicResolution, $academicResolutionCode, $academicResolutionYear);
         }
         $stmt->execute();
         $stmt->bind_result($count);
         $stmt->fetch();
+        $stmt->close();
         return $count > 0;
     }
+
+       //Check Academic Resolution File Exists
+    public function AcademicResolutionFileExists($academicResolutionFile, $academicResolutionID = null) {
+        $sql = "SELECT COUNT(*) FROM {$this->table_academic_resolution} WHERE AcadResolutionFile = ?";
+        if (!empty($academicResolutionID)) {
+            $sql .= " AND intAcademicResolutionID != ?";
+        }
+
+        $stmt = $this->conn->prepare($sql);
+        if (!empty($academicResolutionID)) {
+            $stmt->bind_param('si', $academicResolutionFile, $academicResolutionID);
+        } else {
+            $stmt->bind_param('s', $academicResolutionFile);
+        }
+        $stmt->execute();
+        $stmt->bind_result($count);
+        $stmt->fetch();
+        $stmt->close();
+        return $count > 0;
+    }
+
+    public function getAcademicResolution($academicResolutionID) {
+        $query = "SELECT AcadResolutionFile FROM {$this->table_academic_resolution} WHERE intAcademicResolutionID = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $academicResolutionID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
+    //Delete Board Resolution
+    public function deleteAcademicResolution($academicResolutionID) {
+        $query = "DELETE FROM {$this->table_academic_resolution} WHERE intAcademicResolutionID = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $academicResolutionID);
+        return $stmt->execute();
+    }
+        
 
     public function getAllAcademicResolution(){
         $query ="SELECT * FROM {$this->table_academic_resolution} ORDER BY AcademicResolutionYear ASC";

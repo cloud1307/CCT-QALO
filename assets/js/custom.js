@@ -613,3 +613,45 @@ function confirmDeleteBoardResolution(resolutionID) {
         }
     });
 }
+
+
+function confirmDeleteAcademicResolution(academicResolutionID) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "This action will permanently delete the Academic resolution.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Yes, delete it!',
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Send AJAX request to delete
+            fetch('../controller/employeeController.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `action=deleteAcademicResolution&academic_resolution_id=${academicResolutionID}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                Swal.fire({
+                    icon: data.status,
+                    title: data.status === 'success' ? 'Deleted!' : 'Error!',
+                    text: data.message,
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+
+                if (data.status === 'success') {
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2000);
+                }
+            })
+            .catch(() => {
+                Swal.fire('Error!', 'An unexpected error occurred.', 'error');
+            });
+        }
+    });
+}
