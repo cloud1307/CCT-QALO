@@ -76,9 +76,10 @@ $schProgram = $model->getAllSchoolProgram();
 										<thead>
 											<tr>
 												<th>ID</th>
-												<th>School</th>
+												<!-- <th>School</th> -->
 												<th>Program Description</th>
-												<th>Program Code</th>												
+												<th>Program Code</th>
+												<th>Major Course</th>											
 												<th>Status</th>
 												<th class="text-center">Actions</th>
 											</tr>
@@ -86,10 +87,10 @@ $schProgram = $model->getAllSchoolProgram();
 										<tbody>
 											<?php foreach ($schProgram as $row): ?>											
 											<tr>
-												<td><?= htmlspecialchars($row['intProgramID']) ?></td>
-												<td><?= htmlspecialchars($row['varSchoolName']) ?></td>
+												<td><?= htmlspecialchars($row['intProgramID']) ?></td>												
 												<td><?= htmlspecialchars($row['varProgramName']) ?></td>
-												<td><?= htmlspecialchars($row['varProgramCode']) ?></td>												
+												<td><?= htmlspecialchars($row['varProgramCode']) ?></td>
+												<td><?= htmlspecialchars($row['varMajorCourse']) ?></td>											
 												<td><span class="badge bg-success bg-opacity-10 text-success"><?= htmlspecialchars($row['enumProgramStatus']) ?></span></td>
 												<td class="text-center">
 													<div class="d-inline-flex">
@@ -103,7 +104,8 @@ $schProgram = $model->getAllSchoolProgram();
 																		onclick="openUpdateSchoolProgramModal(<?= $row['intProgramID'] ?>, 
 																		'<?= htmlspecialchars($row['intSchoolID'], ENT_QUOTES) ?>',																		
 																		'<?= htmlspecialchars($row['varProgramName'], ENT_QUOTES) ?>',
-																		'<?= htmlspecialchars($row['varProgramCode'], ENT_QUOTES) ?>')">																	
+																		'<?= htmlspecialchars($row['varProgramCode'], ENT_QUOTES) ?>',
+																		'<?= htmlspecialchars($row['varMajorCourse'], ENT_QUOTES) ?>')">																		
 																			<i class="ph-pencil me-2"></i>
 																			Edit
 																</a>																

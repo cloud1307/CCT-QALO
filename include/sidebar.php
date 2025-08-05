@@ -54,10 +54,9 @@
 								<span>Resolution</span>
 							</a>
 							<ul class="nav-group-sub collapse">
+								<li class="nav-item"><a href="view_academic_resolution.php" class="nav-link">Academic Resolution</a></li>
 								<li class="nav-item"><a href="view_board_resolution.php" class="nav-link">Board Resolution</a></li>
-								<li class="nav-item"><a href="view_city_resolution.php" class="nav-link">City Resolution</a></li> 
-                                <li class="nav-item"><a href="view_academic_resolution.php" class="nav-link">Academic Resolution</a></li>
-								                                
+								<li class="nav-item"><a href="view_city_resolution.php" class="nav-link">City Resolution</a></li>
 							</ul>
 						</li>
 

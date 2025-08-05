@@ -386,7 +386,7 @@ $schProgram = $model->getAllSchoolProgram();
 									<div class="mb-3">
 										<label class="form-label">Program Description</label>
 										<div class="form-control-feedback input-group">
-											<input type="text" name="programDescription" class="form-control text-uppercase"  required>										
+											<input type="text" name="programDescription" class="form-control text-uppercase" placeholder="Enter Program Description"  required>										
 										<div class="invalid-feedback">Enter Program Description</div>											
 										</div>
 									</div>
@@ -394,10 +394,11 @@ $schProgram = $model->getAllSchoolProgram();
 									<div class="mb-3">
 										<label class="form-label">Program Code</label>
 										<div class="form-control-feedback  input-group">
-											<input type="text"  class="form-control text-uppercase" name="programCode" required>										
+											<input type="text"  class="form-control text-uppercase" placeholder="Enter Program Code" name="programCode" required>										
 										<div class="invalid-feedback">Enter Program Code</div>											
 										</div>
 									</div>
+									<!-- With Major Checkbox -->
 									<div class="d-flex align-items-center mb-3">
 										<div class="form-check">
 											<input type="checkbox" name="withMajor" id="withMajorCheckbox" class="form-check-input">
@@ -405,13 +406,14 @@ $schProgram = $model->getAllSchoolProgram();
 										</div>
 									</div>
 
+									<!-- Major Course (hidden by default) -->
 									<div class="mb-3" id="majorCourseGroup" style="display: none;">
 										<label class="form-label">Major Course</label>
 										<div class="form-control-feedback input-group">
-											<input type="text" class="form-control text-uppercase" name="MajorCourse" id="majorCourseInput">
+											<input type="text" class="form-control text-uppercase" placeholder="Enter Major Course" name="MajorCourse" id="MajorCourse" required>
 											<div class="invalid-feedback">Enter Major Course</div>
 										</div>
-									</div>
+									</div>							
 
 								</div>
 							<div class="modal-footer">
@@ -508,9 +510,9 @@ $schProgram = $model->getAllSchoolProgram();
 									<div class="mb-3">
 										<label class="form-label">Resolution File</label>
 										<div class="form-control-feedback form-control-feedback-start input-group">
-											<input type="file"  class="form-control text-uppercase" name="fileBoardResolution" accept=".pdf" required>										
+											<input type="file"  class="form-control text-uppercase" name="fileBoardResolution" id="fileBoardResolution" accept=".pdf" required>										
 											<span class="input-group-text">.pdf</span>	
-											<div class="invalid-feedback">Upload File Resolution</div>
+											<div class="invalid-feedback">Please upload a file.</div>
 											<div class="form-control-feedback-icon">
 												<i class="ph-file-arrow-up  text-muted"></i>
 											</div>
@@ -537,7 +539,7 @@ $schProgram = $model->getAllSchoolProgram();
 				</div>
 						<form class="needs-validation" id="cityResolutionForm"  action="../controller/employeeController.php" novalidate method="POST" enctype="multipart/form-data"> 
 							<div class="modal-body">
-									<input type="hidden" name="city_resolution_id" id="board_resolution_id">
+									<input type="hidden" name="city_resolution_id" id="city_resolution_id">
 									<input type="hidden" name="deletecityResolution" value="delete">									
 									<div class="mb-3">
 										<label class="form-label">City Resolution Title</label>
@@ -566,7 +568,7 @@ $schProgram = $model->getAllSchoolProgram();
 										<div class="form-control-feedback form-control-feedback-start input-group">
 											<input type="file"  class="form-control text-uppercase" name="cityResolutionFile" accept=".pdf" required>										
 											<span class="input-group-text">.pdf</span>	
-											<div class="invalid-feedback">Upload File City Resolution</div>
+											<div class="invalid-feedback">Please upload a file.</div>
 											<div class="form-control-feedback-icon">
 												<i class="ph-file-arrow-up  text-muted"></i>
 											</div>
@@ -621,9 +623,9 @@ $schProgram = $model->getAllSchoolProgram();
 									<div class="mb-3">
 										<label class="form-label">Academic Resolution File</label>
 										<div class="form-control-feedback form-control-feedback-start input-group">
-											<input type="file"  class="form-control text-uppercase" name="academicFileResolution" id="academicFileResolution" accept=".pdf" >										
+											<input type="file"  class="form-control text-uppercase" name="academicFileResolution" id="academicFileResolution" accept=".pdf" required>										
 											<span class="input-group-text">.pdf</span>	
-										<div class="invalid-feedback">Please upload a valid PDF file.</div>
+										<div class="invalid-feedback">Please upload a file.</div>
 											<div class="form-control-feedback-icon">
 												<i class="ph-file-arrow-up  text-muted"></i>
 											</div>
@@ -701,3 +703,30 @@ $schProgram = $model->getAllSchoolProgram();
 		</div>
 	</div>
 <!-- /Update Employment Status Modal -->
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const withMajorCheckbox = document.getElementById("withMajorCheckbox");
+    const majorCourseGroup = document.getElementById("majorCourseGroup");
+    const MajorCourse = document.getElementById("MajorCourse");
+
+    // Toggle function
+    function toggleMajorField() {
+        if (withMajorCheckbox.checked) {
+            majorCourseGroup.style.display = "block";
+			MajorCourse.value = "";
+        } else {
+            majorCourseGroup.style.display = "none";
+            MajorCourse.value = "N/A"; // Optional: Clear input when hidden
+        }
+    }
+
+    // On checkbox change
+    withMajorCheckbox.addEventListener("change", toggleMajorField);
+
+    // Optional: Run on page load in case checkbox is pre-checked
+    toggleMajorField();
+});
+</script>

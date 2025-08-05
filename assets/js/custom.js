@@ -96,30 +96,6 @@ $(document).ready(function () {
 });
 
 
-// $(document).ready(function () {
-//     // Position Form
-//     handleAjaxFormSubmission('#positionForm', '../controller/employeeController.php?action=add', '#modal_position');
-//     // School Form
-//     handleAjaxFormSubmission('#schoolForm', '../controller/employeeController.php?action=addSchool', '#modal_school');
-
-//     //School Program Form
-//     handleAjaxFormSubmission('#schoolProgramForm', '../controller/employeeController.php?action=SchoolProgram', '#modal_school_program');
-
-//     //Major Program Form
-//     handleAjaxFormSubmission('#majorProgramForm', '../controller/employeeController.php?action=MajorProgram', '#modal_major_course');
-
-//     //Board Resolution Form
-//     handleAjaxFormSubmission('#boardResolutionForm', '../controller/employeeController.php?action=BoardResolution', '#modal_board_resolution');
-
-//     //Academic Resolution Form
-//     handleAjaxFormSubmission('#academicResolutionForm', '../controller/employeeController.php?action=AcademicResolution', '#modal_academic_resolution');
-
-//         // Optional: Reload on modal close
-//     $('#modal_position, #modal_school, #modal_school_program, #modal_major_course, #modal_board_resolution, #modal_academic_resolution').on('hidden.bs.modal', function () {
-//         location.reload(); // Optional if using DataTables, use DataTables reload instead
-//     });
-// });
-
 $(document).ready(function () {
     const forms = [
         { id: '#positionForm', action: 'add', modal: '#modal_position' },
@@ -130,7 +106,8 @@ $(document).ready(function () {
         { id: '#academicResolutionForm', action: 'AcademicResolution', modal: '#modal_academic_resolution' },
         { id: '#employmentStatusForm', action: 'UpdateEmploymentStatus', modal: '#modal_status_update'},
         { id: '#accreditationForm', action: 'Accreditation', modal: '#modal_accreditation'},
-        { id: '#areaForm', action: 'Area', modal: '#modal_area'}
+        { id: '#areaForm', action: 'Area', modal: '#modal_area'},
+        { id: '#cityResolutionForm', action: 'CityResolution', modal: '#modal_city_resolution'}
     ];
 
     forms.forEach(form => {
@@ -246,14 +223,36 @@ function openAddSchoolProgramModal(){
     new bootstrap.Modal(document.getElementById('modal_school_program')).show();
 }
 
-function openUpdateSchoolProgramModal(schProgid, schid, schProgram, progCode) {
+function openUpdateSchoolProgramModal(schProgid, schid, schProgram, progCode, majorcourse) {
     document.getElementById("schoolProgramForm").reset();
     document.getElementById("school_program_id").value = schProgid;
     document.querySelector("input[name='programDescription']").value = schProgram;
     document.querySelector("input[name='programCode']").value = progCode;
+   // document.querySelector("input[name='MajorCourse']").value = majorcourse;
     document.getElementById('schoolProgram').value = schid; // SET category here
-    document.querySelector("#modal-title-school-program").innerHTML = "<i class='ph-pencil me-2'></i>Update School Program";
     
+    const majorInput = document.querySelector("input[name='MajorCourse']");
+    const majorCheckbox = document.getElementById("withMajorCheckbox");
+    const majorCourseGroup = document.getElementById("majorCourseGroup");
+
+    // Set Major Course value
+    majorInput.value = majorcourse;
+    
+
+    // Show and check the "With Major" checkbox if majorcourse is not empty and not "N/A"
+    if (majorcourse && majorcourse.trim().toUpperCase() !== "N/A") {
+        //majorInput.value = majorcourse;
+        console.log(  majorInput.value = majorcourse);
+        document.getElementById('MajorCourse').value = majorcourse;
+        majorCheckbox.checked = true;
+        majorCourseGroup.style.display = "block";
+    } else {
+        majorCheckbox.checked = false;
+        majorCourseGroup.style.display = "none";
+        majorInput.value = "N/A";
+    }
+    
+    document.querySelector("#modal-title-school-program").innerHTML = "<i class='ph-pencil me-2'></i>Update School Program";    
     const btn = document.getElementById("btn-save-school-program");
     btn.classList.remove("btn-success", "btn-warning");
     btn.classList.add("btn-primary");
@@ -568,7 +567,45 @@ function openUpdateAreaModal(areaCode, areaDescription, AreaID) {
     });
 }
 
+function openAddCityResolutionModal() {
+    openModal({
+        formId: "cityResolutionForm",
+        idField: "city_resolution_id",
+        idValue: "",
+        fields: {},
+        titleId: "modal-title-city-resolution",
+        icon: "<i class='ph-plus me-2'></i>",
+        title: "Add City Resolution",
+        buttonId: "btn-save-city-resolution",
+        buttonText: "Add City Resolution",
+        buttonClass: "btn-success",
+        headerId: "modal-header",
+        headerClass: "bg-success",
+        modalId: "modal_city_resolution"
+    });
+}
 
+function openUpdateCityResolutionModal(CityResolution, CityResolutionCode, CityResolutionYear, CityResolutionID) {
+    openModal({
+        formId: "cityResolutionForm",
+        idField: "city_resolution_id",
+        idValue: CityResolutionID,
+        fields: {
+            "textarea[name='cityResolution']": CityResolution,
+            "input[name='cityResolutionCode']": CityResolutionCode,
+            "input[name='cityResolutionYear']": CityResolutionYear
+        },
+        titleId: "modal-title-city-resolution",
+        icon: "<i class='ph-pencil me-2'></i>",
+        title: "Update City Resolution",
+        buttonId: "btn-save-city-resolution",
+        buttonText: "Update City Resolution",
+        buttonClass: "btn-primary",
+        headerId: "modal-header-city-resolution",
+        headerClass: "bg-primary",
+        modalId: "modal_city_resolution"
+    });
+}
 
 
 
@@ -655,3 +692,46 @@ function confirmDeleteAcademicResolution(academicResolutionID) {
         }
     });
 }
+
+
+function confirmDeleteCityResolution(CityResolutionID) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "This action will permanently delete the Academic resolution.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Yes, delete it!',
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Send AJAX request to delete
+            fetch('../controller/employeeController.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `action=deleteCityResolution&city_resolution_id=${CityResolutionID}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                Swal.fire({
+                    icon: data.status,
+                    title: data.status === 'success' ? 'Deleted!' : 'Error!',
+                    text: data.message,
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+
+                if (data.status === 'success') {
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2000);
+                }
+            })
+            .catch(() => {
+                Swal.fire('Error!', 'An unexpected error occurred.', 'error');
+            });
+        }
+    });
+}
+

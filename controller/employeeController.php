@@ -55,10 +55,11 @@ class EmployeeController
     }
 
 
-    public function addSchoolProgram($schid, $schProgram, $progCode, $schProgid = null){
+    public function SchoolProgram($schid, $schProgram, $progCode, $majorcourse, $schProgid = null){
             $schid = trim($schid); 
             $schProgram = strtoupper(trim($schProgram)); // Convert to Uppercase
             $progCode = strtoupper(trim($progCode)); // Convert to Uppercase
+            $majorcourse = strtoupper(trim($majorcourse)); // Convert to Uppercase
             
             //Validate User Input
             if (empty($schid) || empty($schProgram) || empty($progCode)){
@@ -80,10 +81,10 @@ class EmployeeController
                 $message = '';
 
             if(!empty($schProgid)){
-                    $success = $this->model->updateSchoolProgram($schProgid, $schid, $schProgram, $progCode);
+                    $success = $this->model->updateSchoolProgram($schProgid, $schid, $schProgram, $progCode, $majorcourse);
                     $message = 'School Program updated successfully.';
             }else{
-                    $success = $this->model->addSchoolProgram($schid, $schProgram, $progCode);
+                    $success = $this->model->addSchoolProgram($schid, $schProgram, $progCode, $majorcourse);
                     $message = 'School Program added successfully.';
             }
 
@@ -202,6 +203,13 @@ class EmployeeController
             ];
         }
 
+        if(empty($academicResolutionFile["name"])){
+             return [
+                'status' => 'warning',
+                'message' => 'Academic File upload empty.'
+            ];
+        }
+
         //Check for duplicates
             if ($this->model->AcademicResolutionExists($academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionID)) {
                 return [
@@ -271,8 +279,15 @@ class EmployeeController
             return ['status' => 'warning', 'message' => 'All fields are required.'];
         }
 
+        if(empty($resolutionFile["name"])){
+             return [
+                'status' => 'warning',
+                'message' => 'File upload empty.'
+            ];
+        }
+
         // Validation: check for duplicates
-        if ($this->model->BoardResolutionExists($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID)) {
+        if ($this->model->BoardResolutionExists($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID)) {           
             return ['status' => 'warning', 'message' => 'Board Resolution already exists.'];
         }
 
@@ -308,7 +323,6 @@ class EmployeeController
         }
 
         $success = $this->model->updateBoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID, $fileName);
-        var_dump($success);
         $message = 'Board Resolution updated successfully.';
     } else {
         $success = $this->model->addBoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $fileName);
@@ -346,6 +360,97 @@ class EmployeeController
             'message' => $success ? $message : 'Database operation failed.'
         ];
     }
+
+    public function CityResolution($CityResolution, $CityResolutionCode, $CityResolutionYear, $CityResolutionID = null, $cityResolutionFile = null) {
+        $CityResolution = strtoupper(trim($CityResolution));
+        $CityResolutionCode = strtoupper(trim($CityResolutionCode));
+        $CityResolutionYear = trim($CityResolutionYear);
+
+        $target_dir = "../uploads/cityupload/";
+        $fileName = null;
+
+        // Validation: required fields
+        if (empty($CityResolution) || empty($CityResolutionCode) || empty($CityResolutionYear)) {
+            return ['status' => 'warning', 'message' => 'All fields are required.'];
+        }
+
+        if(empty($cityResolutionFile["name"])){
+             return [
+                'status' => 'warning',
+                'message' => 'File upload empty.'
+            ];
+        }
+
+        // Validation: check for duplicates
+        if ($this->model->CityResolutionExists($CityResolution, $CityResolutionCode, $CityResolutionYear, $CityResolutionID)) {                  
+            return [
+            'status' => 'warning', 
+            'message' => 'City Resolution already exists.'
+            ];
+        }
+
+        // File validation (only if uploading new file or filename changed)
+        if (!empty($cityResolutionFile["name"])) {
+            $fileName = basename($cityResolutionFile["name"]);
+            $target_file = $target_dir . $fileName;
+            $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+            if ($fileType !== "pdf") {
+                return ['status' => 'warning', 'message' => 'Invalid file type. Only PDF files are allowed.'];
+            }
+
+            // Check filename conflict with other records
+            if ($this->model->cityResolutionFileExists($fileName, $CityResolutionID)) {
+                return ['status' => 'warning', 'message' => 'File name already used in another record. Please rename the file.'];            
+            }
+
+            // Upload new file
+            if (!move_uploaded_file($cityResolutionFile["tmp_name"], $target_file)) {
+                return ['status' => 'warning', 'message' => 'There was an error uploading your file.'];
+            }
+        }
+
+        // Perform insert or update
+        if (!empty($CityResolutionID)) {
+            $existing = $this->model->getCityResolution($CityResolutionID);
+            $existingFile = $existing['CityResolutionFile'] ?? '';
+
+            // Delete old file if a new file was uploaded and names differ
+            if ($fileName !== $existingFile && file_exists($target_dir . $existingFile)) {
+                unlink($target_dir . $existingFile);
+            }
+
+            $success = $this->model->updateCityResolution($CityResolution, $CityResolutionCode, $CityResolutionYear, $CityResolutionID, $fileName);
+            $message = 'City Resolution updated successfully.';
+        } else {
+            $success = $this->model->addCityResolution($CityResolution, $CityResolutionCode, $CityResolutionYear, $fileName);
+            $message = 'City Resolution added successfully.';
+        }
+
+        return [
+            'status' => $success ? 'success' : 'error',
+            'message' => $success ? $message : 'Database operation failed.'
+        ];
+    }
+
+    public function deleteCityResolution($CityResolutionID)
+    {
+        $existing = $this->model->getCityResolution($CityResolutionID);
+        $existingFile = $existing['CityResolutionFile'] ?? '';
+        $filePath = '../uploads/cityupload/' . $existingFile;
+
+        $success = $this->model->deleteCityResolution($CityResolutionID);
+    
+        if ($success) {
+            if (file_exists($filePath)) unlink($filePath);
+            //echo json_encode(['status' => 'success', 'message' => 'City Resolution deleted successfully.']);
+            return ['status' => 'success', 'message' => 'City Resolution deleted successfully.'];        
+        } else {
+           //echo json_encode(['status' => 'error', 'message' => 'Failed to delete Board Resolution.']);
+            return ['status' => 'error', 'message' => 'Failed to delete Board Resolution.'];  
+        }
+    }
+
 
 
     public function addEmployee() {
@@ -528,9 +633,10 @@ handleAjaxAction('SchoolProgram', function(){
     $schid = $_POST['schoolProgram'] ?? '';
     $schProgram = $_POST['programDescription'] ?? '';
     $progCode = $_POST['programCode'] ?? '';
+    $majorcourse = $_POST['MajorCourse'] ?? 'N/A';
     $schProgid = $_POST['school_program_id'] ?? null;
     $controller = new EmployeeController();
-    return $controller->addSchoolProgram($schid, $schProgram, $progCode, $schProgid);
+    return $controller->SchoolProgram($schid, $schProgram, $progCode, $majorcourse, $schProgid);
 });
 
 // ✅ Handle Add/Update major Program
@@ -558,6 +664,24 @@ handleAjaxAction('BoardResolution', function () {
         $resolutionFile
     );
 });
+
+handleAjaxAction('CityResolution', function () {
+    $CityResolution = $_POST['cityResolution'] ?? '';
+    $CityResolutionCode = $_POST['cityResolutionCode'] ?? '';
+    $CityResolutionYear = $_POST['cityResolutionYear'] ?? '';
+    $CityResolutionID = $_POST['city_resolution_id'] ?? null;
+    $cityResolutionFile = $_FILES['cityResolutionFile'] ?? null;
+
+    $controller = new EmployeeController();
+    return $controller->CityResolution(
+        $CityResolution,
+        $CityResolutionCode,
+        $CityResolutionYear,
+        $CityResolutionID,
+        $cityResolutionFile
+    );
+});
+
 
 
 handleAjaxAction('UpdateEmploymentStatus', function () {
@@ -609,6 +733,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'deleteAcademi
     $academicResolutionID = intval($_POST['academic_resolution_id']);
     $controller = new EmployeeController();
     return $controller->deleteAcademicResolution($academicResolutionID);
+}
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'deleteCityResolution') {
+    $CityResolutionID = intval($_POST['city_resolution_id']);
+    $controller = new EmployeeController();
+    return $controller->deleteCityResolution($CityResolutionID);
 }
 
 

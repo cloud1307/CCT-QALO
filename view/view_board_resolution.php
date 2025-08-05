@@ -105,11 +105,11 @@ $board_resolution = $model->getAllBoardResolution();
 																		'<?= htmlspecialchars($row['varBoardResolution'], ENT_QUOTES) ?>',
 																		'<?= htmlspecialchars($row['varBoardResolutionCode'], ENT_QUOTES) ?>',
 																		'<?= htmlspecialchars($row['BoardResolutionYear'], ENT_QUOTES) ?>',
+																		'<?= htmlspecialchars($row['resolutionFile'], ENT_QUOTES) ?>',																		
 																		<?= $row['intBoardResolutionID'] ?>)">																	
 																			<i class="ph-pencil me-2"></i>
 																			Edit
 																</a>
-
 																<a href="javascript:void(0);" 
 																		class="dropdown-item"
 																		onclick="confirmDeleteBoardResolution(<?= $row['intBoardResolutionID'] ?>)">																	

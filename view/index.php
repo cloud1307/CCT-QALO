@@ -4,6 +4,7 @@
     header("Location: ../view/login.php");
     exit;
 }
+
 	include '../include/header.php';
 
 ?>

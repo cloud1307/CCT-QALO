@@ -97,11 +97,10 @@ $city_resolution = $model->getAllCityResolution();
 															<a href="#" class="text-body" data-bs-toggle="dropdown">
 																<i class="ph-list"></i>
 															</a>
-															<div class="dropdown-menu dropdown-menu-end">
-																
+															<div class="dropdown-menu dropdown-menu-end">																
 																<a href="javascript:void(0);" 
 																		class="dropdown-item"
-																		onclick="openUpdateBoardResolutionModal(
+																		onclick="openUpdateCityResolutionModal(
 																		'<?= htmlspecialchars($row['varCityResolution'], ENT_QUOTES) ?>',
 																		'<?= htmlspecialchars($row['varCityResolutionCode'], ENT_QUOTES) ?>',
 																		'<?= htmlspecialchars($row['CityResolutionYear'], ENT_QUOTES) ?>',
@@ -109,13 +108,14 @@ $city_resolution = $model->getAllCityResolution();
 																			<i class="ph-pencil me-2"></i>
 																			Edit
 																</a>
-
 																<a href="javascript:void(0);" 
 																		class="dropdown-item"
-																		onclick="openDeleteResolutionModal(<?= $row['intBoardResolutionID'] ?>)">																	
+																		onclick="confirmDeleteCityResolution(<?= $row['intCityResolutionID'] ?>)">																	
 																			<i class="ph-trash me-2"></i>
 																			Delete
 																</a>
+
+																
 																<a href="#" class="dropdown-item">
 																	<i class="ph-download me-2"></i>
 																	Download Requirements

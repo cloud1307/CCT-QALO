@@ -113,6 +113,8 @@ $academic_resolution = $model->getAllAcademicResolution();
 																			<i class="ph-trash me-2"></i>
 																			Delete
 																</a>
+
+
 																<a href="#" class="dropdown-item">
 																	<i class="ph-download me-2"></i>
 																	Download Requirements
