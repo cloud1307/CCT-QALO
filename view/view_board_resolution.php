@@ -84,9 +84,9 @@ $board_resolution = $model->getAllBoardResolution();
 											</tr>
 										</thead>
 										<tbody>
-										<?php foreach ($board_resolution as $row): ?>
+										<?php $number = 1; foreach ($board_resolution as $row): ?>
 											<tr>												
-												<td><?= htmlspecialchars($row['intBoardResolutionID']) ?></td>
+												<td><?= $number++; ?></td>
 												<td><?= htmlspecialchars($row['varBoardResolution']) ?></td>
 												<td><?= htmlspecialchars($row['varBoardResolutionCode']) ?></td>
 												<td><?= htmlspecialchars($row['BoardResolutionYear']) ?></td>

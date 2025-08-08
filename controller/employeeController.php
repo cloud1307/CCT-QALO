@@ -69,8 +69,9 @@ class EmployeeController
                 ];
             }
 
+
             // Check for duplicates
-            if ($this->model->schoolProgramExists($schProgram, $progCode, !empty($schProgid) ? $schProgid : null)) {
+            if ($this->model->schoolProgramExists($schProgram, $majorcourse, !empty($schProgid) ? $schProgid : null)) {
                 return [
                     'status' => 'warning',
                     'message' => 'School Program already exists.'
@@ -80,7 +81,7 @@ class EmployeeController
                 $success = false;
                 $message = '';
 
-            if(!empty($schProgid)){
+            if(!empty($schProgid)){               
                     $success = $this->model->updateSchoolProgram($schProgid, $schid, $schProgram, $progCode, $majorcourse);
                     $message = 'School Program updated successfully.';
             }else{
@@ -443,54 +444,58 @@ class EmployeeController
     
         if ($success) {
             if (file_exists($filePath)) unlink($filePath);
-            //echo json_encode(['status' => 'success', 'message' => 'City Resolution deleted successfully.']);
+            echo json_encode(['status' => 'success', 'message' => 'City Resolution deleted successfully.']);
             return ['status' => 'success', 'message' => 'City Resolution deleted successfully.'];        
         } else {
-           //echo json_encode(['status' => 'error', 'message' => 'Failed to delete Board Resolution.']);
+           echo json_encode(['status' => 'error', 'message' => 'Failed to delete Board Resolution.']);
             return ['status' => 'error', 'message' => 'Failed to delete Board Resolution.'];  
         }
     }
 
 
 
-    public function addEmployee() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $employeeData = [
-                'employeeNumber'   => $_POST['EmployeeNumber'],
-                'lastName'         => strtoupper(trim($_POST['lastName'])),
-                'firstName'        => strtoupper(trim($_POST['firstName'])),
-                'middleName'       => strtoupper(trim($_POST['middleName'])),
-                'extension'        => strtoupper(trim($_POST['extension'])),
-                'gender'           => $_POST['gender'],
-                'civilStatus'      => $_POST['civilStatus'],
-                'dateOfBirth'      => $_POST['dateOfBirth'],
-                'placeOfBirth'     => strtoupper(trim($_POST['placeofBirth'])),
-                'houseNo'          => strtoupper(trim($_POST['houseNo'])),
-                'street'           => strtoupper(trim($_POST['street'])),
-                'province'         => $_POST['province'],
-                'cityMun'          => $_POST['citymun'],
-                'barangay'         => $_POST['barangay'],
-                'school'           => $_POST['school'],
-                'position'         => $_POST['position'],
-                'employmentDate'   => $_POST['employmentDate'],
-                'jobStatus'        => $_POST['jobStatus'],
-                'jobCategory'      => $_POST['jobCategory'],
-                'userlevel'        => $_POST['userlevel']
-            ];
+   // Controller method
+public function addEmployee() {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            $model = new EmployeeModel($this->db);
-            $result = $model->addEmployee($employeeData);
+        $employeeData = [
+            'employeeNumber' => $_POST['EmployeeNumber'],
+            'lastName'       => strtoupper(trim($_POST['lastName'])),
+            'firstName'      => strtoupper(trim($_POST['firstName'])),
+            'middleName'     => strtoupper(trim($_POST['middleName'])),
+            'extension'      => strtoupper(trim($_POST['extension'])),
+            'gender'         => $_POST['gender'],
+            'civilStatus'    => $_POST['civilStatus'],
+            'dateOfBirth'    => $_POST['dateOfBirth'],
+            'placeOfBirth'   => strtoupper(trim($_POST['placeOfBirth'])), // FIXED KEY
+            'houseNo'        => strtoupper(trim($_POST['houseNo'])),
+            'street'         => strtoupper(trim($_POST['street'])),
+            'province'       => $_POST['province'],
+            'cityMun'        => $_POST['citymun'],
+            'barangay'       => $_POST['barangay'],
+            'school'         => $_POST['school'],
+            'position'       => $_POST['position'],
+            'employmentDate' => $_POST['employmentDate'],
+            'jobStatus'      => $_POST['jobStatus'],
+            'jobCategory'    => $_POST['jobCategory'],
+            'userlevel'      => $_POST['userlevel']
+        ];
 
-             if ($result) {
-                    $_SESSION['success'] = 'Employee added successfully.';
-            } else {
-                    $_SESSION['error'] = 'Failed to add employee.';
-            }
-                header('Location: ../view/view_employee.php');
-                exit;
+        $model = new EmployeeModel($this->conn);
+        $result = $model->addEmployee($employeeData);
 
+        if ($result === true) {
+            $_SESSION['success'] = 'Employee added successfully.';
+        } else {
+            $_SESSION['error'] = 'Failed to add employee. Error: ' . $result;
         }
+        header('Location: ../view/view_employee.php');
+        exit;
     }
+}
+
+
+    
 
     public function deleteBoardResolution($board_resolution_id)
     {

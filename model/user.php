@@ -2,76 +2,127 @@
 require_once '../config/config.php';
 
 class User {
-	private $conn;
-	private $table_name = "tbl_account";
-	private $table_employee = "tbl_employee";
+    private $conn;
+    private $table_account = "tbl_account";
+    private $table_employee = "tbl_employee";
 
-	public function __construct() {
-		$db = new Database();
-		$this->conn = $db->connect();
+    public function __construct() {
+        $db = new Database();
+        $this->conn = $db->connect();
+    }
 
-		if (!$this->conn) {
-			throw new Exception("Database connection failed.");
-		}
-	}
+    public function login($email, $password) {
+        $query = "SELECT a.*, b.enumEmploymentStatus 
+                  FROM {$this->table_account} a
+                  LEFT JOIN {$this->table_employee} b ON b.intEmployeeNumber = a.intEmployeeNumber
+                  WHERE a.varEmail = ?";
 
-	public function login($email, $password) {
-		$query = "SELECT * FROM " . $this->table_name . " WHERE varEmail = ?";
-		$stmt = $this->conn->prepare($query);
+        $stmt = $this->conn->prepare($query);
+        if (!$stmt) {
+            throw new Exception("Login query preparation failed: " . $this->conn->error);
+        }
 
-		if (!$stmt) {
-			throw new Exception("Login query preparation failed: " . $this->conn->error);
-		}
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+        $stmt->close();
 
-		$stmt->bind_param("s", $email);
-		$stmt->execute();
-		$result = $stmt->get_result();
-		$user = $result->fetch_assoc();
+        if ($user) {
+            if (!password_verify($password, $user['varPassword'])) {
+                return ['status' => 'invalid_password'];
+            }
 
-		$stmt->close();
+            if (isset($user['enumEmploymentStatus']) && $user['enumEmploymentStatus'] !== 'Active') {
+                return ['status' => 'deactivated'];
+            }
 
-		if ($user && password_verify($password, $user['varPassword'])) {
-			return $user;
-		}
+            return ['status' => 'success', 'data' => $user];
+        }
 
-		return false;
-	}
+        return ['status' => 'not_found'];
+    }
 
-	public function emailExists($email) {
-		$query = "SELECT intAccountID FROM " . $this->table_name . " WHERE varEmail = ?";
-		$stmt = $this->conn->prepare($query);
+    public function emailExists($email) {
+        $query = "SELECT intAccountID FROM " . $this->table_account . " WHERE varEmail = ?";
+        $stmt = $this->conn->prepare($query);
 
+        if (!$stmt) {
+            throw new Exception("Email check query preparation failed: " . $this->conn->error);
+        }
+
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->store_result();
+        $exists = $stmt->num_rows > 0;
+        $stmt->close();
+
+        return $exists;
+    }
+
+    public function register($email, $password, $recoveryEmail, $contactNumber) {
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        $query = "INSERT INTO " . $this->table_account . " (varEmail, varPassword, textPassword, varRecoveryEmail, varContactNumber, dateCreated)
+                  VALUES (?, ?, ?, ?, ?, NOW())";
+        $stmt = $this->conn->prepare($query);
+
+        if (!$stmt) {
+            throw new Exception("Registration query preparation failed: " . $this->conn->error);
+        }
+
+        $stmt->bind_param("sssss", $email, $hashedPassword, $password, $recoveryEmail, $contactNumber);
+        $success = $stmt->execute();
+        $stmt->close();
+
+        return $success;
+    }
+
+
+	public function addUser($AccountData,$password){
+		$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        $query = "INSERT INTO " . $this->table_account . " (varEmail, varPassword, textPassword, enumUserLevel, varRecoveryEmail, varContactNumber, dateCreated)
+                  VALUES (?, ?, ?, ?, ?, NOW())";
+				  
+        $stmt = $this->conn->prepare($query);
 		if (!$stmt) {
 			throw new Exception("Email check query preparation failed: " . $this->conn->error);
 		}
-
-		$stmt->bind_param("s", $email);
-		$stmt->execute();
-		$stmt->store_result();
-		$exists = $stmt->num_rows > 0;
-		$stmt->close();
-
-		return $exists;
+        $stmt->bind_param("ssssss", 
+		$AccountData['email'],
+		$hashedPassword,
+		$password,
+		$AccountData['alternativeEmail'],
+		$AccountData['contactNumber'],
+		$AccountData['userlevel']
+		);
+		return $stmt->execute();
 	}
 
-	public function register($email, $password, $recoveryEmail, $contactNumber) {
-		$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    public function generateSecurePassword($length = 8) {
+        $lowercase = 'abcdefghijklmnopqrstuvwxyz';
+        $uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $numbers = '0123456789';
+        //$symbols = '!@#$%^&*()-_=+[]{}|;:,.<>?';
 
-		$query = "INSERT INTO " . $this->table_name . " (varEmail, varPassword, varRecoveryEmail, varContactNumber, dateCreated)
-		          VALUES (?, ?, ?, ?, NOW())";
-		$stmt = $this->conn->prepare($query);
+        $allCharacters = $lowercase . $uppercase . $numbers;
+        $password = '';
 
-		if (!$stmt) {
-			throw new Exception("Registration query preparation failed: " . $this->conn->error);
-		}
+        $password .= $lowercase[random_int(0, strlen($lowercase) - 1)];
+        $password .= $uppercase[random_int(0, strlen($uppercase) - 1)];
+        $password .= $numbers[random_int(0, strlen($numbers) - 1)];
+        //$password .= $symbols[random_int(0, strlen($symbols) - 1)];
 
-		$stmt->bind_param("ssss", $email, $hashedPassword, $recoveryEmail, $contactNumber);
-		$success = $stmt->execute();
-		$stmt->close();
+        for ($i = 4; $i < $length; $i++) {
+            $password .= $allCharacters[random_int(0, strlen($allCharacters) - 1)];
+        }
 
-		return $success;
-	}
+        return str_shuffle($password);
+    }
 }
+
+
 
 // class User {
 //     private $db;

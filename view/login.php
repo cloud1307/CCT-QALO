@@ -62,8 +62,7 @@ include '../include/header.php'; ?>
 									<!-- <label class="form-check">
 										<input type="checkbox" name="remember" class="form-check-input">
 										<span class="form-check-label">Remember</span>
-									</label> -->
-									<?php //include '../modal/modal.php'; ?>
+									</label> -->								
 									<a href="recovery_password.php" class="ms-auto" >Forgot password?</a>
 								</div>
 								
@@ -71,28 +70,13 @@ include '../include/header.php'; ?>
 								<div class="mb-3">
 									<button type="submit" class="btn btn-primary w-100">Sign in</button>
 								</div>
-								
-								<!-- <div class="text-center text-muted content-divider mb-3">
-									<span class="px-2">Don't have an account?</span>
-								</div>
-
-								<div class="mb-3">
-									<a href="#" class="btn btn-light w-100">Sign up</a>
-								</div> -->
-
 								<span class="form-text text-center text-muted">By continuing, you're confirming that you've read our <a href="#">Terms &amp; Conditions</a> and <a href="#">Cookie Policy</a></span>
 							</div>
 						</div>
 					</form>
 					<!-- /login card -->
 				</div>
-				<!-- /content area -->			 
-
-
-				<!-- Footer -->
-				
-				<!-- /footer -->
-
+				<!-- /content area -->		 
 			</div>
 			<!-- /inner content -->
 		</div>

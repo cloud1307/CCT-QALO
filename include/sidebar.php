@@ -44,7 +44,13 @@
 								<span>Profile</span>
 							</a>
 							<ul class="nav-group-sub collapse">
-								<li class="nav-item"><a href="#" class="nav-link active">Edit Profile</a></li>
+								<li class="nav-item"><a href="#" class="nav-link">Edit Profile</a></li>
+								<li class="nav-item"><a href="#" class="nav-link">Family Background</a></li>
+								<li class="nav-item"><a href="#" class="nav-link">Child Dependency</a></li>
+								<li class="nav-item"><a href="#" class="nav-link">Educational Background</a></li>
+								<li class="nav-item"><a href="#" class="nav-link">License Credentials</a></li>
+								<li class="nav-item"><a href="#" class="nav-link">Work Experiece</a></li>
+								<li class="nav-item"><a href="#" class="nav-link">Trainings and Seminars</a></li>
 								<!-- <li class="nav-item"><a href="#" class="nav-link disabled">Layout 7 <span class="badge align-self-center ms-auto">Coming soon</span></a></li> -->
 							</ul>
 						</li>
@@ -83,7 +89,7 @@
 							<ul class="nav-group-sub collapse">
 								<li class="nav-item"><a href="view_school.php" class="nav-link">School/Department</a></li>
                                 <li class="nav-item"><a href="view_school_program.php" class="nav-link">Program</a></li>
-                                <li class="nav-item"><a href="view_major_course.php" class="nav-link">Major</a></li>
+                                <!-- <li class="nav-item"><a href="view_major_course.php" class="nav-link">Major</a></li> -->
 
 							</ul>
 						</li>

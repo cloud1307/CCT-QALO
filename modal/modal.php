@@ -62,7 +62,7 @@ $schProgram = $model->getAllSchoolProgram();
 									<div class="mb-3">
 										<label class="form-label">Contact Number</label>
 										<div class="form-control-feedback form-control-feedback-start input-group">
-											<input type="text"  class="form-control" placeholder="{63}900-0000-000" id="mask_phone" name="contactNumber" value="<?= htmlspecialchars($userData['varContactNumber'] ?? 'Not available') ?>" required>										
+											<input type="text"  class="form-control" placeholder="{63}900-0000-000" id="mask_phone1" name="contactNumber" value="<?= htmlspecialchars($userData['varContactNumber'] ?? 'Not available') ?>" required>										
 										<div class="invalid-feedback">Enter Contact Number</div>
 											<div class="form-control-feedback-icon">
 												<i class="ph-phone text-muted"></i>	
@@ -495,14 +495,14 @@ $schProgram = $model->getAllSchoolProgram();
 									<div class="mb-3">
 										<label class="form-label">Resolution Code</label>
 										<div class="form-control-feedback input-group">
-											<input type="text"  class="form-control text-uppercase" name="resolutionCode" required>										
+											<input type="text"  class="form-control text-uppercase" name="resolutionCode" placeholder="Enter Board Resolution Code" required>										
 										<div class="invalid-feedback">Enter Resolution Code</div>											
 										</div>
 									</div>
 									<div class="mb-3">
-										<label class="form-label">Resolution Year</label>
+										<label class="form-label">Resolution Year (YYYY)</label>
 										<div class="form-control-feedback input-group">
-											<input type="number"  class="form-control text-uppercase" maxlength="4" name="resolutionYear" required>										
+											<input type="text"  class="form-control" id="year" placeholder="Enter Year of Rsolution 0000" name="resolutionYear" required>										
 										<div class="invalid-feedback">Enter Resolution Year</div>											
 										</div>
 									</div>
@@ -551,14 +551,14 @@ $schProgram = $model->getAllSchoolProgram();
 									<div class="mb-3">
 										<label class="form-label">City Resolution Code</label>
 										<div class="form-control-feedback input-group">
-											<input type="text"  class="form-control text-uppercase" name="cityResolutionCode" required>										
+											<input type="text"  class="form-control text-uppercase" placeholder="Enter City Resolution Code" name="cityResolutionCode" required>										
 										<div class="invalid-feedback">Enter City Resolution Code</div>											
 										</div>
 									</div>
 									<div class="mb-3">
 										<label class="form-label">City Resolution Year</label>
 										<div class="form-control-feedback input-group">
-											<input type="number"  class="form-control text-uppercase" maxlength="4" name="cityResolutionYear" required>										
+											<input type="number"  class="form-control text-uppercase" name="cityResolutionYear" placeholder="Enter City Resolution year 0000" id="year" required>										
 										<div class="invalid-feedback">Enter City Resolution Year</div>											
 										</div>
 									</div>
@@ -608,14 +608,14 @@ $schProgram = $model->getAllSchoolProgram();
 									<div class="mb-3">
 										<label class="form-label">Resolution Code</label>
 										<div class="form-control-feedback  input-group">
-											<input type="text"  class="form-control text-uppercase" name="academicresolutionCode" required>										
+											<input type="text"  class="form-control text-uppercase" placeholder="Ener Acadmic Resolution Code" name="academicresolutionCode" required>										
 										<div class="invalid-feedback">Enter Resolution Code</div>											
 										</div>
 									</div>
 									<div class="mb-3">
 										<label class="form-label">Resolution Year</label>
 										<div class="form-control-feedback  input-group">
-											<input type="number"  class="form-control text-uppercase" maxlength="4" name="academicResolutionYear" required>										
+											<input type="number"  class="form-control text-uppercase" placeholder="Enter Academic Resolution Year (YYYY)" name="academicResolutionYear" required>										
 										<div class="invalid-feedback">Enter Resolution Year</div>											
 										</div>
 									</div>

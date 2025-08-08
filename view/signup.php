@@ -29,7 +29,7 @@ session_start();
                                     <span class="input-group-text">@citycollegeoftagaytay.edu.ph</span>
                                 </div>
                         </div>
-						<div class="mb-3">
+						<!-- <div class="mb-3">
                             <label>Password</label>
                                 <div class="input-group">                                    
                                     <input type="password" name="password" class="form-control" required>
@@ -41,7 +41,7 @@ session_start();
                                 <div class="input-group">
 							        <input type="password" name="confirm_password" class="form-control" required>
                                 </div>
-						</div>
+						</div> -->
 						<div class="mb-3">
 							<label>Recovery Email</label>
                                 <div class="input-group">
@@ -51,7 +51,7 @@ session_start();
 						<div class="mb-3">
 							<label>Contact Number</label>
                                 <div class="input-group">
-							        <input type="text" name="contact_number" class="form-control" required>
+							        <input type="text" name="contact_number" class="form-control" placeholder="{63}900-0000-000" id="mask_phone" required>
                                 </div>
 						</div>
 						<button type="submit" class="btn btn-primary w-100">Sign Up</button>

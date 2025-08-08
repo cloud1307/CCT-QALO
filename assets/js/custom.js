@@ -7,7 +7,6 @@
  * ---------------------------------------------------------------------------- */
 
 //sweet alert for file upload
-
 $('.resolution-form').on('submit', function (e) {
     e.preventDefault();
     
@@ -609,7 +608,7 @@ function openUpdateCityResolutionModal(CityResolution, CityResolutionCode, CityR
 
 
 
-//DELETE RESOLUTION
+// //DELETE RESOLUTION
 function confirmDeleteBoardResolution(resolutionID) {
     Swal.fire({
         title: 'Are you sure?',
@@ -734,4 +733,6 @@ function confirmDeleteCityResolution(CityResolutionID) {
         }
     });
 }
+
+
 

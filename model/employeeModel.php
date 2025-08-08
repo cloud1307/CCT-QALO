@@ -14,6 +14,7 @@ class EmployeeModel
     private $table_city_resolution = "tbl_city_resolution";
     private $table_accreditation = 'tbl_accreditation';
     private $table_area = 'tbl_accreditation_area';
+    private $table_account = "tbl_account";
 
 
 	public function __construct() {
@@ -173,17 +174,17 @@ class EmployeeModel
 
 
     //School Program Already Exist
-    public function schoolProgramExists($schProgram, $progCode, $schProgid = null) {
-		$sql = "SELECT COUNT(*) FROM {$this->table_school_program} WHERE (varProgramName = ? AND varProgramCode = ?)";
+    public function schoolProgramExists($schProgram, $majorcourse, $schProgid = null) {
+		$sql = "SELECT COUNT(*) FROM {$this->table_school_program} WHERE (varProgramName = ? AND varMajorCourse = ?)";
 		if (!empty($schProgid)) {
 			$sql .= " AND intProgramID != ?";
 		}
 
 		$stmt = $this->conn->prepare($sql);
 		if (!empty($schProgid)) {
-			$stmt->bind_param("ssi", $schProgram, $progCode, $schProgid);
+			$stmt->bind_param("ssi", $schProgram, $majorcourse, $schProgid);
 		} else {
-			$stmt->bind_param("ss", $schProgram, $progCode,);
+			$stmt->bind_param("ss", $schProgram, $majorcourse);
 		}
 		$stmt->execute();
 		$stmt->bind_result($count);
@@ -243,7 +244,7 @@ class EmployeeModel
         }return $majorProgram;
     }
 
-    //Add Employee
+   //Add Employee
         public function addEmployee($data) {
         $query = "INSERT INTO {$this->table_employee} (
             intEmployeeNumber, varLastName, varFirstName, varMiddleName, varExtensionName, enumGender,
@@ -257,7 +258,7 @@ class EmployeeModel
 			throw new Exception("Email check query preparation failed: " . $this->conn->error);
 		}
         $stmt->bind_param(
-            'isssssssssiiiiisssss',
+             'isssssssssiiiiisssss',
             $data['employeeNumber'],
             $data['lastName'],
             $data['firstName'],
@@ -266,7 +267,7 @@ class EmployeeModel
             $data['gender'],
             $data['civilStatus'],
             $data['dateOfBirth'],
-            $data['placeOfBirth'],
+            $data['placeofBirth'],
             $data['houseNo'],
             $data['street'],
             $data['province'],
@@ -277,14 +278,60 @@ class EmployeeModel
             $data['employmentDate'],
             $data['jobStatus'],
             $data['jobCategory'],
-            $data['userlevel']
-            
+            $data['userlevel']           
 
         );
 
         return $stmt->execute();
     }
 
+    //Register Account
+    public function AddAccount($AccountData, $password){
+		$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        $query = "INSERT INTO {$this->table_account} (varEmail, varPassword, textPassword, enumUserLevel, varRecoveryEmail, varContactNumber, dateCreated)
+                  VALUES (?, ?, ?, ?, ?, NOW())";
+				  
+        $stmt = $this->conn->prepare($query);
+		if (!$stmt) {
+			throw new Exception("Email check query preparation failed: " . $this->conn->error);
+		}
+        $stmt->bind_param("ssssss", 
+		$AccountData['email'],
+		$hashedPassword,
+		$password,
+		$AccountData['alternativeEmail'],
+		$AccountData['contactNumber'],
+		$AccountData['userlevel']
+		);
+		return $stmt->execute();
+	}
+
+    //Generate Random Password
+    public function generateSecurePassword($length = 8) {
+        $lowercase = 'abcdefghijklmnopqrstuvwxyz';
+        $uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $numbers = '0123456789';
+        //$symbols = '!@#$%^&*()-_=+[]{}|;:,.<>?';
+
+        $allCharacters = $lowercase . $uppercase . $numbers;
+        $password = '';
+
+        $password .= $lowercase[random_int(0, strlen($lowercase) - 1)];
+        $password .= $uppercase[random_int(0, strlen($uppercase) - 1)];
+        $password .= $numbers[random_int(0, strlen($numbers) - 1)];
+        //$password .= $symbols[random_int(0, strlen($symbols) - 1)];
+
+        for ($i = 4; $i < $length; $i++) {
+            $password .= $allCharacters[random_int(0, strlen($allCharacters) - 1)];
+        }
+
+        return str_shuffle($password);
+    }
+
+
+    
+    //Update Employment Status
     public function updateEmployementStatus($EmploymentStatus, $employeeID = null){
         $query = "UPDATE {$this->table_employee} SET enumEmploymentStatus = ? WHERE intEmployeeID = ?";
         $stmt = $this->conn->prepare($query);
@@ -331,7 +378,9 @@ class EmployeeModel
 
             return $employee;
         }
-    //Add Board Resolution 
+    
+    // -------------------------------Board Resolution------------------------------------------------//
+        //Add Board Resolution 
         public function addBoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $resolutionFile){
             $documentVerifyID = date('Ymd') . mt_rand(1000000000, 9999999999);
             $query = "INSERT INTO {$this->table_board_resolution} (varBoardResolution, varBoardResolutionCode, BoardResolutionYear, BoardDateUpload, resolutionFile, boardResoDocumentVerifyID) VALUES (?, ?, ?, NOW(), ?, ?)";
@@ -427,6 +476,8 @@ class EmployeeModel
             }
         }return $board_resolution;
     }
+    // -------------------------------End Board Resolution------------------------------------------------//
+
 
     public function addAcademicResolution($academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionFile){
         $AcademicdocumentVerifyID = date('Ymd') . mt_rand(1000000000, 9999999999);
@@ -519,41 +570,17 @@ class EmployeeModel
         }return $academic_resolution;
     }
 
-    // //Add City Resolution
-    // public function addCityResolution($cityResolution, $cityResolutionCode, $cityResolutionYear, $cityResolutionFile){
-    //     $citydocumentVerifyID = date('Ymd') . mt_rand(100000000, 999999999);
-    //     $query = "INSERT INTO {$this->table_city_resolution} (varCityResolution, varCityResolutionCode, CityResolutionYear, CityDateUpload, CityResolutionFile, CitydocumentVerifyID) VALUES (?, ?, ?, NOW(),?, ?)";
-    //     $stmt = $this->conn->prepare($query);
-    //     $stmt->bind_param("ssiss", $cityResolution, $cityResolutionCode, $cityResolutionYear, $cityResolutionFile, $citydocumentVerifyID);
-    //     return $stmt->execute();
-    // }
-   
-
-    // //Get All City Resolution
-    // public function getAllCityResolution(){
-    //     $query = "SELECT * FROM {$this->table_city_resolution}";
-    //     $result = $this->conn->query($query);
-    //     $city_resolution = [];
-
-    //     if ($result && $result->num_rows > 0){
-    //         while ($row = $result->fetch_assoc()){
-    //             $city_resolution[] = $row;
-    //         }
-    //     }return $city_resolution;
-    // }
-   
-    // start City Resolution
             //Add City Resolution 
-        public function addCityResolution($cityResolution, $cityResolutionCode, $cityResolutionYear, $cityResolutionFile){
+    public function addCityResolution($cityResolution, $cityResolutionCode, $cityResolutionYear, $cityResolutionFile){
             $citydocumentVerifyID = date('Ymd') . mt_rand(100000000, 999999999);
             $query = "INSERT INTO {$this->table_city_resolution} (varCityResolution, varCityResolutionCode, CityResolutionYear, CityDateUpload, CityResolutionFile, CitydocumentVerifyID) VALUES (?, ?, ?, NOW(),?, ?)";
             $stmt = $this->conn->prepare($query);
             $stmt->bind_param("ssiss", $cityResolution, $cityResolutionCode, $cityResolutionYear, $cityResolutionFile, $citydocumentVerifyID);
             return $stmt->execute();
-        }
+    }
 
         //Update City Resolution
-        public function updateCityResolution($CityResolution, $CityResolutionCode, $CityResolutionYear, $CityResolutionID, $cityResolutionFile = NULL){
+    public function updateCityResolution($CityResolution, $CityResolutionCode, $CityResolutionYear, $CityResolutionID, $cityResolutionFile = NULL){
         $file = isset($cityResolutionFile) ? ", cityResolutionFile = ?" : '';
         $params = isset($cityResolutionFile) ? "ssisi" : 'ssis';
         $query = "UPDATE {$this->table_city_resolution} 

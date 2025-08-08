@@ -29,7 +29,7 @@ const ExtendedFormControls = function() {
         if(maskDateElement) {
             const maskDate = IMask(maskDateElement, {
                 mask: Date,
-                min: new Date(1990, 0, 1),
+                min: new Date(1890, 0, 1),
                 max: new Date(2020, 0, 1)
             });
         }
@@ -42,6 +42,14 @@ const ExtendedFormControls = function() {
             });
         }
 
+                // Phone #
+        const maskPhoneElement1 = document.querySelector('#mask_phone1');
+        if(maskPhoneElement1) {
+            const maskPhone = IMask(maskPhoneElement1, {
+                mask: '+{63}900-0000-000'
+            });
+        }
+
          // Employee ID
         const maskemployeeIDElement = document.querySelector('#mask_employeeID');
         if(maskemployeeIDElement) {
@@ -49,6 +57,7 @@ const ExtendedFormControls = function() {
                 mask: '0000000000'
             });
         }
+
 
         // Phone # with extension
         const maskPhoneExtElement = document.querySelector('#mask_phone_ext');

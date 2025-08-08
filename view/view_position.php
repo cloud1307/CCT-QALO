@@ -75,15 +75,15 @@ $position = $model->getAllPosition();
 									<table class="table datatable-show-all  table-striped table-hover">
 											<thead>
 												<tr>
-													<!-- <th>ID</th> -->
+													<th>No</th>
 													<th>Position</th>
 													<th class="text-center">Actions</th>
 												</tr>
 											</thead>
 											<tbody>
-												<?php foreach ($position as $row): ?>
+												<?php $number = 1; foreach ($position as $row): ?>
 												<tr>
-													<!-- <td><?= htmlspecialchars($row['intPositionID']) ?></td> -->
+													<td><?= $number++;  ?></td>
 													<td><?= htmlspecialchars($row['varPosition']) ?></td>
 													<td class="text-center">
 														<div class="d-inline-flex">

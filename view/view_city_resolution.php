@@ -84,9 +84,9 @@ $city_resolution = $model->getAllCityResolution();
 											</tr>
 										</thead>
 										<tbody>
-										<?php foreach ($city_resolution as $row): ?>
+										<?php $number = 1 ;foreach ($city_resolution as $row): ?>
 											<tr>												
-												<td><?= htmlspecialchars($row['intCityResolutionID']) ?></td>
+												<td><?= $number++; ?></td>
 												<td><?= htmlspecialchars($row['varCityResolution']) ?></td>
 												<td><?= htmlspecialchars($row['varCityResolutionCode']) ?></td>
 												<td><?= htmlspecialchars($row['CityResolutionYear']) ?></td>

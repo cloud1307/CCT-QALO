@@ -6,7 +6,6 @@ require_once '../model/user.php';
 $user = new User();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Determine the action: login or signup
     $action = $_POST['action'] ?? '';
 
     if ($action === 'login') {
@@ -16,51 +15,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $result = $user->login($email, $password);
 
-            if ($result) {
-                $_SESSION['user_id'] = $result['intAccountID'];
+            switch ($result['status']) {
+                case 'success':
+                    $_SESSION['user_id'] = $result['data']['intAccountID'];
+                    header("Location: ../view/index.php");
+                    exit();
 
-                header("Location: ../view/index.php");
-                exit();
-            } else {
-                header("Location: ../view/login.php?error=" . urlencode("Invalid email or password."));
-                exit();
+                case 'deactivated':
+                    header("Location: ../view/login.php?error=" . urlencode("Your account is deactivated. Please contact the admin."));
+                    exit();
+
+                case 'invalid_password':
+                case 'not_found':
+                default:
+                    header("Location: ../view/login.php?error=" . urlencode("Invalid email or password."));
+                    exit();
             }
+
         } catch (Exception $e) {
             error_log("Login error: " . $e->getMessage());
-            header("Location: ../view/login.php?error=" . urlencode("An internal error occurred. Please try again later."));
+            header("Location: ../view/login.php?error=" . urlencode("An internal error occurred."));
             exit();
         }
     } elseif ($action === 'signup') {
         $email = trim($_POST['email']) . "@citycollegeoftagaytay.edu.ph";
-        $password = $_POST['password'];
-        $confirm_password = $_POST['confirm_password'];
-        $recovery_email = trim($_POST['recovery_email']);
+        $recovery_email = trim($_POST['alternativeEmail']);
         $contact_number = trim($_POST['contact_number']);
 
-        if ($password !== $confirm_password) {
-            header("Location: ../view/signup.php?error=" . urlencode("Passwords do not match."));
+        if ($user->emailExists($email)) {
+            header("Location: ../view/signup.php?error=" . urlencode("Your Email is already in use."));
             exit();
         }
 
-        if ($user->emailExists($email)) {
-            header("Location: ../view/signup.php?error=" . urlencode("Email is already in use."));
-            exit();
-        }
+        $password = $user->generateSecurePassword();
 
         if ($user->register($email, $password, $recovery_email, $contact_number)) {
             header("Location: ../view/login.php?success=" . urlencode("Registration successful."));
             exit();
         } else {
-            header("Location: ../view/signup.php?error=" . urlencode("Something went wrong. Try again."));
+            header("Location: ../view/signup.php?error=" . urlencode("Registration failed."));
             exit();
         }
-    } else {
-        header("Location: ../view/login.php");
-        exit();
     }
 
 } elseif ($_SERVER['REQUEST_METHOD'] === 'GET' && ($_GET['action'] ?? '') === 'logout') {
-    // Logout process
     $_SESSION = [];
     if (ini_get("session.use_cookies")) {
         $params = session_get_cookie_params();
@@ -70,13 +68,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         );
     }
     session_destroy();
-
     header("Location: ../view/login.php");
     exit();
 } else {
     header("Location: ../view/login.php");
     exit();
 }
-
-
 ?>
