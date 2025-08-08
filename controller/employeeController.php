@@ -1,5 +1,6 @@
 <?php
 require_once '../model/employeeModel.php';
+require_once '../config/config.php';
 
 class EmployeeController
 {
@@ -8,6 +9,7 @@ class EmployeeController
     public function __construct() {
         $this->model = new EmployeeModel(); 
     }
+
 
     public function showForm() {
             $positions = $this->model->getAllPosition();
@@ -480,9 +482,9 @@ public function addEmployee() {
             'jobCategory'    => $_POST['jobCategory'],
             'userlevel'      => $_POST['userlevel']
         ];
-
+       
         $model = new EmployeeModel($this->conn);
-        $result = $model->addEmployee($employeeData);
+        $result = $model->addEmployee($employeeData);      
 
         if ($result === true) {
             $_SESSION['success'] = 'Employee added successfully.';
