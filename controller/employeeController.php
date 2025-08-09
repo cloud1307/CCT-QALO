@@ -1,6 +1,5 @@
 <?php
 require_once '../model/employeeModel.php';
-require_once '../config/config.php';
 
 class EmployeeController
 {
