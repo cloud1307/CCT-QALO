@@ -15,6 +15,7 @@ class EmployeeModel
     private $table_accreditation = 'tbl_accreditation';
     private $table_area = 'tbl_accreditation_area';
     private $table_account = "tbl_account";
+    private $table_child = "tbl_child";
 
 
 	public function __construct() {
@@ -227,7 +228,6 @@ class EmployeeModel
         return $count > 0;
     }
 
-
     //Select All Major Program
     public function getAllMajorProgram(){
         $query = "SELECT a.*, b.* FROM {$this->table_major_program} a
@@ -244,67 +244,118 @@ class EmployeeModel
         }return $majorProgram;
     }
 
+    // get employee
+    // TODO
+    /*
+    INNER JOIN
+        SELECT e.*, a.* FROM tbl_employee e INNER JOIN tbl_account a ON a.account_id = e.account_id WHERE e.employee_id = ?
+    */
+
+    // Check if child name OR child name + birthday exists
+    
+
    //Add Employee
-        public function addEmployee($data) {
-        $query = "INSERT INTO {$this->table_employee} (
-            intEmployeeNumber, varLastName, varFirstName, varMiddleName, varExtensionName, enumGender,
+    public function addEmployee($data, $insert_id) {
+        $query = "INSERT INTO tbl_employee (
+            intAccountID, intEmployeeNumber, varLastName, varFirstName, varMiddleName, varExtensionName, enumGender,
             enumCivilStatus, BirthDate, varPlaceOfBirth, varHouseNo, varStreet,
             intProvID, intCityMunID, intBrgyID,
-            intSchoolID, intPositionID, EmploymentDate, enumJobStatus, enumJobCategory, enumUserLevel, dateCreated
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+            intSchoolID, intPositionID, EmploymentDate, enumJobStatus, enumJobCategory
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $this->conn->prepare($query);
         if (!$stmt) {
 			throw new Exception("Email check query preparation failed: " . $this->conn->error);
 		}
         $stmt->bind_param(
-             'isssssssssiiiiisssss',
-            $data['employeeNumber'],
-            $data['lastName'],
-            $data['firstName'],
-            $data['middleName'],
-            $data['extension'],
-            $data['gender'],
-            $data['civilStatus'],
-            $data['dateOfBirth'],
-            $data['placeofBirth'],
-            $data['houseNo'],
-            $data['street'],
-            $data['province'],
-            $data['cityMun'],
-            $data['barangay'],
-            $data['school'],
-            $data['position'],
-            $data['employmentDate'],
-            $data['jobStatus'],
-            $data['jobCategory'],
-            $data['userlevel']           
-
+            'isssssssssssiiiiisss',
+            $insert_id, //i
+            $data['employeeNumber'], //s
+            $data['lastName'],  //s
+            $data['firstName'], //s
+            $data['middleName'], //s
+            $data['extension'], //s
+            $data['gender'], //s
+            $data['civilStatus'], //s
+            $data['dateOfBirth'], //s
+            $data['placeOfBirth'], //s
+            $data['houseNo'], //s
+            $data['street'], //s
+            $data['province'], //i
+            $data['cityMun'], //i
+            $data['barangay'], //i
+            $data['school'], //i
+            $data['position'], //i
+            $data['employmentDate'], //s
+            $data['jobStatus'], //s
+            $data['jobCategory'] //s
+        
         );
 
         return $stmt->execute();
     }
+
+    public function AccountExist($AccountData, $accountID = null) {
+        $query = "SELECT COUNT(*) 
+                FROM {$this->table_account} 
+                WHERE (varEmail = ? 
+                        OR (varRecoveryEmail = ? AND varContactNumber = ?))";
+
+        // If updating, exclude the current account from the check
+        if (!empty($accountID)) {
+            $query .= " AND intAccountID != ?";
+        }
+
+        $stmt = $this->conn->prepare($query);
+        if (!$stmt) {
+            throw new Exception("AccountExist query preparation failed: " . $this->conn->error);
+        }
+
+        if (!empty($accountID)) {
+            $stmt->bind_param(
+                'sssi',
+                $AccountData['email'],            // varEmail
+                $AccountData['alternativeEmail'], // varRecoveryEmail
+                $AccountData['contactNumber'],    // varContactNumber
+                $accountID                        // exclude ID
+            );
+        } else {
+            $stmt->bind_param(
+                'sss',
+                $AccountData['email'],            // varEmail
+                $AccountData['alternativeEmail'], // varRecoveryEmail
+                $AccountData['contactNumber']     // varContactNumber
+            );
+        }
+
+        $stmt->execute();
+        $stmt->bind_result($count);
+        $stmt->fetch();
+        return $count > 0;
+    }
+
 
     //Register Account
     public function AddAccount($AccountData, $password){
 		$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         $query = "INSERT INTO {$this->table_account} (varEmail, varPassword, textPassword, enumUserLevel, varRecoveryEmail, varContactNumber, dateCreated)
-                  VALUES (?, ?, ?, ?, ?, NOW())";
+                  VALUES (?, ?, ?, ?, ?, ?, NOW())";
 				  
         $stmt = $this->conn->prepare($query);
 		if (!$stmt) {
 			throw new Exception("Email check query preparation failed: " . $this->conn->error);
 		}
-        $stmt->bind_param("ssssss", 
+        $stmt->bind_param("ssssss",
 		$AccountData['email'],
 		$hashedPassword,
 		$password,
+        $AccountData['userlevel'],
 		$AccountData['alternativeEmail'],
-		$AccountData['contactNumber'],
-		$AccountData['userlevel']
+		$AccountData['contactNumber']
+		
 		);
-		return $stmt->execute();
+		return $stmt->execute() ? $stmt->insert_id : $stmt->execute();
 	}
 
     //Generate Random Password
@@ -328,8 +379,6 @@ class EmployeeModel
 
         return str_shuffle($password);
     }
-
-
     
     //Update Employment Status
     public function updateEmployementStatus($EmploymentStatus, $employeeID = null){
@@ -338,7 +387,6 @@ class EmployeeModel
         $stmt->bind_param("si", $EmploymentStatus, $employeeID);
         return $stmt->execute();
     }
-
 
     // Select All Employees
         public function getAllEmployee($status = 'Active') {
@@ -430,23 +478,23 @@ class EmployeeModel
 
     //Check Resolution File Exists
     public function ResolutionFileExists($fileName, $boardResolutionID = null) {
-    $sql = "SELECT COUNT(*) FROM {$this->table_board_resolution} WHERE resolutionFile = ?";
-    if (!empty($boardResolutionID)) {
-        $sql .= " AND intBoardResolutionID != ?";
-    }
+        $sql = "SELECT COUNT(*) FROM {$this->table_board_resolution} WHERE resolutionFile = ?";
+        if (!empty($boardResolutionID)) {
+            $sql .= " AND intBoardResolutionID != ?";
+        }
 
-    $stmt = $this->conn->prepare($sql);
-    if (!empty($boardResolutionID)) {
-        $stmt->bind_param('si', $fileName, $boardResolutionID);
-    } else {
-        $stmt->bind_param('s', $fileName);
+        $stmt = $this->conn->prepare($sql);
+        if (!empty($boardResolutionID)) {
+            $stmt->bind_param('si', $fileName, $boardResolutionID);
+        } else {
+            $stmt->bind_param('s', $fileName);
+        }
+        $stmt->execute();
+        $stmt->bind_result($count);
+        $stmt->fetch();
+        $stmt->close();
+        return $count > 0;
     }
-    $stmt->execute();
-    $stmt->bind_result($count);
-    $stmt->fetch();
-    $stmt->close();
-    return $count > 0;
-}
 
     
     public function getBoardResolution($boardResolutionID) {
@@ -478,7 +526,7 @@ class EmployeeModel
     }
     // -------------------------------End Board Resolution------------------------------------------------//
 
-
+    // -------------------------------Academic Resolution------------------------------------------------//
     public function addAcademicResolution($academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionFile){
         $AcademicdocumentVerifyID = date('Ymd') . mt_rand(1000000000, 9999999999);
         $query = "INSERT INTO {$this->table_academic_resolution} (varAcademicResolution, varAcademicResolutionCode, AcademicResolutionYear, AcademicDateUpload, AcadResolutionFile, AcademicdocumentVerifyID) VALUES (?, ?, ?, NOW(),?, ?)";
@@ -486,7 +534,7 @@ class EmployeeModel
         $stmt->bind_param("ssiss", $academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionFile, $AcademicdocumentVerifyID);
         return $stmt->execute();
     }
-
+    //Update Academic resolution
     public function updateAcademicResolution($academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionID, $academicResolutionFile = NULL){
         $acadFile = isset($academicResolutionFile) ? ", AcadResolutionFile = ?" : '';
         $params = isset($academicResolutionFile) ? "ssisi" : 'ssis';
@@ -501,7 +549,7 @@ class EmployeeModel
         }       
         return $stmt->execute();
     }
-
+    //Check Academic Resolution Exists
     public function AcademicResolutionExists($academicResolution, $academicResolutionCode, $academicResolutionYear, $academicResolutionID = null){
         $sql = "SELECT COUNT(*) FROM {$this->table_academic_resolution} WHERE varAcademicResolution = ? AND varAcademicResolutionCode = ? AND AcademicResolutionYear = ?";
         if (!empty($academicResolutionID)) {
@@ -569,7 +617,9 @@ class EmployeeModel
             }
         }return $academic_resolution;
     }
+    // -------------------------------End Academic Resolution------------------------------------------------//
 
+    // --------------------------------------City Resolution------------------------------------------------//
             //Add City Resolution 
     public function addCityResolution($cityResolution, $cityResolutionCode, $cityResolutionYear, $cityResolutionFile){
             $citydocumentVerifyID = date('Ymd') . mt_rand(100000000, 999999999);
@@ -665,8 +715,7 @@ class EmployeeModel
             }
         }return $board_resolution;
     }
-
-    // end City Resolution
+    // --------------------------------------End City Resolution------------------------------------------------//
 
     //Get All Accreditation
     public function getAllAccreditation(){
@@ -760,6 +809,97 @@ class EmployeeModel
         $stmt->fetch();
         return $count > 0;
     }
+
+     //Select All Child Per User
+    public function getAllChild($employeeID) {       
+        $child = []; // Initialize array    
+        // Use prepared statement
+        $stmt = $this->conn->prepare("SELECT * FROM {$this->table_child} WHERE varEmployeeID = ?");
+        $stmt->bind_param("s", $employeeID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $child[] = $row;
+            }
+        }
+        
+        $stmt->close(); 
+        return $child;
+    }
+
+    public function addChild($employeeNumber, $childName, $childBirthday){
+        $query ="INSERT INTO {$this->table_child} (varEmployeeID, varChildName, dateChildBirthday) VALUES (?, ?, ?)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("sss", $employeeNumber, $childName, $childBirthday);
+        return $stmt->execute();
+    }
+
+    public function updateChild($childName, $childBirthday, $childID = null){
+        $query = "UPDATE {$this->table_child} SET varChildName = ?, dateChildBirthday = ? WHERE intChildID  =?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ssi", $childName, $childBirthday, $childID);
+        return $stmt->execute();
+    }
+
+    //Delete Child
+    public function deletechild($childID) {
+        $query = "DELETE FROM {$this->table_child} WHERE intChildID = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $childID);
+        return $stmt->execute();
+    }
+
+   // Check if child name OR child name + birthday exists
+public function childExists($employeeNumber, $childName, $childBirthday, $childID = null) {
+    // Base query
+    $query = "
+        SELECT COUNT(*) 
+        FROM {$this->table_child} 
+        WHERE (varChildName = ? AND varEmployeeID = ?) 
+           OR (varChildName = ? AND dateChildBirthday = ? AND varEmployeeID = ?)
+    ";
+
+    // If we're updating, exclude the current record
+    if (!empty($childID)) {
+        $query .= " AND intChildID != ?";
+    }
+     $stmt = $this->conn->prepare($query);
+
+    if (!empty($childID)) {
+        // Bind parameters: name+empID, name+birthday+empID, exclude ID
+        $stmt->bind_param(
+            'ssssis',
+            $childName,        // varChildName for first condition
+            $employeeNumber,   // varEmployeeID for first condition
+            $childName,        // varChildName for second condition
+            $childBirthday,    // dateChildBirthday for second condition
+            $employeeNumber,   // varEmployeeID for second condition
+            $childID           // Exclude this ID
+        );
+    } else {
+        $stmt->bind_param(
+            'sssss',
+            $childName,
+            $employeeNumber,
+            $childName,
+            $childBirthday,
+            $employeeNumber
+        );
+    }
+
+    $stmt->execute();
+    $stmt->bind_result($count);
+    $stmt->fetch();
+    $stmt->close();
+
+    return $count > 0;
+}
+
+
+
+
 
 }// --/EmployeeModel---
 

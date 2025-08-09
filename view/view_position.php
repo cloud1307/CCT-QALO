@@ -72,11 +72,12 @@ $position = $model->getAllPosition();
 										</div>								
 									</div>
 
-									<table class="table datatable-show-all  table-striped table-hover">
+									<table class="table datatable-basic dataTable no-footer table-hover" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
 											<thead>
 												<tr>
 													<th>No</th>
 													<th>Position</th>
+													<th>Status</th>
 													<th class="text-center">Actions</th>
 												</tr>
 											</thead>
@@ -85,6 +86,7 @@ $position = $model->getAllPosition();
 												<tr>
 													<td><?= $number++;  ?></td>
 													<td><?= htmlspecialchars($row['varPosition']) ?></td>
+													<td><span class="badge bg-success bg-opacity-10 text-success">Active</span></td>
 													<td class="text-center">
 														<div class="d-inline-flex">
 															<div class="dropdown">

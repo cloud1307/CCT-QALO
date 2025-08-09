@@ -72,7 +72,7 @@ $position = $model->getAllPosition();
 										</div>								
 									</div>
 
-									<table class="table datatable-show-all  table-striped table-hover">
+									<table class="table datatable-basic dataTable no-footer table-hover" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
 											<thead>
 												<tr>
 													<th>No</th>

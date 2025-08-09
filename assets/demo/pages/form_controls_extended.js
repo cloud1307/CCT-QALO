@@ -58,6 +58,30 @@ const ExtendedFormControls = function() {
             });
         }
 
+        // YEAR
+        const maskyearElement = document.querySelector('.mask_year');
+        if(maskyearElement) {
+            const maskYear = IMask(maskyearElement, {
+                mask: '0000'
+            });
+        }
+
+        // YEAR
+        const maskyearElement1 = document.querySelector('#mask_year1');
+        if(maskyearElement1) {
+            const maskYear1 = IMask(maskyearElement1, {
+                mask: '0000'
+            });
+        }
+
+                // Employee ID
+        const maskbdyearElement = document.querySelector('#mask_bday');
+        if(maskbdyearElement) {
+            const maskbdYear = IMask(maskbdyearElement, {
+                mask: '0000-00-00'
+            });
+        }
+
 
         // Phone # with extension
         const maskPhoneExtElement = document.querySelector('#mask_phone_ext');

@@ -6,7 +6,7 @@
 }
 
 	include '../include/header.php';
-
+	//print_r($_SESSION['employeeID']);
 ?>
 	<!-- Main navbar -->
 		<?php include '../include/mainNavBar.php'; ?>

@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             switch ($result['status']) {
                 case 'success':
                     $_SESSION['user_id'] = $result['data']['intAccountID'];
+                    $_SESSION['employeeID'] = $result['data']['intEmployeeID'];
                     header("Location: ../view/index.php");
                     exit();
 

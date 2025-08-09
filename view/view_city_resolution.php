@@ -72,7 +72,7 @@ $city_resolution = $model->getAllCityResolution();
 										</div>								
 									</div>
 
-									<table class="table datatable-basic table-hover">
+									<table class="table datatable-basic dataTable no-footer table-hover" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
 										<thead>											
 											<tr>												
 												<th style="width: 5%;">No</th>
@@ -109,11 +109,10 @@ $city_resolution = $model->getAllCityResolution();
 																			Edit
 																</a>
 																<a href="javascript:void(0);" 
-																		class="dropdown-item"
-																		onclick="confirmDeleteCityResolution(<?= $row['intCityResolutionID'] ?>)">																	
-																			<i class="ph-trash me-2"></i>
-																			Delete
-																</a>
+																	class="dropdown-item"
+																	onclick="confirmDelete(<?= $row['intCityResolutionID'] ?>, 'deleteCityResolution', 'City resolution')">
+																	<i class="ph-trash me-2"></i> Delete
+																	</a>
 
 																
 																<a href="#" class="dropdown-item">

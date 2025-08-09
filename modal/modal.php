@@ -502,7 +502,7 @@ $schProgram = $model->getAllSchoolProgram();
 									<div class="mb-3">
 										<label class="form-label">Resolution Year (YYYY)</label>
 										<div class="form-control-feedback input-group">
-											<input type="text"  class="form-control" id="year" placeholder="Enter Year of Rsolution 0000" name="resolutionYear" required>										
+											<input type="text"  class="form-control mask_year" placeholder="Enter Year of Rsolution 0000" name="resolutionYear" required>										
 										<div class="invalid-feedback">Enter Resolution Year</div>											
 										</div>
 									</div>
@@ -556,9 +556,9 @@ $schProgram = $model->getAllSchoolProgram();
 										</div>
 									</div>
 									<div class="mb-3">
-										<label class="form-label">City Resolution Year</label>
+										<label class="form-label">City Resolution Year (YYYY)</label>
 										<div class="form-control-feedback input-group">
-											<input type="number"  class="form-control text-uppercase" name="cityResolutionYear" placeholder="Enter City Resolution year 0000" id="year" required>										
+											<input type="text"  class="form-control text-uppercase mask_year" name="cityResolutionYear" placeholder="Enter City Resolution year 0000" required>										
 										<div class="invalid-feedback">Enter City Resolution Year</div>											
 										</div>
 									</div>
@@ -613,9 +613,9 @@ $schProgram = $model->getAllSchoolProgram();
 										</div>
 									</div>
 									<div class="mb-3">
-										<label class="form-label">Resolution Year</label>
+										<label class="form-label">Resolution Year (YYYY)</label>
 										<div class="form-control-feedback  input-group">
-											<input type="number"  class="form-control text-uppercase" placeholder="Enter Academic Resolution Year (YYYY)" name="academicResolutionYear" required>										
+											<input type="text"  class="form-control mask_year" placeholder="Enter Academic Resolution Year (YYYY)" name="academicResolutionYear" required>										
 										<div class="invalid-feedback">Enter Resolution Year</div>											
 										</div>
 									</div>
@@ -703,6 +703,45 @@ $schProgram = $model->getAllSchoolProgram();
 		</div>
 	</div>
 <!-- /Update Employment Status Modal -->
+
+
+<!-- Child Modal -->
+	<div id="modal_child" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-success text-white border-0" id="modal-header-child">
+					<h5 class="modal-title" id="modal-title-child"><i class="ph-plus me-2"></i>Add Child</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+						<form class="needs-validation" id="childForm" action="../controller/employeeController.php" novalidate method="POST">
+							<div class="modal-body">
+									<input type="hidden" name="child_id" id="child_id">
+									<input type="hidden" name="session_id" id="session_id" value="<?= htmlspecialchars(isset($userData['intEmployeeID']) ? $userData['intEmployeeID'] : 'Not available') ?>">			
+									<div class="mb-3">
+										<label class="form-label">Child Name</label>
+										<div class="form-control-feedback input-group">
+											<input type="text" name="childName" class="form-control text-uppercase" placeholder="Child Name" required>										
+										<div class="invalid-feedback">Enter Child Name</div>
+										</div>
+									</div>
+									
+									<div class="mb-3">
+										<label class="form-label">Child Birthday (yyyy-mm-dd)</label>
+										<div class="form-control-feedback input-group">
+											<input type="text" name="childBirthday" class="form-control" placeholder="Enter date in yyyy-mm-dd" id="mask_bday" required>										
+										<div class="invalid-feedback">Enter Child Birthday</div>
+										</div>
+									</div>
+								</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
+								<button type="submit" class="btn btn-success" id="btn-child">Add Child</button>
+							</div>
+						</form>
+			</div>
+		</div>
+	</div>
+<!-- /Child Modal -->
 
 
 

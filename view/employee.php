@@ -126,7 +126,7 @@ $provinces = $model->getAllProvince();
 											<div class="form-label col-lg-6">
 												<label class="form-label">CCT Email Address</label>
 												<div class="form-control-feedback form-control-feedback-start input-group">
-													<input type="text" name="email" class="form-control" placeholder="••••••••" >
+													<input type="text" name="email" class="form-control" placeholder="••••••••" Required>
 													<span class="input-group-text">@citycollegeoftagaytay.edu.ph</span>
 													<div class="invalid-feedback">Enter your Email</div>
 													<div class="form-control-feedback-icon">
@@ -138,7 +138,7 @@ $provinces = $model->getAllProvince();
 											<div class="form-label col-lg-6">												
 												<label class="form-label">Contact Number</label>
 													<div class="form-control-feedback form-control-feedback-start">
-															<input type="text" name="contactNumber" class="form-control" placeholder="{63}900-0000-000" id="mask_phone" >										
+															<input type="text" name="contactNumber" class="form-control" placeholder="{63}900-0000-000" id="mask_phone" Required>										
 														<div class="invalid-feedback">Enter Contact Number {63}900-0000-000</div>																											
 														<div class="form-control-feedback-icon">
 															<i class="ph-phone text-muted"></i>
@@ -149,7 +149,7 @@ $provinces = $model->getAllProvince();
 											<div class="form-label col-lg-6">												
 												<label class="form-label">Alternative Email Address</label>
 													<div class="form-control-feedback form-control-feedback-start">
-															<input type="email" name="alternativeEmail" class="form-control" placeholder="Enter Alternative Email Address" >										
+															<input type="email" name="alternativeEmail" class="form-control" placeholder="Enter Alternative Email Address" Required>										
 														<div class="invalid-feedback">Enter Alternative Email Address</div>
 														<div class="form-control-feedback-icon">
 															<i class="ph-envelope text-muted"></i>
@@ -329,7 +329,7 @@ $provinces = $model->getAllProvince();
 											<div class="form-label col-lg-4">												
 												<label class="form-label">User Level</label>
 													<div class="form-control-feedback form-control-feedback-start">
-														<select class="form-select" name="userlevel" >
+														<select class="form-select" name="userlevel" Required>
 															<option value="">Select User Level</option>
 															<option value="System Administrator">System Administrator</option>																												
 															<option value="Faculty">Faculty</option>

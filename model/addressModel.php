@@ -10,7 +10,7 @@ class AddressModel {
     }
 
     public function getCitiesByProvince($provCode) {
-        $stmt = $this->conn->prepare("SELECT citymunCode, txtCityMunDesc FROM tbl_refcitymun WHERE varProvCode = ?");
+        $stmt = $this->conn->prepare("SELECT citymunCode, txtCityMunDesc FROM tbl_refcitymun WHERE varProvCode = ? ORDER BY txtCityMunDesc ASC");
         // die(var_dump($stmt));
         $stmt->bind_param("s", $provCode);
         $stmt->execute();
@@ -19,7 +19,7 @@ class AddressModel {
     }
 
     public function getBarangaysByCity($cityMunCode) {
-        $stmt = $this->conn->prepare("SELECT intBrgyID, txtBrgyDesc FROM tbl_refbarangay WHERE varCitymunCode = ?");
+        $stmt = $this->conn->prepare("SELECT intBrgyID, txtBrgyDesc FROM tbl_refbarangay WHERE varCitymunCode = ? ORDER BY txtBrgyDesc ASC");
         $stmt->bind_param("s", $cityMunCode);
         $stmt->execute();
         $result = $stmt->get_result();

@@ -70,14 +70,14 @@ $employee = $model->getAllEmployee('Active');
 										</div>								
 									</div>
 
-									<table class="table datatable-basic table-hover">
+									<table class="table datatable-basic dataTable no-footer table-hover" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
 										<thead>
 											<tr>
-												<th style="width: 5%;">No</th>
-												<th style="width: 20%;">FullName</th>												
+												<th style="width: 20%;">LastName</th>
+												<th style="width: 20%;">FirstName</th>
 												<th style="width: 30%;">Position</th>
-												<th style="width: 25%;">Department</th>
-												<th style="width: 20%;">Job Category</th>													
+												<th style="width: 15%;">Department</th>
+												<th style="width: 15%;">Job Category</th>													
 												<th>Status</th>
 												<th class="text-center">Actions</th>
 											</tr>
@@ -85,9 +85,8 @@ $employee = $model->getAllEmployee('Active');
 										<tbody>
 											<?php $number = 1; foreach ($employee as $row): ?>
 											<tr>
-												<td><?= $number++; ?></td>
-												<td><?= htmlspecialchars($row['varLastName'] . " ". $row['varFirstName'] . " " . $row['varMiddleName']) ?></td>
-												
+												<td><?= htmlspecialchars($row['varLastName']) ?></td>
+												<td><?= htmlspecialchars($row['varFirstName']) ?></td>
 												<td><?= htmlspecialchars($row['varPosition']) ?></td>
 												<td><?= htmlspecialchars($row['varSchoolCode']) ?></td>
 												<td><?= htmlspecialchars($row['enumJobCategory']) ?></td>

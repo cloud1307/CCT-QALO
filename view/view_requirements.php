@@ -59,7 +59,7 @@ include '../include/header.php'; ?>
 											</div>						
 									</div>
 
-									<table class="table datatable-basic table-hover">
+									<table class="table datatable-basic dataTable no-footer table-hover" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
 										<thead>
 											<tr>
 												<th>Area Name</th>

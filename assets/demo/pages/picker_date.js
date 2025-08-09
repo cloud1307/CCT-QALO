@@ -262,7 +262,21 @@ var DateTimePickers = function() {
                 buttonClass: 'btn',
                 prevArrow: document.dir == 'rtl' ? '&rarr;' : '&larr;',
                 nextArrow: document.dir == 'rtl' ? '&larr;' : '&rarr;',
-                format: 'yyyy-mm-dd'
+                format: 'yyyy-mm-dd',
+                maxDate: new Date() // Disable future dates
+            });
+        }
+
+       // Example for childBirthday field (disabling past dates)
+        const dpChildBirthdayElement = document.querySelector('#childBirthday');
+        if (dpChildBirthdayElement) {
+            const dpChildBirthday = new Datepicker(dpChildBirthdayElement, {
+                container: '.content-inner',
+                buttonClass: 'btn',
+                prevArrow: document.dir === 'rtl' ? '&rarr;' : '&larr;',
+                nextArrow: document.dir === 'rtl' ? '&larr;' : '&rarr;',
+                format: 'yyyy-mm-dd',
+                minDate: new Date() // Prevent past dates
             });
         }
 

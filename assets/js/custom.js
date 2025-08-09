@@ -7,53 +7,53 @@
  * ---------------------------------------------------------------------------- */
 
 //sweet alert for file upload
-$('.resolution-form').on('submit', function (e) {
-    e.preventDefault();
+// $('.resolution-form').on('submit', function (e) {
+//     e.preventDefault();
     
-    const $form = $(this);
-    const formData = new FormData(this);
-    const action = $form.data('action'); // e.g., 'BoardResolution' or 'AcademicResolution'
+//     const $form = $(this);
+//     const formData = new FormData(this);
+//     const action = $form.data('action'); // e.g., 'BoardResolution' or 'AcademicResolution'
 
-    $.ajax({
-        url: '../controller/employeeController.php?action=' + action,
-        type: 'POST',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function (response) {
-            let res;
-            try {
-                res = JSON.parse(response);
-            } catch (e) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Unexpected Error',
-                    text: 'Could not parse server response.'
-                });
-                return;
-            }
+//     $.ajax({
+//         url: '../controller/employeeController.php?action=' + action,
+//         type: 'POST',
+//         data: formData,
+//         processData: false,
+//         contentType: false,
+//         success: function (response) {
+//             let res;
+//             try {
+//                 res = JSON.parse(response);
+//             } catch (e) {
+//                 Swal.fire({
+//                     icon: 'error',
+//                     title: 'Unexpected Error',
+//                     text: 'Could not parse server response.'
+//                 });
+//                 return;
+//             }
 
-            Swal.fire({
-                icon: res.status === 'success' ? 'success' : 'error',
-                title: res.status === 'success' ? 'Success' : 'Error',
-                text: res.message
-            }).then(() => {
-                if (res.status === 'success') {
-                    $form[0].reset();
-                    $('.modal').modal('hide');
-                    // Optionally reload table or data
-                }
-            });
-        },
-        error: function () {
-            Swal.fire({
-                icon: 'error',
-                title: 'AJAX Error',
-                text: 'Something went wrong during the request.'
-            });
-        }
-    });
-});
+//             Swal.fire({
+//                 icon: res.status === 'success' ? 'success' : 'error',
+//                 title: res.status === 'success' ? 'Success' : 'Error',
+//                 text: res.message
+//             }).then(() => {
+//                 if (res.status === 'success') {
+//                     $form[0].reset();
+//                     $('.modal').modal('hide');
+//                     // Optionally reload table or data
+//                 }
+//             });
+//         },
+//         error: function () {
+//             Swal.fire({
+//                 icon: 'error',
+//                 title: 'AJAX Error',
+//                 text: 'Something went wrong during the request.'
+//             });
+//         }
+//     });
+// });
 
 //-sweet alert for file upload
 
@@ -106,7 +106,8 @@ $(document).ready(function () {
         { id: '#employmentStatusForm', action: 'UpdateEmploymentStatus', modal: '#modal_status_update'},
         { id: '#accreditationForm', action: 'Accreditation', modal: '#modal_accreditation'},
         { id: '#areaForm', action: 'Area', modal: '#modal_area'},
-        { id: '#cityResolutionForm', action: 'CityResolution', modal: '#modal_city_resolution'}
+        { id: '#cityResolutionForm', action: 'CityResolution', modal: '#modal_city_resolution'},
+        { id: '#childForm', action: 'Child', modal: '#modal_child'}
     ];
 
     forms.forEach(form => {
@@ -607,12 +608,177 @@ function openUpdateCityResolutionModal(CityResolution, CityResolutionCode, CityR
 }
 
 
+function openAddChild() {
+    openModal({
+        formId: "childForm",
+        idField: "child_id",
+        idValue: "",
+        fields: {},
+        titleId: "modal-title-child",
+        icon: "<i class='ph-plus me-2'></i>",
+        title: "Add Child Dependency",
+        buttonId: "btn-child",
+        buttonText: "Add Child",
+        buttonClass: "btn-success",
+        headerId: "modal-header-area",
+        headerClass: "bg-success",
+        modalId: "modal_child"
+    });
+}
 
-// //DELETE RESOLUTION
-function confirmDeleteBoardResolution(resolutionID) {
+function openUpdateChildModal(childName, childBirthday, childID) {
+    openModal({
+        formId: "childForm",
+        idField: "child_id",
+        idValue: childID,
+        fields: {            
+            "input[name='childName']": childName,
+            "input[name='childBirthday']": childBirthday
+        },
+        titleId: "modal-title-child",
+        icon: "<i class='ph-pencil me-2'></i>",
+        title: "Update Child Information",
+        buttonId: "btn-child",
+        buttonText: "Update Child Information",
+        buttonClass: "btn-primary",
+        headerId: "modal-header-child",
+        headerClass: "bg-primary",
+        modalId: "modal_child"
+    });
+}
+
+
+// // //DELETE RESOLUTION
+// function confirmDeleteBoardResolution(resolutionID) {
+//     Swal.fire({
+//         title: 'Are you sure?',
+//         text: "This action will permanently delete the board resolution.",
+//         icon: 'warning',
+//         showCancelButton: true,
+//         confirmButtonColor: '#d33',
+//         cancelButtonColor: '#6c757d',
+//         confirmButtonText: 'Yes, delete it!',
+//         reverseButtons: true
+//     }).then((result) => {
+//         if (result.isConfirmed) {
+//             // Send AJAX request to delete
+//             fetch('../controller/employeeController.php', {
+//                 method: 'POST',
+//                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+//                 body: `action=deleteBoardResolution&board_resolution_id=${resolutionID}`
+//             })
+//             .then(response => response.json())
+//             .then(data => {
+//                 Swal.fire({
+//                     icon: data.status,
+//                     title: data.status === 'success' ? 'Deleted!' : 'Error!',
+//                     text: data.message,
+//                     timer: 2000,
+//                     showConfirmButton: false
+//                 });
+
+//                 if (data.status === 'success') {
+//                     setTimeout(() => {
+//                         location.reload();
+//                     }, 2000);
+//                 }
+//             })
+//             .catch(() => {
+//                 Swal.fire('Error!', 'An unexpected error occurred.', 'error');
+//             });
+//         }
+//     });
+// }
+
+
+// function confirmDeleteAcademicResolution(academicResolutionID) {
+//     Swal.fire({
+//         title: 'Are you sure?',
+//         text: "This action will permanently delete the Academic resolution.",
+//         icon: 'warning',
+//         showCancelButton: true,
+//         confirmButtonColor: '#d33',
+//         cancelButtonColor: '#6c757d',
+//         confirmButtonText: 'Yes, delete it!',
+//         reverseButtons: true
+//     }).then((result) => {
+//         if (result.isConfirmed) {
+//             // Send AJAX request to delete
+//             fetch('../controller/employeeController.php', {
+//                 method: 'POST',
+//                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+//                 body: `action=deleteAcademicResolution&academic_resolution_id=${academicResolutionID}`
+//             })
+//             .then(response => response.json())
+//             .then(data => {
+//                 Swal.fire({
+//                     icon: data.status,
+//                     title: data.status === 'success' ? 'Deleted!' : 'Error!',
+//                     text: data.message,
+//                     timer: 2000,
+//                     showConfirmButton: false
+//                 });
+
+//                 if (data.status === 'success') {
+//                     setTimeout(() => {
+//                         location.reload();
+//                     }, 2000);
+//                 }
+//             })
+//             .catch(() => {
+//                 Swal.fire('Error!', 'An unexpected error occurred.', 'error');
+//             });
+//         }
+//     });
+// }
+
+
+// function confirmDeleteCityResolution(CityResolutionID) {
+//     Swal.fire({
+//         title: 'Are you sure?',
+//         text: "This action will permanently delete the Academic resolution.",
+//         icon: 'warning',
+//         showCancelButton: true,
+//         confirmButtonColor: '#d33',
+//         cancelButtonColor: '#6c757d',
+//         confirmButtonText: 'Yes, delete it!',
+//         reverseButtons: true
+//     }).then((result) => {
+//         if (result.isConfirmed) {
+//             // Send AJAX request to delete
+//             fetch('../controller/employeeController.php', {
+//                 method: 'POST',
+//                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+//                 body: `action=deleteCityResolution&city_resolution_id=${CityResolutionID}`
+//             })
+//             .then(response => response.json())
+//             .then(data => {
+//                 Swal.fire({
+//                     icon: data.status,
+//                     title: data.status === 'success' ? 'Deleted!' : 'Error!',
+//                     text: data.message,
+//                     timer: 2000,
+//                     showConfirmButton: false
+//                 });
+
+//                 if (data.status === 'success') {
+//                     setTimeout(() => {
+//                         location.reload();
+//                     }, 2000);
+//                 }
+//             })
+//             .catch(() => {
+//                 Swal.fire('Error!', 'An unexpected error occurred.', 'error');
+//             });
+//         }
+//     });
+// }
+
+
+function confirmDelete(resolutionID, action, resolutionName) {
     Swal.fire({
         title: 'Are you sure?',
-        text: "This action will permanently delete the board resolution.",
+        text: `This action will permanently delete the ${resolutionName}.`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#d33',
@@ -621,11 +787,10 @@ function confirmDeleteBoardResolution(resolutionID) {
         reverseButtons: true
     }).then((result) => {
         if (result.isConfirmed) {
-            // Send AJAX request to delete
             fetch('../controller/employeeController.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `action=deleteBoardResolution&board_resolution_id=${resolutionID}`
+                body: `action=${action}&id=${resolutionID}`
             })
             .then(response => response.json())
             .then(data => {
@@ -638,9 +803,7 @@ function confirmDeleteBoardResolution(resolutionID) {
                 });
 
                 if (data.status === 'success') {
-                    setTimeout(() => {
-                        location.reload();
-                    }, 2000);
+                    setTimeout(() => location.reload(), 2000);
                 }
             })
             .catch(() => {
@@ -649,90 +812,3 @@ function confirmDeleteBoardResolution(resolutionID) {
         }
     });
 }
-
-
-function confirmDeleteAcademicResolution(academicResolutionID) {
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "This action will permanently delete the Academic resolution.",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#6c757d',
-        confirmButtonText: 'Yes, delete it!',
-        reverseButtons: true
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // Send AJAX request to delete
-            fetch('../controller/employeeController.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `action=deleteAcademicResolution&academic_resolution_id=${academicResolutionID}`
-            })
-            .then(response => response.json())
-            .then(data => {
-                Swal.fire({
-                    icon: data.status,
-                    title: data.status === 'success' ? 'Deleted!' : 'Error!',
-                    text: data.message,
-                    timer: 2000,
-                    showConfirmButton: false
-                });
-
-                if (data.status === 'success') {
-                    setTimeout(() => {
-                        location.reload();
-                    }, 2000);
-                }
-            })
-            .catch(() => {
-                Swal.fire('Error!', 'An unexpected error occurred.', 'error');
-            });
-        }
-    });
-}
-
-
-function confirmDeleteCityResolution(CityResolutionID) {
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "This action will permanently delete the Academic resolution.",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#6c757d',
-        confirmButtonText: 'Yes, delete it!',
-        reverseButtons: true
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // Send AJAX request to delete
-            fetch('../controller/employeeController.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `action=deleteCityResolution&city_resolution_id=${CityResolutionID}`
-            })
-            .then(response => response.json())
-            .then(data => {
-                Swal.fire({
-                    icon: data.status,
-                    title: data.status === 'success' ? 'Deleted!' : 'Error!',
-                    text: data.message,
-                    timer: 2000,
-                    showConfirmButton: false
-                });
-
-                if (data.status === 'success') {
-                    setTimeout(() => {
-                        location.reload();
-                    }, 2000);
-                }
-            })
-            .catch(() => {
-                Swal.fire('Error!', 'An unexpected error occurred.', 'error');
-            });
-        }
-    });
-}
-
-
-

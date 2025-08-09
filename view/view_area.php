@@ -70,13 +70,13 @@ $area = $model->getAllArea();
 										</div>								
 									</div>
 
-									<table class="table datatable-basic table-hover">
+									<table class="table datatable-basic dataTable no-footer table-hover" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
 										<thead>
 											<tr>
 												
 												<th>Area Code</th>
 												<th>Area Description</th>													
-												<!-- <th>Status</th> -->
+												<th>Status</th>
 												<th class="text-center">Actions</th>
 											</tr>
 										</thead>
@@ -85,7 +85,7 @@ $area = $model->getAllArea();
 											<tr>
 												<td><?= htmlspecialchars($row['varAreaCode']) ?></td>
 												<td><?= htmlspecialchars($row['varAreaDescription']) ?></td>												
-												<!-- <td><span class="badge bg-success bg-opacity-10 text-success">Active</span></td> -->
+												<td><span class="badge bg-success bg-opacity-10 text-success">Active</span></td>
 												<td class="text-center">
 													<div class="d-inline-flex">
 														<div class="dropdown">

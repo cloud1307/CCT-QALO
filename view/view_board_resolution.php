@@ -72,7 +72,7 @@ $board_resolution = $model->getAllBoardResolution();
 										</div>								
 									</div>
 
-									<table class="table datatable-basic table-hover">
+									<table class="table datatable-basic dataTable no-footer table-hover" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
 										<thead>											
 											<tr>												
 												<th style="width: 5%;">No</th>
@@ -111,10 +111,9 @@ $board_resolution = $model->getAllBoardResolution();
 																			Edit
 																</a>
 																<a href="javascript:void(0);" 
-																		class="dropdown-item"
-																		onclick="confirmDeleteBoardResolution(<?= $row['intBoardResolutionID'] ?>)">																	
-																			<i class="ph-trash me-2"></i>
-																			Delete
+																	class="dropdown-item"
+																	onclick="confirmDelete(<?= $row['intBoardResolutionID'] ?>, 'deleteBoardResolution', 'Board resolution')">
+																	<i class="ph-trash me-2"></i> Delete
 																</a>
 																<a href="#" class="dropdown-item">
 																	<i class="ph-printer me-2"></i>

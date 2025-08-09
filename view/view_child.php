@@ -9,12 +9,13 @@ include '../include/header.php';
 require_once '../config/config.php'; // where $conn is defined
 require_once '../controller/employeeController.php';
 
+$employeeID =  $_SESSION['employeeID'];
 
 $db = new Database();
 $conn = $db->connect();
 
 $model = new EmployeeModel($conn);
-$position = $model->getAllPosition();
+$child = $model->getAllChild($employeeID);
 //print_r($position);
 ?>
 <body>
@@ -49,7 +50,7 @@ $position = $model->getAllPosition();
 							<div class="breadcrumb py-2">
 								<a href="index.html" class="breadcrumb-item"><i class="ph-house"></i></a>
 								<a href="dashboard.php" class="breadcrumb-item">Home</a>
-								<span class="breadcrumb-item active">List of Designation</span>
+								<span class="breadcrumb-item active">List of Child Dependecy</span>
 							</div>
 						</div>						
 					</div>
@@ -66,25 +67,26 @@ $position = $model->getAllPosition();
 								<div class="card">									
 									<div class="card-header">
 										<div class="card-title modal-footer justify-content-between">
-												<h5 class="mb-0">Position List</h5>												
+												<h5 class="mb-0">List of Child Dependecy</h5>												
 												<?php	include '../modal/modal.php'; ?>
-												<a href="#modal_position" class="btn btn-outline-success" data-bs-toggle="modal"><i class="ph-buildings me-2"></i> Add Position</a> 
+												<a href="#modal_child" class="btn btn-outline-success" data-bs-toggle="modal"><i class="ph-buildings me-2"></i> Add Position</a> 
 										</div>								
 									</div>
-
-									<table class="table datatable-show-all  table-striped table-hover">
+									<table class="table datatable-basic dataTable no-footer table-hover" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
 											<thead>
 												<tr>
 													<th>No</th>
-													<th>Position</th>
+													<th>Childs Name</th>
+													<th>Childs Birthday</th>													
 													<th class="text-center">Actions</th>
 												</tr>
 											</thead>
 											<tbody>
-												<?php $number = 1; foreach ($position as $row): ?>
+												<?php $number = 1; foreach ($child as $row): ?>
 												<tr>
 													<td><?= $number++;  ?></td>
-													<td><?= htmlspecialchars($row['varPosition']) ?></td>
+													<td><?= htmlspecialchars($row['varChildName']) ?></td>
+													<td><?= htmlspecialchars($row['dateChildBirthday']) ?></td>													
 													<td class="text-center">
 														<div class="d-inline-flex">
 															<div class="dropdown">
@@ -95,11 +97,19 @@ $position = $model->getAllPosition();
 																<div class="dropdown-menu dropdown-menu-end">
 																	<a href="javascript:void(0);" 
 																		class="dropdown-item"
-																		onclick="openUpdatePositionModal(<?= $row['intPositionID'] ?>, '<?= htmlspecialchars($row['varPosition'], ENT_QUOTES) ?>')">
+																		onclick="openUpdateChildModal('<?= htmlspecialchars($row['varChildName'], ENT_QUOTES) ?>',
+																		'<?= htmlspecialchars($row['dateChildBirthday'], ENT_QUOTES) ?>', <?= $row['intChildID'] ?>)">
 																			<i class="ph-pencil me-2"></i>
 																			Edit
+																	</a>
+																	<a href="javascript:void(0);" 
+																		class="dropdown-item"
+																		onclick="confirmDelete(<?= $row['intChildID'] ?>, 'deleteChild', 'Child Data')">
+																		<i class="ph-trash me-2"></i> Delete
 																	</a>																	
 																</div>
+
+
 															</div>
 														</div>
 													</td>

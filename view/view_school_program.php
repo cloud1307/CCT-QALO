@@ -72,16 +72,14 @@ $schProgram = $model->getAllSchoolProgram();
 										</div>								
 									</div>
 
-									<table class="table datatable-basic table-hover">
+									<table class="table datatable-basic dataTable no-footer table-hover" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
 										<thead>
 											<tr>
-												<th>ID</th>
-												<!-- <th>School</th> -->
-												<th>Program Description</th>
-												<th>Program Code</th>
-												<th>Major Course</th>											
-												<th>Status</th>
-												<th class="text-center">Actions</th>
+												<th style="width: 5%;">ID</th>												
+												<th style="width: 40%;">Program Description</th>
+												<th style="width: 15%;">Program Code</th>
+												<th style="width: 40%;">Major Course</th>
+												<th class="text-center" style="width: 10%;">Actions</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -90,8 +88,8 @@ $schProgram = $model->getAllSchoolProgram();
 												<td><?= htmlspecialchars($row['intProgramID']) ?></td>												
 												<td><?= htmlspecialchars($row['varProgramName']) ?></td>
 												<td><?= htmlspecialchars($row['varProgramCode']) ?></td>
-												<td><?= htmlspecialchars($row['varMajorCourse']) ?></td>											
-												<td><span class="badge bg-success bg-opacity-10 text-success"><?= htmlspecialchars($row['enumProgramStatus']) ?></span></td>
+												<td><?= htmlspecialchars($row['varMajorCourse']) ?></td>										
+												
 												<td class="text-center">
 													<div class="d-inline-flex">
 														<div class="dropdown">

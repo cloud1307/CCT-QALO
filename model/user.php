@@ -12,9 +12,9 @@ class User {
     }
 
     public function login($email, $password) {
-        $query = "SELECT a.*, b.enumEmploymentStatus 
+        $query = "SELECT a.*, b.*
                   FROM {$this->table_account} a
-                  LEFT JOIN {$this->table_employee} b ON b.intEmployeeNumber = a.intEmployeeNumber
+                  LEFT JOIN {$this->table_employee} b ON b.intAccountID  = a.intAccountID
                   WHERE a.varEmail = ?";
 
         $stmt = $this->conn->prepare($query);

@@ -16,8 +16,8 @@ class Session {
 	// Retrieves joined user details by user ID
 	public function getSessionDetailsByUserId($userId) {
 		$sql = "SELECT 
-					a.intAccountID, a.varEmail, a.varPassword, a.varRecoveryEmail, a.varContactNumber, a.enumUserLevel,
-					b.varFirstName, b.varLastName
+					a.*,
+					b.*
 				FROM tbl_account a
 				INNER JOIN tbl_employee b ON b.intAccountID = a.intAccountID
 				WHERE a.intAccountID = ?
