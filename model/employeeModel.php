@@ -243,17 +243,7 @@ class EmployeeModel
             }
         }return $majorProgram;
     }
-
-    // get employee
-    // TODO
-    /*
-    INNER JOIN
-        SELECT e.*, a.* FROM tbl_employee e INNER JOIN tbl_account a ON a.account_id = e.account_id WHERE e.employee_id = ?
-    */
-
-    // Check if child name OR child name + birthday exists
     
-
    //Add Employee
     public function addEmployee($data, $insert_id) {
         $query = "INSERT INTO tbl_employee (
@@ -294,6 +284,55 @@ class EmployeeModel
 
         return $stmt->execute();
     }
+    public function getEmployeeID($accountID){
+        $query = "SELECT a.*, b.* FROM {$this->table_account} a INNER JOIN {$this->table_employee} b ON b.intAccountID = a.intAccountID WHERE a.intAccountID = ? LIMIT 1";
+
+        $stmt = $this->conn->prepare($query);
+
+        if (!$stmt){
+
+        }if (!$stmt) {
+			throw new Exception("Prepare failed: " . $this->conn->error);
+		}
+
+		$stmt->bind_param("i", $userId);
+
+		if (!$stmt->execute()) {
+			throw new Exception("Execute failed: " . $stmt->error);
+		}
+		$result = $stmt->get_result();
+		return $result->fetch_assoc();  // return single row as assoc array
+	
+    }
+
+    public function updateEmployee($employeeData, $accountID){
+        $query = "UPDATE {$this->table_employee} SET intEmployeeNumber = ?, varFirstName = ?, varMiddleName	= ?, varLastName = ?, varExtensionName = ?, enumGender = ?, 
+        enumCivilStatus = ?, BirthDate = ?, varPlaceOfBirth = ?, varHouseNo = ?, varStreet = ?, intProvID = ?, intCityMunID = ?, intBrgyID = ?, intSchoolID = ?,
+        intPositionID = ?, EmploymentDate = ?, enumJobStatus = ?, enumJobCategory = ? WHERE intAccountID = ?";
+        $stmt - $this->conn->prepare($query);
+        $stmt->bind_param("sssssssssssiiiiisssi",
+        $employeeData['employeeNumber'],
+        $employeeData['lastName'],
+        $employeeData['firstName'],
+        $employeeData['middleName'],
+        $employeeData['extension'],
+        $employeeData['gender'],
+        $employeeData['civilStatus'],
+        $employeeData['dateOfBirth'],
+        $employeeData['placeOfBirth'],
+        $employeeData['houseNo'],
+        $employeeData['street'],
+        $employeeData['province'],
+        $employeeData['cityMun'],
+        $employeeData['barangay'],
+        $employeeData['school'],
+        $employeeData['position'],
+        $employeeData['employmentDate'],
+        $employeeData['jobStatus'],
+        $employeeData['jobCategory'],
+        $accountID );
+        return $stmt->execute();
+    }
 
     public function AccountExist($AccountData, $accountID = null) {
         $query = "SELECT COUNT(*) 
@@ -317,7 +356,7 @@ class EmployeeModel
                 $AccountData['email'],            // varEmail
                 $AccountData['alternativeEmail'], // varRecoveryEmail
                 $AccountData['contactNumber'],    // varContactNumber
-                $accountID                        // exclude ID
+                $accountID                        // accountID
             );
         } else {
             $stmt->bind_param(
@@ -357,6 +396,27 @@ class EmployeeModel
 		);
 		return $stmt->execute() ? $stmt->insert_id : $stmt->execute();
 	}
+
+    public function updateAccount($AccountData,$accountID){
+        $query = "UPDATE {$this->table_account} SET varEmail = ?, enumUserLevel = ?, varRecoveryEmail= ?, varContactNumber = ? WHERE intAccountID = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ssssi", 
+        $AccountData['email'],
+        $AccountData['userlevel'],
+        $AccountData['alternativeEmail'],
+        $AccountData['contactNumber'],
+        $accountID);
+        return $stmt->execute();
+
+    }
+
+    public function updateUserAccount($password, $recoveryEmail, $contactNumber, $accountID){
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $query = "UPDATE {$this->table_account} SET varPassword = ?, textPassword = ?, varRecoveryEmail =?, varContactNumber = ? WHERE intAccountID  = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ssssi", $hashedPassword, $password, $recoveryEmail, $contactNumber, $accountID);
+        return $stmt->execute();
+    }
 
     //Generate Random Password
     public function generateSecurePassword($length = 8) {
@@ -852,50 +912,50 @@ class EmployeeModel
     }
 
    // Check if child name OR child name + birthday exists
-public function childExists($employeeNumber, $childName, $childBirthday, $childID = null) {
-    // Base query
-    $query = "
-        SELECT COUNT(*) 
-        FROM {$this->table_child} 
-        WHERE (varChildName = ? AND varEmployeeID = ?) 
-           OR (varChildName = ? AND dateChildBirthday = ? AND varEmployeeID = ?)
-    ";
+    public function childExists($employeeNumber, $childName, $childBirthday, $childID = null) {
+       
+        $query = "SELECT COUNT(*) 
+            FROM {$this->table_child} 
+            WHERE (
+                (varChildName = ? AND varEmployeeID = ?) 
+                OR (varChildName = ? AND dateChildBirthday = ? AND varEmployeeID = ?))";
 
-    // If we're updating, exclude the current record
-    if (!empty($childID)) {
-        $query .= " AND intChildID != ?";
+        if (!empty($childID)) {
+            $query .= " AND intChildID != ?";
+        }
+
+        $stmt = $this->conn->prepare($query);
+
+        if (!empty($childID)) {
+            // Bind parameters with exclusion
+            $stmt->bind_param(
+                'ssssis',
+                $childName,
+                $employeeNumber,
+                $childName,
+                $childBirthday,
+                $employeeNumber,
+                $childID
+            );
+        } else {
+            $stmt->bind_param(
+                'sssss',
+                $childName,
+                $employeeNumber,
+                $childName,
+                $childBirthday,
+                $employeeNumber
+            );
+        }
+
+        $stmt->execute();
+        $stmt->bind_result($count);
+        $stmt->fetch();
+        $stmt->close();
+
+        return $count > 0;
     }
-     $stmt = $this->conn->prepare($query);
 
-    if (!empty($childID)) {
-        // Bind parameters: name+empID, name+birthday+empID, exclude ID
-        $stmt->bind_param(
-            'ssssis',
-            $childName,        // varChildName for first condition
-            $employeeNumber,   // varEmployeeID for first condition
-            $childName,        // varChildName for second condition
-            $childBirthday,    // dateChildBirthday for second condition
-            $employeeNumber,   // varEmployeeID for second condition
-            $childID           // Exclude this ID
-        );
-    } else {
-        $stmt->bind_param(
-            'sssss',
-            $childName,
-            $employeeNumber,
-            $childName,
-            $childBirthday,
-            $employeeNumber
-        );
-    }
-
-    $stmt->execute();
-    $stmt->bind_result($count);
-    $stmt->fetch();
-    $stmt->close();
-
-    return $count > 0;
-}
 
 
 

@@ -31,7 +31,7 @@ if (session_status() === PHP_SESSION_NONE) {
 			</div>
 
 			<div class="navbar-brand flex-1 flex-lg-0">
-				<a href="dashboard.php" class="d-inline-flex align-items-center">
+				<a href="../view/index.php" class="d-inline-flex align-items-center">
 					<img src="../assets/images/logo_qalo.png" alt="">
 					<img src="../assets/images/logo_cct-qalo_light.png" class="d-none d-sm-inline-block h-12px ms-1" alt="">
 				</a>
@@ -50,7 +50,7 @@ if (session_status() === PHP_SESSION_NONE) {
 					</a>
  					
 					<div class="dropdown-menu dropdown-menu-end">						   
-						<a href="#modal-account" class="dropdown-item" data-bs-toggle="modal">
+						<a href="#" class="dropdown-item" data-bs-toggle="modal">
 							<i class="ph-user-circle me-2"></i>
 							My profile
 						</a>
@@ -63,7 +63,7 @@ if (session_status() === PHP_SESSION_NONE) {
 							<!-- <span class="badge bg-primary rounded-pill ms-auto">26</span> -->
 						</a>
 						<div class="dropdown-divider"></div>
-						<a href="#" class="dropdown-item">
+						<a href="#modal-user-account" class="dropdown-item" data-bs-toggle="modal">
 							<i class="ph-gear me-2"></i>
 							Account settings
 						</a>
@@ -78,6 +78,3 @@ if (session_status() === PHP_SESSION_NONE) {
 	</div>
 	<!-- /main navbar -->
 
-
-
-				

@@ -69,7 +69,7 @@
 											</div>
 						                	
 						                	<div>
-												Members online
+												Total Active Users
 												<!-- <div class="fs-sm opacity-75">489 avg</div> -->
 											</div>
 										</div>
@@ -97,7 +97,7 @@
 											</div>
 						                	
 						                	<div>
-												File Upload
+												City Resolution
 												<!-- <div class="fs-sm opacity-75">489 avg</div> -->
 											</div>
 										</div>
@@ -122,7 +122,7 @@
 						                	</div>
 						                	
 						                	<div>
-												Current server load
+												Board Resolution
 												<!-- <div class="fs-sm opacity-75">34.6% avg</div> -->
 											</div>
 										</div>
@@ -146,7 +146,7 @@
 						                	</div>
 						                	
 						                	<div>
-												Today's revenue
+												Academic Council Resolution
 												<!-- <div class="fs-sm opacity-75">$37,578 avg</div> -->
 											</div>
 										</div>

@@ -12,7 +12,7 @@ $schProgram = $model->getAllSchoolProgram();
 //$majorProgram = $model->getAllMajorProgram();
 ?>
 <!-- Update Account Modal -->
-	<div id="modal-account" class="modal fade"  data-bs-keyboard="false" tabindex="-1">
+	<div id="modal-user-account" class="modal fade"  data-bs-keyboard="false" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header text-white border-0">					
@@ -25,8 +25,9 @@ $schProgram = $model->getAllSchoolProgram();
 									<h5 class="mb-0">User Account</h5>
 									<span class="d-block text-muted">Hello!, <?= htmlspecialchars(isset($userData['enumUserLevel']) ? $userData['enumUserLevel'] : 'Not available') ?>	</span>
 								</div>						
-						<form class="needs-validation" action="#" novalidate method="POST">
-							<div class="modal-body">	
+						<form class="needs-validation" id="userAccountForm" action="../controller/employeeController.php" novalidate method="POST">
+							<div class="modal-body">
+								<input type="hidden" name="account_id" id="account_id" value="<?= htmlspecialchars(isset($userData['intAccountID']) ? $userData['intAccountID'] : 'Not available') ?>">	
 									<div class="mb-3">
 										<label class="form-label">Your Email Address</label>
 										<div class="form-control-feedback form-control-feedback-start">
@@ -37,21 +38,33 @@ $schProgram = $model->getAllSchoolProgram();
 										</div>
 									</div>
 
-									<!-- <div class="mb-3">
-										<label class="form-label">Contact Number</label>
-										<div class="form-control-feedback form-control-feedback-start">
-											<input type="text" class="form-control" placeholder="Password" disabled name="conctactNumber" value="<?= htmlspecialchars(isset($userData['varPassword']) ? $userData['varPassword'] : 'Not available') ?>">
+									<div class="mb-3">
+										<label class="form-label">Password</label>
+										<div class="form-control-feedback form-control-feedback-start input-group">
+											<input 
+												type="password" 
+												class="form-control" 
+												placeholder="Password" 
+												disabled 
+												name="password" 
+												id="passwordInput"
+												value="<?= htmlspecialchars(isset($userData['textPassword']) ? $userData['textPassword'] : 'Not available') ?>"
+											>
+											<span class="input-group-text" id="togglePassword">
+												<i class="ph-eye-slash text-muted" id="toggleIcon"></i>
+											</span>
+											<div class="invalid-feedback">Enter Password</div>
 											<div class="form-control-feedback-icon">
-												<i class="ph-phone text-muted"></i>
+												<i class="ph-lock text-muted"></i>
 											</div>
 										</div>
-									</div> -->
+									</div>
 
 									<div class="mb-3">
 										<label class="form-label">Recovery Email Address</label>
 										<div class="form-control-feedback form-control-feedback-start input-group">
-											<input type="text"  class="form-control" placeholder="john@doe.com" name="recovery_email" value="<?= htmlspecialchars($userData['varRecoveryEmail'] ?? 'Not available') ?>" disabled required>
-											<span class="input-group-text"><i class="ph-lock text-muted"></i></span>										
+											<input type="text"  class="form-control" placeholder="john@doe.com" name="recovery_email" value="<?= htmlspecialchars($userData['varRecoveryEmail'] ?? 'Not available') ?>" required>
+											<!-- <span class="input-group-text"><i class="ph-lock text-muted"></i></span>										 -->
 										<div class="invalid-feedback">Enter Recovery Email</div>
 											<div class="form-control-feedback-icon">
 												<i class="ph-envelope text-muted"></i>
@@ -558,7 +571,7 @@ $schProgram = $model->getAllSchoolProgram();
 									<div class="mb-3">
 										<label class="form-label">City Resolution Year (YYYY)</label>
 										<div class="form-control-feedback input-group">
-											<input type="text"  class="form-control text-uppercase mask_year" name="cityResolutionYear" placeholder="Enter City Resolution year 0000" required>										
+											<input type="text"  class="form-control text-uppercase" name="cityResolutionYear" placeholder="Enter City Resolution year 0000" id="mask_year1" required>										
 										<div class="invalid-feedback">Enter City Resolution Year</div>											
 										</div>
 									</div>
@@ -615,7 +628,7 @@ $schProgram = $model->getAllSchoolProgram();
 									<div class="mb-3">
 										<label class="form-label">Resolution Year (YYYY)</label>
 										<div class="form-control-feedback  input-group">
-											<input type="text"  class="form-control mask_year" placeholder="Enter Academic Resolution Year (YYYY)" name="academicResolutionYear" required>										
+											<input type="text"  class="form-control" placeholder="Enter Academic Resolution Year (YYYY)" name="academicResolutionYear" id="mask_year2" required>										
 										<div class="invalid-feedback">Enter Resolution Year</div>											
 										</div>
 									</div>
@@ -767,5 +780,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Optional: Run on page load in case checkbox is pre-checked
     toggleMajorField();
+});
+</script>
+
+
+<script>
+document.getElementById("togglePassword").addEventListener("click", function () {
+    const passwordInput = document.getElementById("passwordInput");
+    const icon = document.getElementById("toggleIcon");
+
+    if (passwordInput.type === "password") {
+		passwordInput.disabled = false;
+        passwordInput.type = "text";
+        icon.classList.remove("ph-eye-slash");
+        icon.classList.add("ph-eye");
+    } else {
+        passwordInput.type = "password";
+		passwordInput.disabled = true;
+        icon.classList.remove("ph-eye");
+        icon.classList.add("ph-eye-slash");
+    }
 });
 </script>

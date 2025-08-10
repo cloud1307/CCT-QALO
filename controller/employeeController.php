@@ -266,7 +266,24 @@ class EmployeeController
 
     }
 
-   
+    ///Delete Board Resolution function
+    public function deleteBoardResolution($board_resolution_id)
+    {
+        $existing = $this->model->getBoardResolution($board_resolution_id);
+        $existingFile = $existing['resolutionFile'] ?? '';
+        $filePath = '../uploads/botupload/' . $existingFile;
+
+        $success = $this->model->deleteBoardResolution($board_resolution_id);
+    
+        if ($success) {
+            if (file_exists($filePath)) unlink($filePath);
+            echo json_encode(['status' => 'success', 'message' => 'Board Resolution deleted successfully.']);
+            return ['status' => 'success', 'message' => 'Board Resolution deleted successfully.'];        
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Failed to delete Board Resolution.']);
+            return ['status' => 'error', 'message' => 'Failed to delete Board Resolution.'];  
+        }
+    }   
 
     public function BoardResolution($boardResolution, $boardResolutionCode, $boardResolutionYear, $boardResolutionID = null, $resolutionFile = null) {
         $boardResolution = strtoupper(trim($boardResolution));
@@ -434,215 +451,62 @@ class EmployeeController
             'message' => $success ? $message : 'Database operation failed.'
         ];
     }
-
-
-
-
-
-   // Controller method
-    // public function addEmployee() {
-    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    //         $employeeData = [
-    //             'employeeNumber'   => $_POST['EmployeeNumber'],
-    //             'lastName'         => strtoupper(trim($_POST['lastName'])),
-    //             'firstName'        => strtoupper(trim($_POST['firstName'])),
-    //             'middleName'       => strtoupper(trim($_POST['middleName'])),
-    //             'extension'        => strtoupper(trim($_POST['extension'])),
-    //             'gender'           => $_POST['gender'],
-    //             'civilStatus'      => $_POST['civilStatus'],
-    //             'dateOfBirth'      => $_POST['dateOfBirth'],
-    //             'placeOfBirth'     => strtoupper(trim($_POST['placeOfBirth'])),
-    //             'houseNo'          => strtoupper(trim($_POST['houseNo'])),
-    //             'street'           => strtoupper(trim($_POST['street'])),
-    //             'province'         => $_POST['province'],
-    //             'cityMun'          => $_POST['citymun'],
-    //             'barangay'         => $_POST['barangay'],
-    //             'school'           => $_POST['school'],
-    //             'position'         => $_POST['position'],
-    //             'employmentDate'   => $_POST['employmentDate'],
-    //             'jobStatus'        => $_POST['jobStatus'],
-    //             'jobCategory'      => $_POST['jobCategory'],
-    //             'userlevel'        => $_POST['userlevel']
-    //         ];
-
-            
-
-    //         $model = new EmployeeModel($this->db);
-    //         $result = $model->addEmployee($employeeData);
-
-    //          if ($result) {
-    //                 $_SESSION['success'] = 'Employee added successfully.';
-
-    //         } else {
-    //                 $_SESSION['error'] = 'Failed to add employee.';
-
-
-    //         }
-
-    //             header('Location: ../view/view_employee.php');
-    //             exit;
-
-    //     }
-    // }
-
-
+    //Add Employee and Account
     public function addEmployee() {
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-        $AccountData = [
-            'email'            => trim($_POST['email']) . "@citycollegeoftagaytay.edu.ph",
-            'userlevel'        => $_POST['userlevel'],
-            'alternativeEmail' => trim($_POST['alternativeEmail']),
-            'contactNumber'    => trim($_POST['contactNumber'])
-        ];
+            $AccountData = [
+                'email'            => trim($_POST['email']) . "@citycollegeoftagaytay.edu.ph",
+                'userlevel'        => $_POST['userlevel'],
+                'alternativeEmail' => trim($_POST['alternativeEmail']),
+                'contactNumber'    => trim($_POST['contactNumber'])
+            ];
 
-         $employeeData = [
+            $employeeData = [
+                    'employeeNumber'   => $_POST['EmployeeNumber'],
+                    'lastName'         => strtoupper(trim($_POST['lastName'])),
+                    'firstName'        => strtoupper(trim($_POST['firstName'])),
+                    'middleName'       => strtoupper(trim($_POST['middleName'])),
+                    'extension'        => strtoupper(trim($_POST['extension'])),
+                    'gender'           => $_POST['gender'],
+                    'civilStatus'      => $_POST['civilStatus'],
+                    'dateOfBirth'      => $_POST['dateOfBirth'],
+                    'placeOfBirth'     => strtoupper(trim($_POST['placeOfBirth'])),
+                    'houseNo'          => strtoupper(trim($_POST['houseNo'])),
+                    'street'           => strtoupper(trim($_POST['street'])),
+                    'province'         => $_POST['province'],
+                    'cityMun'          => $_POST['citymun'],
+                    'barangay'         => $_POST['barangay'],
+                    'school'           => $_POST['school'],
+                    'position'         => $_POST['position'],
+                    'employmentDate'   => $_POST['employmentDate'],
+                    'jobStatus'        => $_POST['jobStatus'],
+                    'jobCategory'      => $_POST['jobCategory']
+        ];            
+            // Generate password first
+            $password = $this->model->generateSecurePassword(8);
+            // Insert account
+            $accountID = $this->model->AddAccount($AccountData, $password);
 
-                'employeeNumber'   => $_POST['EmployeeNumber'],
-                'lastName'         => strtoupper(trim($_POST['lastName'])),
-                'firstName'        => strtoupper(trim($_POST['firstName'])),
-                'middleName'       => strtoupper(trim($_POST['middleName'])),
-                'extension'        => strtoupper(trim($_POST['extension'])),
-                'gender'           => $_POST['gender'],
-                'civilStatus'      => $_POST['civilStatus'],
-                'dateOfBirth'      => $_POST['dateOfBirth'],
-                'placeOfBirth'     => strtoupper(trim($_POST['placeOfBirth'])),
-                'houseNo'          => strtoupper(trim($_POST['houseNo'])),
-                'street'           => strtoupper(trim($_POST['street'])),
-                'province'         => $_POST['province'],
-                'cityMun'          => $_POST['citymun'],
-                'barangay'         => $_POST['barangay'],
-                'school'           => $_POST['school'],
-                'position'         => $_POST['position'],
-                'employmentDate'   => $_POST['employmentDate'],
-                'jobStatus'        => $_POST['jobStatus'],
-                'jobCategory'      => $_POST['jobCategory']
-    ];
+            $success = false;
+            $message = '';
 
-       
-
-        // Create model instance before checking
-        $model = new EmployeeModel($this->db);
-
-        // Generate password first
-        $password = $model->generateSecurePassword(8);
-        // Insert account
-        $accountID = $model->AddAccount($AccountData, $password);
-
-        if ($accountID && is_numeric($accountID)) {
-            // Step 2: Insert into tbl_employee using the account ID
-            if ($model->addEmployee($employeeData, $accountID)) {
-                //$_SESSION['success'] = 'Employee added successfully.';
-                echo "<script>alert('Employee added successfully.');</script>";
-
+            if (!empty($accountID)) {
+                $success = $this->model->addEmployee($employeeData, $accountID);
+                if ($success) {
+                    $message = urlencode('Employee added successfully.');
+                    header("Location: ../view/view_employee.php?status=success&message={$message}");
+                    exit;
+                } else {
+                    $message = urlencode('Failed to add employee.');
+                    header("Location: ../view/view_employee.php?status=error&message={$message}");
+                    exit;
+                }
             } else {
-                $_SESSION['error'] = 'Account created but failed to add employee details.';
-            }
-        } else {
-            $_SESSION['error'] = 'Failed to create account.';
-        }
-
-        header('Location: ../view/view_employee.php');
-        exit;
-    }
-}
-
-
-    //     public function addEmployee() {
-    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    //         $employeeData = [
-    //             'employeeNumber'   => $_POST['EmployeeNumber'],
-    //             'lastName'         => strtoupper(trim($_POST['lastName'])),
-    //             'firstName'        => strtoupper(trim($_POST['firstName'])),
-    //             'middleName'       => strtoupper(trim($_POST['middleName'])),
-    //             'extension'        => strtoupper(trim($_POST['extension'])),
-    //             'gender'           => $_POST['gender'],
-    //             'civilStatus'      => $_POST['civilStatus'],
-    //             'dateOfBirth'      => $_POST['dateOfBirth'],
-    //             'placeOfBirth'     => strtoupper(trim($_POST['placeOfBirth'])),
-    //             'houseNo'          => strtoupper(trim($_POST['houseNo'])),
-    //             'street'           => strtoupper(trim($_POST['street'])),
-    //             'province'         => $_POST['province'],
-    //             'cityMun'          => $_POST['citymun'],
-    //             'barangay'         => $_POST['barangay'],
-    //             'school'           => $_POST['school'],
-    //             'position'         => $_POST['position'],
-    //             'employmentDate'   => $_POST['employmentDate'],
-    //             'jobStatus'        => $_POST['jobStatus'],
-    //             'jobCategory'      => $_POST['jobCategory'],
-    //             'userlevel'        => $_POST['userlevel']
-    //         ];
-
-    //         $AccountData = [
-    //             'employeeNumber'   => $_POST['EmployeeNumber'],
-    //             'email'            => trim($_POST['email']) . "@citycollegeoftagaytay.edu.ph",
-    //             'alternativeEmail' => trim($_POST['alternativeEmail']),
-    //             'contactNumber'    => trim($_POST['contactNumber']),
-    //             'userlevel'        => $_POST['userlevel']
-    //         ];
-
-    //         // result user
-
-    //         // employee data
-    //         // ipasok accountID
-
-    //         // resultEmp => addEmployee with employeeData
-
-    //         $model = new EmployeeModel($this->db);            
-    //        // $result = $model->addEmployee($employeeData);
-
-    //         $password = $EmployeeModel->generateSecurePassword(8);
-
-
-    //          try {
-    //         // Optionally start transaction
-    //         $this->db->begin_transaction();
-
-    //         // Save employee data
-    //         $resultEmp = $employeeModel->addEmployee($employeeData);
-
-    //         // Save user account
-    //         $resultUser = $employeeModel->AddAccount($AccountData, $password);
-
-    //         if ($resultEmp && $resultUser) {
-    //             $this->db->commit();
-    //             $_SESSION['success'] = 'Employee and User account added successfully.';
-    //         } else {
-    //             $this->db->rollback();
-    //             $_SESSION['error'] = 'Failed to add employee or user.';
-    //         }
-    //     } catch (Exception $e) {
-    //         $this->db->rollback();
-    //         $_SESSION['error'] = 'Exception: ' . $e->getMessage();
-    //     }
-
-    //         header('Location: ../view/view_employee.php');
-    //         exit;
-    //     }
-    // }
-
-
-    
-
-
-
-    
-
-    public function deleteBoardResolution($board_resolution_id)
-    {
-        $existing = $this->model->getBoardResolution($board_resolution_id);
-        $existingFile = $existing['resolutionFile'] ?? '';
-        $filePath = '../uploads/botupload/' . $existingFile;
-
-        $success = $this->model->deleteBoardResolution($board_resolution_id);
-    
-        if ($success) {
-            if (file_exists($filePath)) unlink($filePath);
-            echo json_encode(['status' => 'success', 'message' => 'Board Resolution deleted successfully.']);
-            return ['status' => 'success', 'message' => 'Board Resolution deleted successfully.'];        
-        } else {
-            echo json_encode(['status' => 'error', 'message' => 'Failed to delete Board Resolution.']);
-            return ['status' => 'error', 'message' => 'Failed to delete Board Resolution.'];  
+                $message = urlencode('Account creation failed.');
+                header("Location: ../view/view_employee.php?status=error&message={$message}");
+                exit;
+            }   
         }
     }
 
@@ -739,7 +603,7 @@ class EmployeeController
             ];
         }
         //Check for duplicates
-        if ($this->model->childExists($childName, $childBirthday, !empty($childID) ? $childID : null )) {
+        if ($this->model->childExists($employeeNumber, $childName, $childBirthday, !empty($childID) ? $childID : null )) {
             return[
                 'status' => 'warning', 
                 'message' => 'Child already exists.'
@@ -768,10 +632,26 @@ class EmployeeController
         if ($success) {           
             echo json_encode(['status' => 'success', 'message' => 'Child Data deleted successfully.']);     
         } else {
-           echo json_encode(['status' => 'error', 'message' => 'Failed to delete Board Resolution.']);
+           echo json_encode(['status' => 'error', 'message' => 'Failed to delete child Data.']);
         }
     }
-    
+
+    public function updateUserAccount($password, $recoveryEmail, $contactNumber, $accountID) {
+        // Call the model method
+        $success = $this->model->updateUserAccount($password, $recoveryEmail, $contactNumber, $accountID);
+        if ($success) {
+            return [
+                'status' => 'success',
+                'message' => 'User Account updated successfully.'
+            ];
+            } else {
+            return [
+                'status' => 'error',
+                'message' => 'Database operation failed.'
+            ];
+        }   
+    }
+
 
 }
 
@@ -907,7 +787,7 @@ handleAjaxAction('AcademicResolution', function () {
 });
 
 
-// ✅ Handle Add/Update Area
+// ✅ Handle Add/Update Child
 handleAjaxAction('Child', function () {
     $employeeNumber = $_POST['session_id'] ?? '';
     $childName = $_POST['childName'] ?? '';
@@ -916,6 +796,24 @@ handleAjaxAction('Child', function () {
     $controller = new EmployeeController();
     return $controller->childDependency($employeeNumber, $childName, $childBirthday, $childID);
 });
+
+// employeeController.php (handling update)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['account_id'])) {
+    require_once '../model/employeeModel.php';
+    $controller = new EmployeeController();
+    $response = $controller->updateUserAccount(
+        $_POST['password'] ?? '',
+        $_POST['recovery_email'] ?? '',
+        $_POST['contactNumber'] ?? '',
+        $_POST['account_id'] ?? null
+    );
+
+    header('Content-Type: application/json');
+    echo json_encode($response);
+    exit;
+}
+
+
 
 
 

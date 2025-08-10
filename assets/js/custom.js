@@ -57,9 +57,6 @@
 
 //-sweet alert for file upload
 
-
-
-
 $(document).ready(function () {
     $(document).on('change', '#province', function () {
         var provCode = $(this).val();
@@ -812,3 +809,36 @@ function confirmDelete(resolutionID, action, resolutionName) {
         }
     });
 }
+
+document.getElementById('userAccountForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    let form = this;
+    let formData = new FormData(form);
+
+    fetch(form.action, {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        Swal.fire({
+            icon: data.status,
+            title: data.status === 'success' ? 'Success!' : 'Error!',
+            text: data.message
+        }).then(() => {
+            if (data.status === 'success') {
+                let modal = bootstrap.Modal.getInstance(document.getElementById('modal-user-account'));
+                modal.hide();
+                location.reload();
+            }
+        });
+    })
+    .catch(() => {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: 'Something went wrong while updating the account.'
+        });
+    });
+});
+

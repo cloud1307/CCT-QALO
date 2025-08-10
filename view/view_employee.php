@@ -61,7 +61,7 @@ $employee = $model->getAllEmployee('Active');
 						<div class="col-xl-12">	
 							<!-- Quick stats boxes -->
 								<!-- hover rows -->
-								<div class="card">									
+								<div class="card">								
 									<div class="card-header">
 										<div class="card-title modal-footer justify-content-between">
 												<h5 class="mb-0">List of Employee</h5>												
@@ -137,3 +137,21 @@ $employee = $model->getAllEmployee('Active');
 	<!-- /page content -->
 </body>
 </html>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<?php if (isset($_GET['status']) && isset($_GET['message'])): ?>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    let status = "<?= htmlspecialchars($_GET['status']) ?>";
+    let message = "<?= htmlspecialchars($_GET['message']) ?>";
+
+    Swal.fire({
+        title: status === 'success' ? 'Success!' : 'Error!',
+        text: message,
+        icon: status,
+        confirmButtonText: 'OK'
+    }).then(() => {
+        window.location.href = 'view_employee.php'; // Clear URL
+    });
+});
+</script>
+<?php endif; ?>

@@ -18,7 +18,15 @@ $positions = $model->getAllPosition();
 
 $school = $model->getAllSchool();
 $provinces = $model->getAllProvince();
-//print_r($school);
+
+$employee = null;
+$isEdit = false;
+
+if(isset($_GET['id']) && is_numeric($_GET['id'])){
+	$isEdit = true;
+	$employee = $model->getEmployeeID($_GET['id']);
+}
+
 ?>
 <body>
 
@@ -77,7 +85,7 @@ $provinces = $model->getAllProvince();
 											<div class="form-label col-lg-12">												
 												<label class="form-label">Employee Number</label>
 													<div class="form-control-feedback form-control-feedback-start">
-														<input type="text" name="EmployeeNumber" class="form-control" placeholder="0000000000" id="mask_employeeID" >
+														<input type="text" name="EmployeeNumber" class="form-control" placeholder="0000000000" id="mask_employeeID" Required>
 														<div class="invalid-feedback">Enter Employee Number</div>
 														<div class="form-control-feedback-icon">
 															<i class="icon-user-tie text-muted"></i>
@@ -87,14 +95,14 @@ $provinces = $model->getAllProvince();
 											<div class="form-label col-lg-12">												
 												<label class="form-label">Last Name</label>
 													<div class="form-control-feedback">
-														<input type="text" name="lastName" class="form-control text-uppercase" placeholder="Enter LastName" >
+														<input type="text" name="lastName" class="form-control text-uppercase" placeholder="Enter LastName" Required>
 														<div class="invalid-feedback">Enter LastName</div>															
 													</div>				                                
 											</div>
 											<div class="form-label col-lg-12">												
 												<label class="form-label">First Name</label>
 													<div class="form-control-feedback">
-														<input type="text" name="firstName" class="form-control text-uppercase" placeholder="Enter FirstName" >
+														<input type="text" name="firstName" class="form-control text-uppercase" placeholder="Enter FirstName" Required>
 														<div class="invalid-feedback">Enter FirstName</div>															
 													</div>				                                
 											</div>
@@ -115,7 +123,7 @@ $provinces = $model->getAllProvince();
 											<div class="form-label col-lg-4">												
 												<label class="form-label">Gender</label>
 													<div class="form-control-feedback">
-														<select class="form-select" name="gender" >
+														<select class="form-select" name="gender" Required>
 															<option value="">Select Gender</option>
 															<option value="Male">Male</option>
 															<option value="Female">Female</option>
@@ -160,7 +168,7 @@ $provinces = $model->getAllProvince();
 											<div class="form-label col-lg-6">												
 												<label class="form-label">Civil Status</label>
 													<div class="form-control-feedback form-control-feedback-start">
-														<select class="form-select" name="civilStatus" >
+														<select class="form-select" name="civilStatus" Required>
 															<option value="">Select Civil Status</option>
 															<option value="Single">Single</option>
 															<option value="Married">Married</option>
@@ -176,7 +184,7 @@ $provinces = $model->getAllProvince();
 											<div class="form-label col-lg-6">												
 												<label class="form-label">Date of Birth</label>
 													<div class="form-control-feedback form-control-feedback-start">
-															<input type="text" name="dateOfBirth" class="form-control datepicker-date-format" placeholder="Enter date in yyyy-mm-dd"  >										
+															<input type="text" name="dateOfBirth" class="form-control datepicker-date-format" placeholder="Enter date in yyyy-mm-dd"  Required>										
 														<div class="invalid-feedback">Enter Date of Birth</div>
 														<div class="form-control-feedback-icon">
 															<i class="ph-calendar text-muted"></i>
@@ -188,7 +196,7 @@ $provinces = $model->getAllProvince();
 											<div class="form-label col-lg-6">												
 												<label class="form-label">Place of Birth</label>
 													<div class="form-control-feedback">
-														<input type="text" name="placeOfBirth" class="form-control text-uppercase" placeholder="Enter Place of Birth" >
+														<input type="text" name="placeOfBirth" class="form-control text-uppercase" placeholder="Enter Place of Birth" Required>
 														<div class="invalid-feedback">Enter Place of Birth</div>															
 													</div>				                                
 											</div>
@@ -196,7 +204,7 @@ $provinces = $model->getAllProvince();
 											<div class="form-label col-lg-6">												
 												<label class="form-label">House No. (if not available N/A)</label>
 													<div class="form-control-feedback form-control-feedback-start">
-														<input type="text" name="houseNo" class="form-control text-uppercase" placeholder="Enter House Number" >
+														<input type="text" name="houseNo" class="form-control text-uppercase" placeholder="Enter House Number" Required>
 														<div class="invalid-feedback">Enter House Number</div>
 														<div class="form-control-feedback-icon">
 															<i class="ph-house text-muted"></i>
@@ -207,7 +215,7 @@ $provinces = $model->getAllProvince();
 											<div class="form-label col-lg-6">												
 												<label class="form-label">Street/Purok/Poblacion/Building/Floor</label>
 													<div class="form-control-feedback form-control-feedback-start">
-														<input type="text" name="street" class="form-control text-uppercase" placeholder="Enter Street/Building/Floor" >
+														<input type="text" name="street" class="form-control text-uppercase" placeholder="Enter Street/Building/Floor" Required>
 														<div class="invalid-feedback">Enter Street/Building/Floor</div>
 														<div class="form-control-feedback-icon">
 															<i class="ph-buildings text-muted"></i>
@@ -218,7 +226,7 @@ $provinces = $model->getAllProvince();
 											<div class="form-label col-lg-4">												
 												<label class="form-label">Province</label>
 													<div class="form-control-feedback ">
-														<select class="form-control" name="province" id="province" >
+														<select class="form-control" name="province" id="province" Required>
 															<option value="">Select Province</option>
 															<?php if (!empty($provinces)): ?>
 																<?php foreach ($provinces as $prov): ?>
@@ -235,7 +243,7 @@ $provinces = $model->getAllProvince();
 											<div class="form-label col-lg-4">												
 												<label class="form-label">City/Municipality</label>
 													<div class="form-control-feedback ">
-														<select class="form-control" name="citymun" id="cityMun" >
+														<select class="form-control" name="citymun" id="cityMun" Required>
 															<option value="">Select City/Municipality</option>
 														</select>
 														<div class="invalid-feedback">Select City/Municipality</div>
@@ -245,7 +253,7 @@ $provinces = $model->getAllProvince();
 											<div class="form-label col-lg-4">												
 												<label class="form-label">Barangay</label>
 													<div class="form-control-feedback ">
-														<select class="form-control" name="barangay" id="barangay" >
+														<select class="form-control" name="barangay" id="barangay" Required>
 															<option value="">Select Barangay</option>
 														</select>
 														<div class="invalid-feedback">Select Barangay</div>
@@ -255,7 +263,7 @@ $provinces = $model->getAllProvince();
 											<div class="form-label col-lg-4">												
 												<label class="form-label">School or Department</label>
 													<div class="form-control-feedback form-control-feedback-start">
-														<select class="form-select" name="school" >
+														<select class="form-select" name="school" Required>
 															<option value="">Select School</option>
 															<?php if (!empty($school)): ?>
 																<?php foreach ($school as $row): ?>
@@ -272,7 +280,7 @@ $provinces = $model->getAllProvince();
 											<div class="form-label col-lg-4">												
 												<label class="form-label">Designation</label>
 												<div class="form-control-feedback form-control-feedback-start">
-													<select class="form-select" name="position" >
+													<select class="form-select" name="position" Required>
 														<option value="">Select Designation</option>
 														<?php if (!empty($positions)): ?>
 															<?php foreach ($positions as $position): ?>
@@ -289,7 +297,7 @@ $provinces = $model->getAllProvince();
 											<div class="form-label col-lg-4">												
 												<label class="form-label">Employment Date</label>
 													<div class="form-control-feedback form-control-feedback-start">
-															<input type="text" name="employmentDate" class="form-control datepicker-date-format1" placeholder="Enter date in yyyy-mm-dd"  >										
+															<input type="text" name="employmentDate" class="form-control datepicker-date-format1" placeholder="Enter date in yyyy-mm-dd" Required >										
 														<div class="invalid-feedback">Enter Date of Employment</div>
 														<div class="form-control-feedback-icon">
 															<i class="ph-calendar text-muted"></i>
@@ -300,7 +308,7 @@ $provinces = $model->getAllProvince();
 											<div class="form-label col-lg-4">												
 												<label class="form-label">Job status</label>
 													<div class="form-control-feedback form-control-feedback-start">
-														<select class="form-select" name="jobStatus" >
+														<select class="form-select" name="jobStatus" Required>
 															<option value="">Select Job Status</option>
 															<option value="Contract of Service">Contract of Service</option>	
 															<option value="Permanent">Permanent</option>
@@ -315,7 +323,7 @@ $provinces = $model->getAllProvince();
 											<div class="form-label col-lg-4">												
 												<label class="form-label">Job Catergory</label>
 													<div class="form-control-feedback form-control-feedback-start">
-														<select class="form-select" name="jobCategory" >
+														<select class="form-select" name="jobCategory" Required>
 															<option value="">Select Job Category</option>
 															<option value="Non-Teaching Personnel">Non-Teaching Personnel</option>
 															<option value="Administrative Staff">Administrative Staff</option>	

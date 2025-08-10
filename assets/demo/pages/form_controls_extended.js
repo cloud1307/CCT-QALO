@@ -74,6 +74,13 @@ const ExtendedFormControls = function() {
             });
         }
 
+        const maskyearElement2 = document.querySelector('#mask_year2');
+        if(maskyearElement2) {
+            const maskYear2 = IMask(maskyearElement2, {
+                mask: '0000'
+            });
+        }
+
                 // Employee ID
         const maskbdyearElement = document.querySelector('#mask_bday');
         if(maskbdyearElement) {

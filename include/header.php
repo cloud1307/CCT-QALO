@@ -63,6 +63,7 @@
 	<script src="../assets/js/vendor/forms/inputs/maxlength.min.js"></script>
 
 	<script src="../assets/demo/pages/form_controls_extended.js"></script>
+	<script src="../assets/demo/pages/extra_sweetalert.js"></script>
 	
 
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

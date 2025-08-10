@@ -30,7 +30,7 @@
 							<i class="ph-dots-three sidebar-resize-show"></i>
 						</li>
 						<li class="nav-item">
-							<a href="#" class="nav-link">
+							<a href="../view/index.php" class="nav-link">
 								<i class="ph-house"></i>
 								<span>
 									Dashboard
@@ -52,6 +52,15 @@
 								<li class="nav-item"><a href="../view/view_work_experience.php" class="nav-link">Work Experiece</a></li>
 								<li class="nav-item"><a href="../view/view_trainingAndSeminars.php" class="nav-link">Trainings and Seminars</a></li>
 								<!-- <li class="nav-item"><a href="#" class="nav-link disabled">Layout 7 <span class="badge align-self-center ms-auto">Coming soon</span></a></li> -->
+							</ul>
+						</li>
+						<li class="nav-item nav-item-submenu">
+							<a href="#" class="nav-link">
+								<i class="ph-folder"></i>
+								<span>CCT Contract</span>
+							</a>
+							<ul class="nav-group-sub collapse">
+								<li class="nav-item"><a href="#" class="nav-link">Upload Contract</a></li>								
 							</ul>
 						</li>
 						<li class="nav-item nav-item-submenu">
