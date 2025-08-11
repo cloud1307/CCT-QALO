@@ -73,12 +73,12 @@ $employee = $model->getAllEmployee('Active');
 									<table class="table datatable-basic dataTable no-footer table-hover" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
 										<thead>
 											<tr>
-												<th style="width: 20%;">LastName</th>
-												<th style="width: 20%;">FirstName</th>
-												<th style="width: 30%;">Position</th>
-												<th style="width: 15%;">Department</th>
-												<th style="width: 15%;">Job Category</th>													
-												<th>Status</th>
+												<th >LastName</th>
+												<th >FirstName</th>
+												<th >Position</th>
+												<th >Department</th>
+												<th >Job Category</th>													
+												<th >Status</th>
 												<th class="text-center">Actions</th>
 											</tr>
 										</thead>
@@ -88,7 +88,7 @@ $employee = $model->getAllEmployee('Active');
 												<td><?= htmlspecialchars($row['varLastName']) ?></td>
 												<td><?= htmlspecialchars($row['varFirstName']) ?></td>
 												<td><?= htmlspecialchars($row['varPosition']) ?></td>
-												<td><?= htmlspecialchars($row['varSchoolCode']) ?></td>
+												<td><?= htmlspecialchars($row['varSchoolName']) ?></td>
 												<td><?= htmlspecialchars($row['enumJobCategory']) ?></td>
 												<td><a href="javascript:void(0);" onclick="updateStatusModal('<?= htmlspecialchars($row['enumEmploymentStatus'], ENT_QUOTES) ?>', <?= (int)$row['intEmployeeID'] ?>)"><span class="badge bg-success bg-opacity-10 text-success"><?= htmlspecialchars($row['enumEmploymentStatus']) ?></span></a></td>
 												

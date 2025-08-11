@@ -60,7 +60,7 @@
 								<span>CCT Contract</span>
 							</a>
 							<ul class="nav-group-sub collapse">
-								<li class="nav-item"><a href="#" class="nav-link">Upload Contract</a></li>								
+								<li class="nav-item"><a href="../view/view_contract.php" class="nav-link">Upload Contract</a></li>								
 							</ul>
 						</li>
 						<li class="nav-item nav-item-submenu">

@@ -729,7 +729,7 @@ $schProgram = $model->getAllSchoolProgram();
 						<form class="needs-validation" id="childForm" action="../controller/employeeController.php" novalidate method="POST">
 							<div class="modal-body">
 									<input type="hidden" name="child_id" id="child_id">
-									<input type="hidden" name="session_id" id="session_id" value="<?= htmlspecialchars(isset($userData['intEmployeeID']) ? $userData['intEmployeeID'] : 'Not available') ?>">			
+									<input type="hidden" name="session_childid" id="session_childid" value="<?= htmlspecialchars(isset($userData['intEmployeeID']) ? $userData['intEmployeeID'] : 'Not available') ?>">			
 									<div class="mb-3">
 										<label class="form-label">Child Name</label>
 										<div class="form-control-feedback input-group">
@@ -755,6 +755,135 @@ $schProgram = $model->getAllSchoolProgram();
 		</div>
 	</div>
 <!-- /Child Modal -->
+
+
+ <!-- Vertical form modal -->
+	<div id="modal_educational" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header bg-success text-white border-0" id="modal-header-educational">
+					<h5 class="modal-title" id="modal-title-educational"><i class="ph-plus me-2"></i>Add Educational Attainment</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+
+				<form class="needs-validation" id="educForm" action="../controller/employeeController.php" novalidate method="POST">
+					<div class="modal-body">
+						<input type="hidden" name="educ_id" id="educ_id">
+									<input type="hidden" name="session_educid" id="session_educid" value="<?= htmlspecialchars(isset($userData['intEmployeeID']) ? $userData['intEmployeeID'] : 'Not available') ?>">			
+						
+
+						<div class="row">
+								<div class="form-label col-lg-6">
+									<label class="form-label">Level</label>
+										<div class="form-control-feedback input-group">
+											<select class="form-control" style="width: 100%;" name="level" required>
+												<option value="">Select a Level</option>                                    
+												<option value="Elementary">Elementary</option>
+												<option value="Secondary">Secondary</option>
+												<option value="Junior High">Junior High</option>
+												<option value="Senior High">Senior High</option>
+												<option value="Vocational/trade course">Vocational/trade course</option>
+												<option value="College">College</option>
+												<option value="Graduate Studies">Graduate Studies</option>                                                               
+											</select>
+											<div class="invalid-feedback">Select Level</div>
+										</div>
+								</div>
+
+								<div class="form-label col-lg-6">
+									<label class="form-label">School Name</label>
+										<div class="form-control-feedback input-group">
+											<input type="text" name="schoolName" class="form-control text-uppercase" placeholder="School Name" required>										
+											<div class="invalid-feedback">Enter School Name</div>
+										</div>
+								</div>
+
+								<div class="form-label col-lg-6">
+									<label class="form-label">School Address</label>
+									<div class="form-control-feedback input-group">
+											<input type="text" name="schoolAddress" class="form-control text-uppercase" placeholder="School Address" required>										
+											<div class="invalid-feedback">Enter School Addresse</div>
+										</div>
+								</div>
+
+								<div class="form-label col-lg-6">
+									<label class="form-label">Degree</label>
+										<div class="form-control-feedback input-group">
+											<select class="form-control" style="width: 100%;" name="degree" required>
+												<option value="">Select a Level</option>                                    
+												<option value="N/A">N/A</option>
+												<option value="Bachelor''s Degree 4 Years">Bachelor''s Degree 4 Years</option>
+												<option value="Bachelor''s Degree 5 Years">Bachelor''s Degree 5 Years</option>
+												<option value="Bachelor''s Degree 6 Years">Bachelor''s Degree 6 Years</option>
+												<option value="Diploma Course (above bachelor''s degree)">Diploma Course (above bachelor''s degree)</option> 
+												<option value="LLB,MD,DMD">LLB,MD,DMD</option>
+												<option value="Master''s Degree">Master''s Degree</option>      
+												<option value="Doctorate Degree">Doctorate Degree</option>                                                        
+											</select>
+											<div class="invalid-feedback">Select Level</div>
+										</div>
+								</div>
+
+								<div class="form-label col-lg-8">
+									<label class="form-label">Course Name</label>
+									<div class="form-control-feedback input-group">
+											<input type="text" name="courseName" class="form-control text-uppercase" placeholder="Enter Course" required>										
+											<div class="invalid-feedback">Enter Course</div>
+									</div>
+								</div>
+
+								<div class="form-label col-lg-4">
+									<label class="form-label">Unit Earned (if not available N/A)</label>
+										<div class="form-control-feedback input-group">
+											<input type="text" name="unitEarned" class="form-control text-uppercase" placeholder="Honored Received" required>										
+											<div class="invalid-feedback">Enter Honored Received</div>
+										</div>
+								</div>
+
+								<div class="d-flex align-items-center mb-3">
+										<div class="form-labelk">
+											<input type="checkbox" name="graduate" id="graduateCheckbox" class="form-check-input">
+											<label class="form-check-label" for="graduateCheckbox">Graduate</label>
+										</div>
+								</div>
+
+								<div class="form-label col-lg-4">
+									<label class="form-label">From</label>
+										<div class="form-control-feedback input-group">
+											<input type="text" name="from" class="form-control" placeholder="YYYY-MM-DD" required>										
+											<div class="invalid-feedback">Enter Date YYYY-MM-DD</div>
+										</div>
+								</div>
+
+								<div class="form-label col-lg-4">
+									<label class="form-label">To</label>
+									<div class="form-control-feedback input-group">
+											<input type="text" name="schoolAddress" class="form-control" placeholder="YYYY-MM-DD" required>										
+											<div class="invalid-feedback">Enter Date YYYY-MM-DD</div>
+										</div>
+								</div>
+
+								<div class="form-label col-lg-4">
+									<label class="form-label">Honored Receive (if not available N/A)</label>
+										<div class="form-control-feedback input-group">
+											<input type="text" name="honorReceive" class="form-control text-uppercase" placeholder="Honored Received" required>										
+											<div class="invalid-feedback">Enter Honored Received</div>
+										</div>
+								</div>
+
+
+						</div>	
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Submit form</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- /vertical form modal -->
 
 
 
@@ -783,7 +912,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
-
 <script>
 document.getElementById("togglePassword").addEventListener("click", function () {
     const passwordInput = document.getElementById("passwordInput");
@@ -802,3 +930,4 @@ document.getElementById("togglePassword").addEventListener("click", function () 
     }
 });
 </script>
+

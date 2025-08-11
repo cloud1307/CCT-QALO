@@ -16,6 +16,8 @@ class EmployeeModel
     private $table_area = 'tbl_accreditation_area';
     private $table_account = "tbl_account";
     private $table_child = "tbl_child";
+    private $table_contract = "tbl_contract";
+    private $table_educational = "tbl_education_background";
 
 
 	public function __construct() {
@@ -956,7 +958,52 @@ class EmployeeModel
         return $count > 0;
     }
 
+    public function getAllContract($employeeID){
+        $contract = []; // ✅ Initialize
+        $query = "SELECT a.*, b.* 
+        FROM {$this->table_contract} a 
+        INNER JOIN {$this->table_position} b ON b.intPositionID  = a.intPositionID  WHERE a.intEmployeeID = ? LIMIT 1";
+       
+        $stmt = $this->conn->prepare($query);
+        if (!$stmt) {
+            die("SQL prepare failed: " . $this->conn->error);
+        }
+        $stmt->bind_param("i", $employeeID);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $contract[] = $row;
+            }
+        }
+        
+        $stmt->close(); 
+        return $contract;
+    }
+
+    public function getAllEducation($employeeID){
+        $education = []; // ✅ Initialize
+        $query = "SELECT *
+        FROM {$this->table_educational} WHERE intEmployeeID = ? LIMIT 1";
+       
+        $stmt = $this->conn->prepare($query);
+        if (!$stmt) {
+            die("SQL prepare failed: " . $this->conn->error);
+        }
+        $stmt->bind_param("i", $employeeID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $education[] = $row;
+            }
+        }
+        
+        $stmt->close(); 
+        return $education;
+    }
 
 
 

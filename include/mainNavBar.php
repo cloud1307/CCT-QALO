@@ -3,22 +3,7 @@ require_once '../controller/sessionController.php';
 if (session_status() === PHP_SESSION_NONE) {
 	session_start();
 }
-// if (!isset($userData)) {
-//     $userData = [];
-// }
-// echo "<pre>SESSION DATA:\n";
-// print_r($_SESSION);
-// echo "</pre>";
 
-// try {
-// 	$session = new Session();
-// 	$data = $session->getSessionDetailsByUserId(1);
-// 	echo "<pre>";
-// 	print_r($data);
-// 	echo "</pre>";
-// } catch (Exception $e) {
-// 	echo "Error: " . $e->getMessage();
-// }
 ?>
 <?php	include '../modal/modal.php'; ?>
 	<!-- Main navbar -->

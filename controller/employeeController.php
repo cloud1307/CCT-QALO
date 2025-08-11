@@ -451,6 +451,26 @@ class EmployeeController
             'message' => $success ? $message : 'Database operation failed.'
         ];
     }
+
+    ///Delete Board Resolution function
+    public function deleteCityResolution($city_resolution_id)
+    {
+        $existing = $this->model->getCityResolution($city_resolution_id);
+        $existingFile = $existing['CityResolutionFile'] ?? '';
+        $filePath = '../uploads/cityupload/' . $existingFile;
+
+        $success = $this->model->deleteCityResolution($city_resolution_id);
+    
+        if ($success) {
+            if (file_exists($filePath)) unlink($filePath);
+            echo json_encode(['status' => 'success', 'message' => 'City Resolution deleted successfully.']);
+            return ['status' => 'success', 'message' => 'City Resolution deleted successfully.'];        
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Failed to delete City Resolution.']);
+            return ['status' => 'error', 'message' => 'Failed to delete City Resolution.'];  
+        }
+    }   
+
     //Add Employee and Account
     public function addEmployee() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -789,7 +809,7 @@ handleAjaxAction('AcademicResolution', function () {
 
 // ✅ Handle Add/Update Child
 handleAjaxAction('Child', function () {
-    $employeeNumber = $_POST['session_id'] ?? '';
+    $employeeNumber = $_POST['session_childid'] ?? '';
     $childName = $_POST['childName'] ?? '';
     $childBirthday = $_POST['childBirthday'] ?? '';
     $childID = $_POST['child_id'] ?? null;

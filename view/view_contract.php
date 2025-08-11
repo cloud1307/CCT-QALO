@@ -10,11 +10,12 @@ require_once '../config/config.php'; // where $conn is defined
 require_once '../controller/employeeController.php';
 
 $employeeID =  $_SESSION['employeeID'];
+
 $db = new Database();
 $conn = $db->connect();
 
 $model = new EmployeeModel($conn);
-$education = $model->getAllEducation($employeeID);
+$contract = $model->getAllContract($employeeID);
 ?>
 <body>
 
@@ -67,7 +68,7 @@ $education = $model->getAllEducation($employeeID);
 										<div class="card-title modal-footer justify-content-between">
 												<h5 class="mb-0">Position List</h5>												
 												<?php	include '../modal/modal.php'; ?>
-												<a href="#modal_educational" class="btn btn-outline-success" data-bs-toggle="modal"><i class="ph-buildings me-2"></i> Add Educational Background</a> 
+												<a href="#modal_position" class="btn btn-outline-success" data-bs-toggle="modal"><i class="ph-buildings me-2"></i> Add Position</a> 
 										</div>								
 									</div>
 
@@ -75,21 +76,21 @@ $education = $model->getAllEducation($employeeID);
 											<thead>
 												<tr>
 													<th>No</th>
-													<th>Level</th>
-													<th>School Name</th>
-													<th>Course</th>
-													<th>Graduate</th>
+													<th>Position</th>
+													<th>School Year</th>
+													<th>Semester</th>
+													<th>Contract</th>
 													<th class="text-center">Actions</th>
 												</tr>
 											</thead>
 											<tbody>
-												<?php $number = 1; foreach ($education as $row): ?>
+												<?php $number = 1; foreach ($contract as $row): ?>
 												<tr>
 													<td><?= $number++;  ?></td>
-													<td><?= htmlspecialchars($row['varLevel']) ?></td>
-													<td><?= htmlspecialchars($row['varSchoolName']) ?></td>
-													<td><?= htmlspecialchars($row['varCouse']) ?></td>
-													<td><?= htmlspecialchars($row['Graduated']) ?></td>
+													<td><?= htmlspecialchars($row['varPosition']) ?></td>
+													<td><?= htmlspecialchars($row['varSchoolYear']) ?></td>
+													<td><?= htmlspecialchars($row['enumSemester']) ?></td>
+													<td><a href="#"><i class="ph-file-jpg ph-2x me-3 text-danger"></i> </a></td>
 													<td class="text-center">
 														<div class="d-inline-flex">
 															<div class="dropdown">
