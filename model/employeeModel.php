@@ -960,9 +960,7 @@ class EmployeeModel
 
     public function getAllContract($employeeID){
         $contract = []; // ✅ Initialize
-        $query = "SELECT a.*, b.* 
-        FROM {$this->table_contract} a 
-        INNER JOIN {$this->table_position} b ON b.intPositionID  = a.intPositionID  WHERE a.intEmployeeID = ? LIMIT 1";
+        $query = "SELECT * FROM {$this->table_contract} WHERE intEmployeeID = ? LIMIT 1";
        
         $stmt = $this->conn->prepare($query);
         if (!$stmt) {
@@ -1004,6 +1002,87 @@ class EmployeeModel
         $stmt->close(); 
         return $education;
     }
+
+
+    //Add Contract
+    public function addContract($employeeID, $startDate, $endDate, $schoolYear, $semester, $contractFile){
+            $contractVerifyID = date('Ymd') . mt_rand(100000000, 999999999);
+            $query = "INSERT INTO {$this->table_contract} (intEmployeeID, startDate, endDate, varSchoolYear, enumSemester, contractFile, DateUploadContract, ContractdocumentVerifyID) VALUES (?, ?, ?, ?, ?, NOW(), ?)";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param("isssss", $employeeID, $startDate, $endDate, $schoolYear, $semester, $contractFile);
+            return $stmt->execute();
+    }
+
+    //Update Contact
+    public function updateContract($contractID, $startDate, $endDate, $schoolYear, $semester, $contractFile = NULL){
+        $file = isset($contractFile) ? ", contractFile = ?" : '';
+        $params = isset($contractFile) ? "sssssi" : 'ssssi';
+        $query = "UPDATE {$this->table_contract} 
+                SET startDate = ?, endDate = ?, varSchoolYear = ?, enumSemester = ?, contractFile = ?$file 
+                WHERE intContractID  = ?";
+        $stmt = $this->conn->prepare($query);
+        if (isset($contractFile)) {
+            $stmt->bind_param($params, $startDate, $endDate, $schoolYear, $semester, $contractFile, $contractID);
+        } else {
+            $stmt->bind_param($params,  $startDate, $endDate, $schoolYear, $semester, $contractID);
+        }
+        return $stmt->execute();
+    }
+
+
+    //Contract Exists  
+     public function ContractExists($employeeID, $startDate, $endDate, $schoolYear, $semester, $contractID = null){
+        $query = "SELECT COUNT(*) 
+            FROM {$this->table_contract} 
+            WHERE (
+                (startDate = ? AND endDate = ? AND varSchoolYear = ? AND enumSemester = ? AND varEmployeeID = ?) 
+                OR (startDate = ? AND endDate = ? AND varSchoolYear = ? AND enumSemester = ?))";
+
+        if (!empty($contractID)) {
+            $query .= " AND intContractID != ?";
+        }
+
+        $stmt = $this->conn->prepare($query);
+
+        if (!empty($childID)) {
+            // Bind parameters with exclusion
+            $stmt->bind_param(
+                'ssssissssi', $startDate, $endDate, $schoolYear, $semester, $employeeID, $startDate, $endDate, $semester, $schoolYear, $contractID
+            );
+        } else {
+            $stmt->bind_param(
+                'ssssissss',
+                $startDate, $endDate, $schoolYear, $semester, $employeeID, $startDate, $endDate, $semester, $schoolYear
+            );
+        }
+
+        $stmt->execute();
+        $stmt->bind_result($count);
+        $stmt->fetch();
+        $stmt->close();
+
+        return $count > 0;
+    }
+
+    //Check City Resolution File Exists
+    public function contractFileExists($cityResolutionFile, $CityResolutionID = null) {
+    $sql = "SELECT COUNT(*) FROM {$this->table_contract} WHERE CityResolutionFile = ?";
+    if (!empty($CityResolutionID)) {
+        $sql .= " AND intCityResolutionID != ?";
+    }
+
+    $stmt = $this->conn->prepare($sql);
+    if (!empty($CityResolutionID)) {
+        $stmt->bind_param('si', $cityResolutionFile, $CityResolutionID);
+    } else {
+        $stmt->bind_param('s', $cityResolutionFile);
+    }
+    $stmt->execute();
+    $stmt->bind_result($count);
+    $stmt->fetch();
+    $stmt->close();
+    return $count > 0;
+}
 
 
 

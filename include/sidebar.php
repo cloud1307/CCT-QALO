@@ -49,7 +49,7 @@
 								<li class="nav-item"><a href="../view/view_child.php" class="nav-link">Child Dependency</a></li>
 								<li class="nav-item"><a href="../view/view_educational_background.php" class="nav-link">Educational Background</a></li>
 								<li class="nav-item"><a href="../view/view_license.php" class="nav-link">License Credentials</a></li>
-								<li class="nav-item"><a href="../view/view_work_experience.php" class="nav-link">Work Experiece</a></li>
+								<li class="nav-item"><a href="../view/view_work_experience.php" class="nav-link">Work Experience</a></li>
 								<li class="nav-item"><a href="../view/view_trainingAndSeminars.php" class="nav-link">Trainings and Seminars</a></li>
 								<!-- <li class="nav-item"><a href="#" class="nav-link disabled">Layout 7 <span class="badge align-self-center ms-auto">Coming soon</span></a></li> -->
 							</ul>

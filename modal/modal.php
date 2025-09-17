@@ -757,7 +757,7 @@ $schProgram = $model->getAllSchoolProgram();
 <!-- /Child Modal -->
 
 
- <!-- Vertical form modal -->
+ <!-- Educational Attainment modal -->
 	<div id="modal_educational" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -883,7 +883,77 @@ $schProgram = $model->getAllSchoolProgram();
 			</div>
 		</div>
 	</div>
-	<!-- /vertical form modal -->
+	<!-- /Educational Attainment modal -->
+
+<!-- Contract Modal -->
+	<div id="modal_contract" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-success text-white border-0" id="modal-header-contract">
+					<h5 class="modal-title" id="modal-title-contract"><i class="ph-plus me-2"></i>Upload Contract</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+						<form class="needs-validation" id="boardResolutionForm"  action="../controller/employeeController.php" novalidate method="POST" enctype="multipart/form-data"> 
+							<div class="modal-body">
+									<input type="hidden" name="contract_id" id="contract_id">
+									<input type="hidden" name="session_contractid" id="session_contractid" value="<?= htmlspecialchars(isset($userData['intEmployeeID']) ? $userData['intEmployeeID'] : 'Not available') ?>">						
+
+									<div class="mb-3">
+										<label class="form-label">Contract Start and End</label>
+										<div class="form-control-feedback input-group">
+											<div class="input-group">
+												<span class="input-group-text"><i class="ph-calendar"></i></span>
+												<input type="text" class="form-control daterange-basic" placeholder="Select Dates start and End" required> 
+													<!-- Hidden fields for DB -->
+													<input type="hidden" name="start_date" id="start_date">
+													<input type="hidden" name="end_date" id="end_date">
+											</div>
+											<div class="invalid-feedback">Enter Board Resolution</div>		
+										</div>
+									</div>										
+									<div class="mb-3">
+										<label class="form-label">School Year (YYYY-YYYY)</label>
+										<div class="form-control-feedback input-group">
+											<input type="text"  class="form-control mask_schoolyear" id="mask_schoolyear" placeholder="Enter School Year 0000-0000" name="schoolYear" required>
+											<div class="invalid-feedback">Enter Board Resolution</div>		
+										</div>
+									</div>									
+									<div class="mb-3">
+										<label class="form-label">Semester</label>
+										<div class="form-control-feedback input-group">
+											<select class="form-control" style="width: 100%;" name="Semester" required>
+												<option value="">Select Semester</option>                                    
+												<option value="N/A">1st Semester</option>
+												<option value="Bachelor''s Degree 4 Years">2nd Semester</option>
+												<option value="Bachelor''s Degree 5 Years">3rd Semester</option>                                                     
+											</select>										
+										<div class="invalid-feedback">Enter Resolution Code</div>											
+										</div>
+									</div>
+									
+									<div class="mb-3">
+										<label class="form-label">Upload Contract File</label>
+										<div class="form-control-feedback form-control-feedback-start input-group">
+											<input type="file"  class="form-control text-uppercase" name="contractFile" id="contractFile" accept=".pdf" required>										
+											<span class="input-group-text">.pdf</span>	
+											<div class="invalid-feedback">Please upload a file.</div>
+											<div class="form-control-feedback-icon">
+												<i class="ph-file-arrow-up  text-muted"></i>
+											</div>
+										</div>
+									</div>													
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
+									<button type="submit" class="btn btn-success" id="btn-save-board-resolution">Add Board Resolution</button>
+								</div>
+						</form>
+			</div>
+		</div>
+	</div>
+<!-- /Contract Modal -->
+
+	
 
 
 
@@ -910,6 +980,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Optional: Run on page load in case checkbox is pre-checked
     toggleMajorField();
 });
+
+
 </script>
 
 <script>
@@ -929,5 +1001,26 @@ document.getElementById("togglePassword").addEventListener("click", function () 
         icon.classList.add("ph-eye-slash");
     }
 });
+
+
+$(function() {
+    $('.daterange-basic').daterangepicker({
+        opens: 'left',
+        autoUpdateInput: true,
+        locale: { format: 'MM/DD/YYYY' }
+    }, function(start, end) {
+        // Store in hidden fields for PHP
+        $('#start_date').val(start.format('YYYY-MM-DD'));
+        $('#end_date').val(end.format('YYYY-MM-DD'));
+    });
+
+    // Also set default hidden values on page load
+    let initialVal = $('.daterange-basic').val().split(' - ');
+    if(initialVal.length === 2) {
+        $('#start_date').val(moment(initialVal[0], 'MM/DD/YYYY').format('YYYY-MM-DD'));
+        $('#end_date').val(moment(initialVal[1], 'MM/DD/YYYY').format('YYYY-MM-DD'));
+    }
+});
+
 </script>
 

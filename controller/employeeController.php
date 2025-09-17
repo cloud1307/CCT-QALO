@@ -452,6 +452,9 @@ class EmployeeController
         ];
     }
 
+
+    
+
     ///Delete Board Resolution function
     public function deleteCityResolution($city_resolution_id)
     {
@@ -767,6 +770,18 @@ handleAjaxAction('CityResolution', function () {
 });
 
 
+handleAjaxAction('Contract', function () {
+    $employeeID = $_POST['session_contractid'] ?? '';
+    $startDate = $_POST['start_date'] ?? '';
+    $endDate = $_POST['end_date'] ?? '';
+    $schoolYear = trim($_POST['schoolYear']) ?? '';
+    $semester = $_POST['Semester'] ?? null;
+    $contractFile = $_FILES['contractFile'] ?? null;
+
+    $controller = new EmployeeController();
+    return $controller->Contract($employeeID, $startDate, $endDate, $schoolYear, $semester, $contractFile );
+});
+
 
 handleAjaxAction('UpdateEmploymentStatus', function () {
     $EmploymentStatus = $_POST['employmentStatus'] ?? '';
@@ -832,9 +847,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['account_id'])) {
     echo json_encode($response);
     exit;
 }
-
-
-
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'], $_POST['id'])) {

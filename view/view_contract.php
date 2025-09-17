@@ -68,15 +68,14 @@ $contract = $model->getAllContract($employeeID);
 										<div class="card-title modal-footer justify-content-between">
 												<h5 class="mb-0">Position List</h5>												
 												<?php	include '../modal/modal.php'; ?>
-												<a href="#modal_position" class="btn btn-outline-success" data-bs-toggle="modal"><i class="ph-buildings me-2"></i> Add Position</a> 
+												<a href="#modal_contract" class="btn btn-outline-success" data-bs-toggle="modal"><i class="ph-buildings me-2"></i> Add Contracts</a> 
 										</div>								
 									</div>
 
 									<table class="table datatable-basic dataTable no-footer table-hover" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
 											<thead>
 												<tr>
-													<th>No</th>
-													<th>Position</th>
+													<th>No</th>												
 													<th>School Year</th>
 													<th>Semester</th>
 													<th>Contract</th>
@@ -86,8 +85,7 @@ $contract = $model->getAllContract($employeeID);
 											<tbody>
 												<?php $number = 1; foreach ($contract as $row): ?>
 												<tr>
-													<td><?= $number++;  ?></td>
-													<td><?= htmlspecialchars($row['varPosition']) ?></td>
+													<td><?= $number++;  ?></td>													
 													<td><?= htmlspecialchars($row['varSchoolYear']) ?></td>
 													<td><?= htmlspecialchars($row['enumSemester']) ?></td>
 													<td><a href="#"><i class="ph-file-jpg ph-2x me-3 text-danger"></i> </a></td>

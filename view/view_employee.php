@@ -107,6 +107,10 @@ $employee = $model->getAllEmployee('Active');
 																<a href="#" class="dropdown-item">
 																	<i class="ph-eye me-2"></i>
 																	View Profile
+																</a>
+																<a href="#" class="dropdown-item">
+																	<i class="ph-download me-2"></i>
+																	Download Files
 																</a>																
 															</div>
 														</div>
